@@ -96,6 +96,7 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM2_Init();
   MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
   // Rx_Init();
   init_all_func();

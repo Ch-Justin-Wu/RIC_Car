@@ -26,5 +26,5 @@ void init_all_pid(void)
 
 void init_all_func(void)
 {
-    
+    init_all_pid();
 }

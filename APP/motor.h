@@ -27,18 +27,11 @@
 typedef struct
 {
 	int16_t speed_rpm;
-	int16_t real_current;
-	int16_t given_current;
-	uint8_t hall;
-	uint16_t angle;		 // abs angle range:[0,8191]
-	uint16_t last_angle; // abs angle range:[0,8191]
-	uint16_t offset_angle;
+
 	int32_t round_cnt;
-	int32_t total_angle;
+
 	u8 buf_idx;
-	u16 angle_buf[FILTER_BUF_LEN];
-	u16 fited_angle;
-	u32 msg_cnt;
+
 } moto_measure_t;
 
 typedef struct
@@ -51,7 +44,7 @@ typedef struct
 } MotorData_t;
 typedef struct motor
 {
-	float diff[motor_num];
+
 	int stick_offset_position[motor_num];
 	int deadband[motor_num];
 
@@ -59,11 +52,7 @@ typedef struct motor
 
 } Con_Speed_t;
 
-
-
 extern moto_measure_t moto_chassis[];
 extern moto_measure_t moto_info;
-
-
 
 #endif

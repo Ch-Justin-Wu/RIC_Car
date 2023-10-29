@@ -36,5 +36,5 @@ extern Controller_t xbox_t;
 
 void DMA_Usart_Rx(uint8_t *Data, uint8_t len);
 void Data_Resolve(Controller_t *ptr);
-void control_robot(void);
+void controller_data(void);
 #endif

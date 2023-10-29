@@ -89,7 +89,7 @@ void Data_Resolve(Controller_t *ptr)
 	}
 }
 
-void control_robot(void)
+void controller_data(void)
 {
     if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
 		{
