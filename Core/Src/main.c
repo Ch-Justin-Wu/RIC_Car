@@ -100,7 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   // Rx_Init();
   init_all_func();
-  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim1);
 
   // motor1
 
