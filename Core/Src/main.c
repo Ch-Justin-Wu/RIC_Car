@@ -26,10 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "bsp_usart.h"
-#include <stdio.h>
-#include "pid.h"
-#include "motor.h"
+#include "init.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -50,28 +47,6 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
-float setspeed = 1000;
-float kp = 5;
-float ki = 0.8;
-float kd = 0;
-
-float kp_ang_1 = 5.0f;
-float ki_ang_1 = 0;
-float kd_ang_1 = 0;
-
-float kp_ang_2 = 17.0f;
-float ki_ang_2 = 0;
-float kd_ang_2 = 0;
-
-float set_round1 = 3; //????
-float set_round2 = 5; //????
-
-
-float angle_setspeed_1;
-float angle_setspeed_2;
-
-int real_speed2;
 
 /* USER CODE END PV */
 
@@ -123,49 +98,12 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   // Rx_Init();
+  init_all_func();
   HAL_TIM_Base_Start_IT(&htim2);
-  // CAN??????
 
-  // PID?????
   // motor1
-  // 初始�? PID 控制器参�?
-  pid_init(&pid_angle[0], // Motor 1 Angle PID
-           1500,          // Max Output Limit
-           0,             // Integral Limit
-           5,             // Deadband
-           0,             // Max Error
-           5.0f,          // Proportional Coefficient
-           0.0f,          // Integral Coefficient
-           0.0f);         // Derivative Coefficient
 
-  pid_init(&pid_motor[0], // Motor 1 Motor PID
-           8000,          // Max Output Limit
-           3000,          // Integral Limit
-           0,             // Deadband
-           0,             // Max Error
-           5.0f,          // Proportional Coefficient
-           0.8f,          // Integral Coefficient
-           0.0f);         // Derivative Coefficient
-  // motor2
-  pid_init(&pid_angle[1], // Motor 2 Angle PID
-           2000,          // Max Output Limit
-           0,             // Integral Limit
-           5,             // Deadband
-           0,             // Max Error
-           17.0f,         // Proportional Coefficient
-           0.0f,          // Integral Coefficient
-           0.0f);         // Derivative Coefficient
-
-  pid_init(&pid_motor[1], // Motor 2 Motor PID
-           8000,          // Max Output Limit
-           3000,          // Integral Limit
-           0,             // Deadband
-           0,             // Max Error
-           4.0f,          // Proportional Coefficient
-           0.02f,         // Integral Coefficient
-           1.5f);         // Derivative Coefficient
-
-
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -175,32 +113,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // Receive the Receive End flag
-    // 接收完成标志
-
-    if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
-    {
-      Data_Resolve(&xbox_t);
-
-      if (err == 1)
-      {
-        printf("The data length is wrong!\n");
-      }
-
-      // Clear the count
-      //  清除计数
-      rx_len = 0;
-      // Clear the Receive End flag
-      //  清除接收结束标志
-      recv_end_flag = 0;
-
-      // Clear the receive cache to set each byte in the receive buffer to 0
-      // 清除接收缓存,将接收缓存区�??的每�??字节都�?�置�??0
-      memset(rx_buffer, 0, rx_len);
-    }
-    // Turn DMA reception back on
-    //  重新打开DMA接收
-    HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
   }
   /* USER CODE END 3 */
 }

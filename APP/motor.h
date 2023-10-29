@@ -1,5 +1,5 @@
-#ifndef __MOTOR
-#define __MOTOR
+#ifndef __MOTOR_H
+#define __MOTOR_H
 
 #include "stm32f1xx_hal.h"
 #include "mytype.h"
@@ -7,7 +7,22 @@
 #include "pid.h"
 #include "bsp_usart.h"
 
+#define motor_num 2
 #define FILTER_BUF_LEN 5
+
+#define MAX_OUTPUT_LIMIT 8000
+#define INTEGRAL_LIMIT 3000
+#define DEADBAND 0
+#define MAX_ERROR 0
+
+#define KP_MOTOR1 5.0f
+#define KI_MOTOR1 0.8f
+#define KD_MOTOR1 0.0f
+
+#define KP_MOTOR2 4.0f
+#define KI_MOTOR2 0.02f
+#define KD_MOTOR2 1.5f
+
 /*电机的参数结构体*/
 typedef struct
 {
@@ -44,7 +59,7 @@ typedef struct motor
 
 } Con_Speed_t;
 
-#define motor_num 4 
+
 
 extern moto_measure_t moto_chassis[];
 extern moto_measure_t moto_info;

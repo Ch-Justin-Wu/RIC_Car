@@ -4,7 +4,7 @@
 #define ABS(x) ((x > 0) ? (x) : (-x))
 // 电机速度 PID 结构体定义
 pid_t pid_motor[motor_num] = {0}; //速度环
-pid_t pid_angle[motor_num] = {0}; //角度环
+//pid_t pid_angle[motor_num] = {0}; //角度环
 // pid_t pid_motor2 = {0};
 // pid_t pid_angle2 = {0};
 
