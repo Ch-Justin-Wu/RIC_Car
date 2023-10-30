@@ -19,14 +19,31 @@ typedef __packed struct
     // 摇杆 水平行程[0]+垂直行程[1]
     uint16_t L_Joystick[2];
     uint16_t R_Joystick[2];
+
+    uint16_t L_Joystick_Hor;
+    uint16_t L_Joystick_Ver;
+    uint16_t R_Joystick_Hor;
+    uint16_t R_Joystick_Ver;
     // trigger
     // 扳机
     uint16_t L_Trigger;
     uint16_t R_Trigger;
     // Buttons
     // 按键
-    enum ButtonState buttons[12]; // 使用枚举类型存储按钮状态
-
+    uint8_t A;
+    uint8_t B;
+    uint8_t X;
+    uint8_t Y;
+    uint8_t LB;
+    uint8_t RB;
+    uint8_t View;
+    uint8_t Menu;
+    uint8_t Xbox;
+    uint8_t Share;
+    // Joystick buttons
+    // 摇杆按键
+    uint8_t press_L;
+    uint8_t press_R;
     // Joystick input combination
     // 输入组合
     uint8_t combination;
@@ -35,6 +52,6 @@ typedef __packed struct
 extern Controller_t xbox_t;
 
 void DMA_Usart_Rx(uint8_t *Data, uint8_t len);
-void Data_Resolve(Controller_t *ptr);
+
 void controller_data(void);
 #endif

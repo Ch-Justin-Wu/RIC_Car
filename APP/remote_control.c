@@ -1,11 +1,6 @@
-#include  "remote_control.h"
+#include "remote_control.h"
 
 Controller_t xbox_t = {0};
-
-
-// 定义按钮名称的数组
-const char *buttonNames[] = {
-	"A", "B", "X", "Y", "LB", "RB", "View", "Menu", "Xbox", "press_L", "press_R", "Share"};
 
 /**
  * @brief Get the state of a button from the given data using a bitmask.
@@ -27,10 +22,11 @@ enum ButtonState getButtonState(uint8_t data, uint8_t mask)
  * ************************************************************************
  * @brief Receive data processing 接收数据处理
  *
+ * @param[in] ptr  Comment
  *
  * ************************************************************************
  */
-void Data_Resolve(Controller_t *ptr)
+static void Data_Resolve(Controller_t *ptr)
 {
 
 	// 计数
@@ -52,16 +48,15 @@ void Data_Resolve(Controller_t *ptr)
 	// 判断帧头和帧尾
 	if (rx_p[0] == 0xA5 && rx_p[17] == 0xA6)
 	{
-		// Data_flag = 1;
 
 		// Horizontal stroke of the left stick
-		ptr->L_Joystick[0] = rx_p[1] | (rx_p[2] << 8);
+		ptr->L_Joystick_Hor = rx_p[1] | (rx_p[2] << 8);
 		// The vertical travel of the left stick
-		ptr->L_Joystick[1] = rx_p[3] | (rx_p[4] << 8);
+		ptr->L_Joystick_Ver = rx_p[3] | (rx_p[4] << 8);
 		// Horizontal stroke of the right stick
-		ptr->R_Joystick[0] = rx_p[5] | (rx_p[6] << 8);
+		ptr->R_Joystick_Hor = rx_p[5] | (rx_p[6] << 8);
 		// The vertical stroke of the right stick
-		ptr->R_Joystick[1] = rx_p[7] | (rx_p[8] << 8);
+		ptr->R_Joystick_Ver = rx_p[7] | (rx_p[8] << 8);
 		// Left trigger travel
 		ptr->L_Trigger = rx_p[9] | (rx_p[10] << 8);
 		// Right trigger stroke
@@ -70,18 +65,18 @@ void Data_Resolve(Controller_t *ptr)
 		ptr->combination = rx_p[13];
 		// Buttons
 		// 按键
-		ptr->buttons[0] = getButtonState(rx_p[14], 0x01);  // 设置按钮 A 的状态
-		ptr->buttons[1] = getButtonState(rx_p[14], 0x02);  // 设置按钮 B 的状态
-		ptr->buttons[2] = getButtonState(rx_p[14], 0x08);  // 设置按钮 X 的状态
-		ptr->buttons[3] = getButtonState(rx_p[14], 0x10);  // 设置按钮 Y 的状态
-		ptr->buttons[4] = getButtonState(rx_p[14], 0x40);  // 设置按钮 LB 的状态
-		ptr->buttons[5] = getButtonState(rx_p[14], 0x80);  // 设置按钮 RB 的状态
-		ptr->buttons[6] = getButtonState(rx_p[15], 0x04);  // 设置按钮 View 的状态
-		ptr->buttons[7] = getButtonState(rx_p[15], 0x08);  // 设置按钮 Menu 的状态
-		ptr->buttons[8] = getButtonState(rx_p[15], 0x10);  // 设置按钮 Xbox 的状态
-		ptr->buttons[9] = getButtonState(rx_p[15], 0x20);  // 设置按钮 press_L 的状态
-		ptr->buttons[10] = getButtonState(rx_p[15], 0x40); // 设置按钮 press_R 的状态
-		ptr->buttons[11] = getButtonState(rx_p[16], 0x01); // 设置按钮 Share 的状态
+		ptr->A = getButtonState(rx_p[14], 0x01);	   // 设置按钮 A 的状态
+		ptr->B = getButtonState(rx_p[14], 0x02);	   // 设置按钮 B 的状态
+		ptr->X = getButtonState(rx_p[14], 0x08);	   // 设置按钮 X 的状态
+		ptr->Y = getButtonState(rx_p[14], 0x10);	   // 设置按钮 Y 的状态
+		ptr->LB = getButtonState(rx_p[14], 0x40);	   // 设置按钮 LB 的状态
+		ptr->LB = getButtonState(rx_p[14], 0x80);	   // 设置按钮 RB 的状态
+		ptr->View = getButtonState(rx_p[15], 0x04);	   // 设置按钮 View 的状态
+		ptr->Menu = getButtonState(rx_p[15], 0x08);	   // 设置按钮 Menu 的状态
+		ptr->Xbox = getButtonState(rx_p[15], 0x10);	   // 设置按钮 Xbox 的状态
+		ptr->press_L = getButtonState(rx_p[15], 0x20); // 设置按钮 press_L 的状态
+		ptr->press_R = getButtonState(rx_p[15], 0x40); // 设置按钮 press_R 的状态
+		ptr->Share = getButtonState(rx_p[16], 0x01);   // 设置按钮 Share 的状态
 	}
 	else
 	{
@@ -91,28 +86,27 @@ void Data_Resolve(Controller_t *ptr)
 
 void controller_data(void)
 {
-    if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
+	if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
+	{
+		Data_Resolve(&xbox_t);
+
+		if (err == 1)
 		{
-			Data_Resolve(&xbox_t);
-
-			if (err == 1)
-			{
-				// printf("The data length is wrong!\n");
-			}
-
-			// Clear the count
-			//  清除计数
-			rx_len = 0;
-			// Clear the Receive End flag
-			//  清除接收结束标志
-			recv_end_flag = 0;
-
-			// Clear the receive cache to set each byte in the receive buffer to 0
-			// 清除接收缓存,将接收缓存区的每个字节都置0
-			memset(rx_buffer, 0, rx_len);
+			// printf("The data length is wrong!\n");
 		}
-		// Turn DMA reception back on
-		//  重新打开DMA接收
-		HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
-}
 
+		// Clear the count
+		//  清除计数
+		rx_len = 0;
+		// Clear the Receive End flag
+		//  清除接收结束标志
+		recv_end_flag = 0;
+
+		// Clear the receive cache to set each byte in the receive buffer to 0
+		// 清除接收缓存,将接收缓存区的每个字节都置0
+		memset(rx_buffer, 0, rx_len);
+	}
+	// Turn DMA reception back on
+	//  重新打开DMA接收
+	HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
+}
