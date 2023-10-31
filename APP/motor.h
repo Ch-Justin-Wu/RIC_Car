@@ -3,15 +3,16 @@
 
 #include "stm32f1xx_hal.h"
 #include "mytype.h"
-
 #include "pid.h"
 #include "bsp_usart.h"
+#include "encoder.h"
 
-#define motor_num 2
+#define motor_num 4
 #define FILTER_BUF_LEN 5
 
-#define MAX_OUTPUT_LIMIT 8000
-#define INTEGRAL_LIMIT 3000
+//PID param
+#define MAX_OUTPUT_LIMIT 1000
+#define INTEGRAL_LIMIT 300
 #define DEADBAND 0
 #define MAX_ERROR 0
 
@@ -23,14 +24,22 @@
 #define KI_MOTOR2 0.02f
 #define KD_MOTOR2 1.5f
 
+#define KP_MOTOR3 4.0f
+#define KI_MOTOR3 0.02f
+#define KD_MOTOR3 1.5f
+
+#define KP_MOTOR4 4.0f
+#define KI_MOTOR4 0.02f
+#define KD_MOTOR4 1.5f
 /*电机的参数结构体*/
 typedef struct
 {
 	int16_t speed_rpm;
-
-	int32_t round_cnt;
-
-	u8 buf_idx;
+	struct
+	{
+		int16_t pulse;
+		uint8_t speed_position;
+	} encoder;
 
 } moto_measure_t;
 

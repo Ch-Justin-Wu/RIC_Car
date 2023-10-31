@@ -444,6 +444,16 @@
               <FileType>1</FileType>
               <FilePath>..\APP\robot_move.c</FilePath>
             </File>
+            <File>
+              <FileName>encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>chassis_move.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\chassis_move.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
