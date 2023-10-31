@@ -3,13 +3,14 @@
 void init_all_pid(void);
 void init_all_servos(void);
 void init_all_motors(void);
-
+void init_10ms_timer(void);
 
 void init_all_func(void)
 {
     init_all_pid();
     init_all_servos();
     init_all_motors();
+    init_10ms_timer();
 }
 
 void init_all_pid(void)
@@ -72,4 +73,9 @@ void init_all_motors(void)
 
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);//MOTO4_IN1
     HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);//MOTO4_IN2
+}
+
+void init_10ms_timer(void)
+{
+    HAL_TIM_Base_Start_IT(&htim1);
 }

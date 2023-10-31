@@ -10,7 +10,7 @@
 #define motor_num 4
 #define FILTER_BUF_LEN 5
 
-//PID param
+// PID param
 #define MAX_OUTPUT_LIMIT 1000
 #define INTEGRAL_LIMIT 300
 #define DEADBAND 0
@@ -35,6 +35,7 @@
 typedef struct
 {
 	int16_t speed_rpm;
+	int16_t set_rpm;
 	struct
 	{
 		int16_t pulse;
@@ -43,25 +44,22 @@ typedef struct
 
 } moto_measure_t;
 
+// typedef struct
+// {
+// 	float real_total_angle;
+// 	float angle_setspeed;
+// 	float set_angle;
+// 	float actual_round;
+// 	pid_t *pid_angle;
+// } MotorData_t;
 typedef struct
 {
-	float real_total_angle;
-	float angle_setspeed;
-	float set_angle;
-	float actual_round;
-	pid_t *pid_angle;
-} MotorData_t;
-typedef struct motor
-{
-
+	int diff[motor_num];
 	int stick_offset_position[motor_num];
 	int deadband[motor_num];
 
-	float set_speed[motor_num];
-
-} Con_Speed_t;
+} ControllerJoystick_t;
 
 extern moto_measure_t moto_chassis[];
-extern moto_measure_t moto_info;
 
 #endif
