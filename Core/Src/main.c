@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "init.h"
+#include "start.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,11 +99,11 @@ int main(void)
   MX_USART2_UART_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  // Rx_Init();
-  init_all_func();
-  HAL_TIM_Base_Start_IT(&htim1);
 
-  // motor1
+  init_all_func();
+  
+  startup();
+
 
   
   /* USER CODE END 2 */

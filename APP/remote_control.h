@@ -4,6 +4,15 @@
 #include "bsp_usart.h"
 #include "usart.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
 // 定义按钮状态的枚举
 enum ButtonState
 {

@@ -9,4 +9,13 @@
 #define CHASSIS_WZ_SET_SCALE 0.1f
 #define MOTOR_DISTANCE_TO_CENTER 0.2f
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

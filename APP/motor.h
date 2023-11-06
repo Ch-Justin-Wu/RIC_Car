@@ -7,6 +7,15 @@
 #include "bsp_usart.h"
 #include "encoder.h"
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#ifdef __cplusplus
+}
+#endif
+
 #define motor_num 4
 #define FILTER_BUF_LEN 5
 

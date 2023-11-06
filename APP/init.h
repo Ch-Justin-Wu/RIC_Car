@@ -12,9 +12,15 @@
 #include "pid.h"
 #include "motor.h"
 
-
-
-
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 void init_all_func(void);
+#ifdef __cplusplus
+}
+#endif
+
+
 
 #endif
