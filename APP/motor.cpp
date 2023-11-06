@@ -6,6 +6,14 @@ using namespace std;
 moto_measure_t moto_chassis[motor_num] = {0}; // 4 chassis moto
 
 
+void motor::Init(int16_t __speed_rpm,int16_t __set_rpm)
+{
+	speed_rpm=__speed_rpm;
+	set_rpm=__set_rpm;
+}
+
+motor motors[motor_num];
+
 
 void motor_move(void)
 {
@@ -16,7 +24,7 @@ void motor_move(void)
 	// angle_setspeed_1=pid_calc(&pid_angle[0], (float)moto_chassis[0].total_angle/ 8192.0f * 360.0f-(float)moto_chassis[1].total_angle/ 8192.0f * 360.0f, 0.0f);
 	//  PID 电流力矩计算
 
-	short torque1 = pid_calc(&pid_motor[0], (float)moto_chassis[0].speed_rpm, 0);
+	short torque1 = pid_calc(&pid_motor[0], (float)(&motors[0])->speed_rpm, 0);
 	// can_cmd_send(torque1, torque2);
 	// 角速度计算
 	// angle_setspeed_2 = angle_speed_cacl(&moto_chassis[1],1, set_round2);
@@ -25,7 +33,7 @@ void motor_move(void)
 
 	//  PID 电流力矩计算
 
-	short torque2 = pid_calc(&pid_motor[1], (float)moto_chassis[1].speed_rpm, 0);
+	short torque2 = pid_calc(&pid_motor[1], (float)(&moto_chassis[1])->speed_rpm, 0);
 	// real_speed2 = moto_chassis[1].speed_rpm;
 }
 
