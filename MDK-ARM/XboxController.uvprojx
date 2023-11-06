@@ -331,7 +331,7 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
-            <v6LangP>3</v6LangP>
+            <v6LangP>6</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -411,11 +411,6 @@
           <GroupName>APP</GroupName>
           <Files>
             <File>
-              <FileName>motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\motor.c</FilePath>
-            </File>
-            <File>
               <FileName>pid.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\APP\pid.c</FilePath>
@@ -441,19 +436,24 @@
               <FilePath>..\APP\remote_control.c</FilePath>
             </File>
             <File>
-              <FileName>robot_move.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\robot_move.c</FilePath>
+              <FileName>chassis_move.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\chassis_move.cpp</FilePath>
             </File>
             <File>
-              <FileName>encoder.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\encoder.c</FilePath>
+              <FileName>encoder.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\encoder.cpp</FilePath>
             </File>
             <File>
-              <FileName>chassis_move.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\chassis_move.c</FilePath>
+              <FileName>motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>robot_move.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\robot_move.cpp</FilePath>
             </File>
           </Files>
         </Group>
