@@ -82,6 +82,7 @@
 # STM32 git ignore
 *.mxproject
 
+JLinkLog.txt
 *.cfg
 keil-assistant.log
 .vscode/

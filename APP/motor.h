@@ -42,7 +42,11 @@ extern "C"
 	{
 		int16_t speed_rpm;
 		int16_t set_rpm;
-
+	struct
+	{
+		int16_t pulse;
+		uint8_t speed_position;
+	} encoder;
 	} moto_measure_t;
 
 	// typedef struct
@@ -66,6 +70,8 @@ extern "C"
 #ifdef __cplusplus
 }
 
+using namespace std;
+
 class motor
 {
 private:
@@ -77,10 +83,12 @@ public:
 		int16_t pulse;
 		uint8_t speed_position;
 	} encoder;
-
+	
 	void Init(int16_t __speed_rpm, int16_t __set_rpm);
 };
 
+
+extern motor motors[motor_num];
 #endif
 
 #endif
