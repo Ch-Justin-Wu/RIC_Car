@@ -80,7 +80,8 @@ public:
 	int16_t set_rpm;
 	struct
 	{
-		int16_t pulse;
+		int32_t pulse;
+		int32_t Hall_Encoder_Count;
 		uint8_t speed_position;
 	} encoder;
 	

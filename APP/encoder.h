@@ -7,7 +7,7 @@
 extern "C"
 {
 #endif
-
+#include "main.h"
 #include "gpio.h"
 
 #ifdef __cplusplus
