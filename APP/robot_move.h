@@ -1,12 +1,11 @@
 #ifndef ROBOT_MOVE_H
 #define ROBOT_MOVE_H
 
-#include "motor.h"
-
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+#include "motor.h"
 #include "pid.h"
 #include "main.h"
 #include "servos.h"

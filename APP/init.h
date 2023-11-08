@@ -1,6 +1,13 @@
 #ifndef INIT_H
 #define INIT_H
 
+#include "motor.h"
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 #include "main.h"
 #include "dma.h"
 #include "spi.h"
@@ -10,17 +17,10 @@
 #include "bsp_usart.h"
 #include <stdio.h>
 #include "pid.h"
-#include "motor.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-void init_all_func(void);
+    void init_all_func(void);
 #ifdef __cplusplus
 }
 #endif
-
-
 
 #endif

@@ -1,5 +1,5 @@
 #include "init.h"
-
+using namespace std;
 void init_all_pid(void);
 void init_all_servos(void);
 void init_all_motors(void);
@@ -62,17 +62,26 @@ void init_all_servos(void)
 
 void init_all_motors(void)
 {
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);//MOTO1_IN1
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);//MOTO1_IN2
 
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);//MOTO2_IN1
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);//MOTO2_IN2
+    motors[0].Init(htim2, TIM_CHANNEL_1,
+                   htim2, TIM_CHANNEL_2,
+                   GPIOC, ENCODER1_Pin,
+                   GPIOC, SPEED_DIRECTION1_Pin);
 
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);//MOTO3_IN1
-    HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);//MOTO3_IN2
+    motors[1].Init(htim3, TIM_CHANNEL_1,
+                   htim3, TIM_CHANNEL_2,
+                   GPIOA, ENCODER2_Pin,
+                   GPIOA, SPEED_DIRECTION2_Pin);
 
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);//MOTO4_IN1
-    HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);//MOTO4_IN2
+    motors[2].Init(htim3, TIM_CHANNEL_3,
+                   htim3, TIM_CHANNEL_4,
+                   GPIOA, ENCODER3_Pin,
+                   GPIOB, SPEED_DIRECTION3_Pin);
+
+    motors[3].Init(htim2, TIM_CHANNEL_3,
+                   htim2, TIM_CHANNEL_4,
+                   GPIOB, ENCODER4_Pin,
+                   GPIOB, SPEED_DIRECTION4_Pin);
 }
 
 void init_10ms_timer(void)

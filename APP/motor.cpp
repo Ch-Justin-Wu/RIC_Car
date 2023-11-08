@@ -3,27 +3,45 @@
 
 using namespace std;
 
-moto_measure_t moto_chassis[motor_num] = {0}; // 4 chassis moto
-
 motor motors[motor_num] = {0};
 
-void motor::Init(int16_t __speed_rpm, int16_t __set_rpm)
+// 初始化电机
+void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
+				 TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
+				 GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
+				 GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin)
 {
-	speed_rpm = __speed_rpm;
-	set_rpm = __set_rpm;
-	motor::encoder.pulse = 0;
-	motor::encoder.speed_position = 0;
-	motor::encoder.Hall_Encoder_Count = 0;
+	Driver_PWM1_TIM = __Driver_PWM1_TIM;
+	Driver_PWM1_TIM_Channel_x = __Driver_PWM1_TIM_Channel_x;
+	Driver_PWM2_TIM = __Driver_PWM2_TIM;
+	Driver_PWM2_TIM_Channel_x = __Driver_PWM2_TIM_Channel_x;
+	encoder.Encoder_GPIOx = __Encoder_GPIOx;
+	encoder.Encoder_GPIO_Pin = __Encoder_GPIO_Pin;
+	encoder.Speed_Direction_GPIOx = __Speed_Direction_GPIOx;
+	encoder.Speed_Direction_GPIO_Pin = __Speed_Direction_GPIO_Pin;
+	HAL_TIM_PWM_Start(&__Driver_PWM1_TIM, __Driver_PWM1_TIM_Channel_x);
+	HAL_TIM_PWM_Start(&__Driver_PWM2_TIM, __Driver_PWM2_TIM_Channel_x);
 }
 
-void motor_move(void)
+// 换算为实际转速
+void motor::Get_rpm()
+{
+	for (uint8_t i = 0; i < motor_num; i++)
+	{
+		motors[i].rpm = motors[i].encoder.Hall_Encoder_Count / 13.0 / 2.0 * 100 * 60;
+		motors[i].encoder.Hall_Encoder_Count = 0;
+	}
+}
+// 设置电机转速
+void motor::Set_rpm()
 {
 
 	short pwmVal[motor_num] = {0};
 
-	short torque1 = pid_calc(&pid_motor[0], (float)motors[0].speed_rpm, 0);
-
-	short torque2 = pid_calc(&pid_motor[1], (float)(&moto_chassis[1])->speed_rpm, 0);
+	for (uint8_t i = 0; i < motor_num; i++)
+	{
+		pwmVal[i] = pid_calc(&pid_motor[i], (float)motors[i].rpm, (float)motors[i].set_rpm);
+	}
 }
 
 // MotorData_t motors[motor_num];
