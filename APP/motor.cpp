@@ -3,9 +3,24 @@
 
 using namespace std;
 
-motor motors[motor_num] = {0};
+motor motors[motor_num];
 
-// 初始化电机
+// 初始化电机类
+/**
+ * ************************************************************************
+ * @brief 初始化电机类
+ *
+ * @param[in] __Driver_PWM1_TIM  PWM1定时器
+ * @param[in] __Driver_PWM1_TIM_Channel_x  PWM1的通道
+ * @param[in] __Driver_PWM2_TIM  PWM2定时器
+ * @param[in] __Driver_PWM2_TIM_Channel_x  PWM2的通道
+ * @param[in] __Encoder_GPIOx  编码器脉冲引脚组
+ * @param[in] __Encoder_GPIO_Pin  编码器脉冲引脚号
+ * @param[in] __Speed_Direction_GPIOx  电机速度方向引脚组
+ * @param[in] __Speed_Direction_GPIO_Pin  电机速度方向引脚号
+ *
+ * ************************************************************************
+ */
 void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
 				 TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 				 GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
@@ -23,7 +38,13 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 	HAL_TIM_PWM_Start(&__Driver_PWM2_TIM, __Driver_PWM2_TIM_Channel_x);
 }
 
-// 换算为实际转速
+/**
+ * ************************************************************************
+ * @brief 编码器脉冲数换算为实际转速
+ *
+ *
+ * ************************************************************************
+ */
 void motor::Get_rpm()
 {
 	for (uint8_t i = 0; i < motor_num; i++)
@@ -32,7 +53,14 @@ void motor::Get_rpm()
 		motors[i].encoder.Hall_Encoder_Count = 0;
 	}
 }
-// 设置电机转速
+
+/**
+ * ************************************************************************
+ * @brief 设置电机转速
+ *
+ *
+ * ************************************************************************
+ */
 void motor::Set_rpm()
 {
 

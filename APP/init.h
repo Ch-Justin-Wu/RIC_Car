@@ -2,7 +2,7 @@
 #define INIT_H
 
 #include "motor.h"
-
+#include "servos.h"
 #ifdef __cplusplus
 extern "C"
 {
@@ -17,8 +17,7 @@ extern "C"
 #include "bsp_usart.h"
 #include <stdio.h>
 #include "pid.h"
-
-    void init_all_func(void);
+    void Init_all_func(void);
 #ifdef __cplusplus
 }
 #endif

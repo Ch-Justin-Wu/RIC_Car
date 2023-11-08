@@ -38,7 +38,6 @@ extern "C"
 #define KI_MOTOR4 0.02f
 #define KD_MOTOR4 1.5f
 
-
 	// typedef struct
 	// {
 	// 	float real_total_angle;
@@ -67,6 +66,7 @@ public:
 	int16_t rpm;
 	int16_t set_rpm;
 	uint16_t pwmVal;
+
 	// 电机驱动定时器编号
 	TIM_HandleTypeDef Driver_PWM1_TIM;
 	TIM_HandleTypeDef Driver_PWM2_TIM;

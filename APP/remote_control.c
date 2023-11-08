@@ -22,7 +22,7 @@ enum ButtonState getButtonState(uint8_t data, uint8_t mask)
  * ************************************************************************
  * @brief Receive data processing 接收数据处理
  *
- * @param[in] ptr  Comment
+ * @param[in] ptr  控制器结构体指针
  *
  * ************************************************************************
  */
@@ -30,15 +30,15 @@ static void Data_Resolve(Controller_t *ptr)
 {
 
 	// 计数
-	uint8_t temp0 = 0;
+	uint8_t temp_cnt = 0;
 
 	// Takes the cached array address
 	uint8_t *rx_p = rx_buffer;
 
 	// Find header 0xA5 with loop optimization
-	while (*rx_p != 0xA5 && temp0 <= 19)
+	while (*rx_p != 0xA5 && temp_cnt <= 19)
 	{
-		temp0++;
+		temp_cnt++;
 		rx_p++;
 	}
 
