@@ -3,12 +3,13 @@
 
 #include "stdint.h"
 #include "spi.h"
-//            ±àÂë 0 
-#define CODE_0		0xC0
-//            ±àÂë 1 
-#define CODE_1		0xF0
+#include "remote_control.h"
+//            ±àÂë 0
+#define CODE_0 0xC0
+//            ±àÂë 1
+#define CODE_1 0xF0
 /*ws2812bµÆÖéÊıÁ¿*/
-#define LED_NUM		8
+#define LED_NUM 8
 
 typedef struct
 {
@@ -22,5 +23,6 @@ extern SPI_HandleTypeDef hspi1;
 void ws2812_reflash(uint8_t reflash_num);
 void ws2812_blue(uint8_t led_num);
 void ws2812_red(uint8_t led_num);
+void Set_color(void);
 
 #endif

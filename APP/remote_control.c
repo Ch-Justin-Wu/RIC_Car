@@ -1,6 +1,14 @@
 #include "remote_control.h"
 
 Controller_t xbox_t = {0};
+ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
+
+void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
+							  int __deadband, int __stick_offset_position)
+{
+	Joystick->deadband = __deadband;
+	Joystick->stick_offset_position = __stick_offset_position;
+}
 
 /**
  * @brief Get the state of a button from the given data using a bitmask.

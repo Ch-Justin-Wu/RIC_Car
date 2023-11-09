@@ -46,13 +46,7 @@ extern "C"
 	// 	float actual_round;
 	// 	pid_t *pid_angle;
 	// } MotorData_t;
-	typedef struct
-	{
-		int diff[motor_num];
-		int stick_offset_position[motor_num];
-		int deadband[motor_num];
 
-	} ControllerJoystick_t;
 
 #ifdef __cplusplus
 }
@@ -88,7 +82,7 @@ public:
 			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
 			  Enum_Speed_Direction __Speed_Default_Direction);
 	void Real_rpm();
-	void Control_Motor(uint8_t i);
+	void Motor_PWM_Tx(uint8_t i);
 	void Encoder_Count();
 
 protected:

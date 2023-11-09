@@ -5,7 +5,7 @@
 extern "C"
 {
 #endif
-
+#include "struct_typedef.h"
 #include "motor.h"
 #include "remote_control.h"
 #include "pid.h"
@@ -15,6 +15,20 @@ extern "C"
 
 #ifdef __cplusplus
 }
+using namespace std;
+
+class chassis
+{
+private:
+public:
+    fp32 vx_set;
+    fp32 vy_set;
+    fp32 wz_set;
+    fp32 wheel_speed[4];
+    void XYZ_speed_set(Controller_t* ptr);
+    void Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set,fp32 wheel_speed[4]);
+};
+
 #endif
 
 #endif

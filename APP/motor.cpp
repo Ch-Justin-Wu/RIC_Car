@@ -68,7 +68,7 @@ void motor::Real_rpm()
  * PWM		1		·´×ªPWM£¬ÂýË¥¼õ
  * ************************************************************************
  */
-void motor::Control_Motor(uint8_t i)
+void motor::Motor_PWM_Tx(uint8_t i)
 {
 	pwmVal = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
 	// ¿ìË¥¼õ
