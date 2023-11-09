@@ -67,22 +67,26 @@ void Init_all_motors(void)
     motors[0].Init(htim2, TIM_CHANNEL_1,
                    htim2, TIM_CHANNEL_2,
                    GPIOC, ENCODER1_Pin,
-                   GPIOC, SPEED_DIRECTION1_Pin);
+                   GPIOC, SPEED_DIRECTION1_Pin,
+                   Positive);
     // Motor2
     motors[1].Init(htim3, TIM_CHANNEL_1,
                    htim3, TIM_CHANNEL_2,
                    GPIOA, ENCODER2_Pin,
-                   GPIOA, SPEED_DIRECTION2_Pin);
+                   GPIOA, SPEED_DIRECTION2_Pin,
+                   Negative);
     // Motor3
     motors[2].Init(htim3, TIM_CHANNEL_3,
                    htim3, TIM_CHANNEL_4,
                    GPIOA, ENCODER3_Pin,
-                   GPIOB, SPEED_DIRECTION3_Pin);
+                   GPIOB, SPEED_DIRECTION3_Pin,
+                   Positive);
     // Motor4
     motors[3].Init(htim2, TIM_CHANNEL_3,
                    htim2, TIM_CHANNEL_4,
                    GPIOB, ENCODER4_Pin,
-                   GPIOB, SPEED_DIRECTION4_Pin);
+                   GPIOB, SPEED_DIRECTION4_Pin,
+                   Negative);
 }
 
 void Init_10ms_timer(void)

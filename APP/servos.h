@@ -17,12 +17,14 @@ class Servos
 public:
     uint16_t pwmVal;
     float angle;
-    TIM_HandleTypeDef Servos_TIM;
-    uint32_t Servos_Channel;
 
     void Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel);
     void PWM_Val_Cacl(float _angle_);
     void Control_Servo();
+
+protected:
+    TIM_HandleTypeDef Servos_TIM;
+    uint32_t Servos_Channel;
 };
 
 extern Servos Servo[4];

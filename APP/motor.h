@@ -58,41 +58,53 @@ extern "C"
 }
 
 using namespace std;
+// 电机方向
+enum Enum_Speed_Direction
+{
+	Negative = 0,
+	Positive
+};
 
 class motor
 {
 
 public:
-	int16_t rpm;
+	int16_t get_rpm;
 	int16_t set_rpm;
 	uint16_t pwmVal;
+	uint8_t Set_speed_direction;
+	uint8_t Get_speed_direction;
+	struct
+	{
+		int32_t pulse;
+		int32_t Hall_Encoder_Count;
+		
 
+	} encoder;
+
+	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
+			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
+			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
+			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
+			  Enum_Speed_Direction __Speed_Default_Direction);
+	void Real_rpm();
+	void Control_Motor(uint8_t i);
+	void Encoder_Count();
+
+protected:
 	// 电机驱动定时器编号
 	TIM_HandleTypeDef Driver_PWM1_TIM;
 	TIM_HandleTypeDef Driver_PWM2_TIM;
 	// 定时器通道
 	uint8_t Driver_PWM1_TIM_Channel_x;
 	uint8_t Driver_PWM2_TIM_Channel_x;
-
-	struct
-	{
-		int32_t pulse;
-		int32_t Hall_Encoder_Count;
-		uint8_t speed_position;
-		// 编码器脉冲引脚编号
-		GPIO_TypeDef *Encoder_GPIOx;
-		uint16_t Encoder_GPIO_Pin;
-		// 运动方向引脚
-		GPIO_TypeDef *Speed_Direction_GPIOx;
-		uint16_t Speed_Direction_GPIO_Pin;
-	} encoder;
-
-	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
-			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
-			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
-			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin);
-	void Get_rpm();
-	void Set_rpm();
+	// 编码器脉冲引脚编号
+	GPIO_TypeDef *Encoder_GPIOx;
+	uint16_t Encoder_GPIO_Pin;
+	// 运动方向引脚
+	GPIO_TypeDef *Speed_Direction_GPIOx;
+	uint16_t Speed_Direction_GPIO_Pin;
+	Enum_Speed_Direction Speed_Default_Direction;
 };
 
 extern motor motors[motor_num];
