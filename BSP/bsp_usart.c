@@ -33,6 +33,13 @@ volatile uint8_t recv_end_flag = 0;
 uint8_t rx_buffer[BUF_SIZE] = {0};
 
 
+void My_USART2_Init(void)
+{
+	// 不加收不到数据
+	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
+	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUF_SIZE);
+}
+
 /**
  * ************************************************************************
  * @brief Serial port receive function 串口接收封装
@@ -50,7 +57,7 @@ void DMA_Usart_Rx(uint8_t *Data, uint8_t len)
 }
 
 /**
- * @brief This function handles USART1 global interrupt.
+ * @brief This function handles USART2 global interrupt.
  */
 void USART2_IRQHandler(void)
 {
@@ -87,14 +94,14 @@ void USART2_IRQHandler(void)
 	HAL_UART_IRQHandler(&c_huart);
 }
 
-int fputc(int ch, FILE *f)
+//int fputc(int ch, FILE *f)
 
-{
+//{
 
-	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xffff);
+//	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xffff);
 
-	return ch;
-}
+//	return ch;
+//}
 
 /**
  * ************************************************************************

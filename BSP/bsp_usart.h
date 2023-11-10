@@ -6,15 +6,17 @@
 #include "dma.h"
 
 // Defines the serial port receive buff length
-//  å®šä¹‰ä¸²å£æ¥æ”¶buffé•¿åº¦,é˜²æ­¢DMAä¼ è¾“è¶Šç•Œ
+//  ¶¨Òå´®¿Ú½ÓÊÕbuff³¤¶È,·ÀÖ¹DMA´«ÊäÔ½½ç
 #define BUF_SIZE 36u
 #define DATA_FRAME_LENGTH 18u
 
 // Use DEFINE to improve code portability
-// ç”¨defineæé«˜ä»£ç æ˜“ç§»æ¤æ€§
+// ÓÃdefineÌá¸ß´úÂëÒ×ÒÆÖ²ĞÔ
 #define c_huart huart2
 #define c_UART USART2
 #define c_dma hdma_usart2_rx
+
+void My_USART2_Init(void);
 
 extern DMA_HandleTypeDef c_dma;
 extern uint8_t *rx_p;

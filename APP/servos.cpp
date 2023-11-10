@@ -12,10 +12,10 @@ Servos Servo[4];
  * 
  * ************************************************************************
  */
-void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel)
+void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, float __angle)
 {
-    angle = 90;
-    pwmVal = 500 + 2000.0f * angle / 180.0f;
+    angle = __angle;
+    pwmVal = 500 + 2000.0f * __angle / 180.0f;
     Servos_TIM = __Servos_TIM;
     Servos_Channel = __Servos_Channel;
     HAL_TIM_PWM_Start(&__Servos_TIM, __Servos_Channel);
@@ -42,7 +42,9 @@ void Servos::PWM_Val_Cacl(float _angle_)
  * 
  * ************************************************************************
  */
-void Servos::Control_Servo()
+void Servos::Control_Servo(float _angle_)
 {
+    angle = _angle_;
+    pwmVal = 500 + 2000.0f * _angle_ / 180.0f;
     __HAL_TIM_SET_COMPARE(&Servos_TIM, Servos_Channel, pwmVal);
 }

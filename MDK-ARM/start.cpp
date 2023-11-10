@@ -15,7 +15,7 @@ void startup()
 	//string str = "hello world!\n";
 	while (1)
 	{
-		// HAL_Delay(100);
+		
 		// //HAL_UART_Transmit(&huart1, (uint8_t *)str.data(), str.size(), 0xff);
 		// HAL_UART_Transmit_DMA(&huart1,(uint8_t *)container.str1.data(),container.str1.size());
 		// HAL_Delay(100);

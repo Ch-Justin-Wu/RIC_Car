@@ -8,6 +8,7 @@ void Init_all_Controller_Joysticks(void);
 
 void Init_all_func(void)
 {
+    My_USART2_Init();
     Init_all_pid();
     Init_all_servos();
     Init_all_motors();
@@ -57,10 +58,10 @@ void Init_all_pid(void)
 void Init_all_servos(void)
 {
 
-    Servo[0].Init(htim4, TIM_CHANNEL_1); // Servo1
-    Servo[1].Init(htim4, TIM_CHANNEL_2); // Servo2
-    Servo[2].Init(htim4, TIM_CHANNEL_3); // Servo3
-    Servo[3].Init(htim4, TIM_CHANNEL_4); // Servo4
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 90); // Servo1
+    Servo[1].Init(htim4, TIM_CHANNEL_2, 50); // Servo2
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 90); // Servo3
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 80); // Servo4 110-60 ะก->ด๓
 }
 
 void Init_all_motors(void)
@@ -98,6 +99,6 @@ void Init_10ms_timer(void)
 
 void Init_all_Controller_Joysticks(void)
 {
-    Init_Controller_Joystick(&Left_Joystick,2000,32768);
-    Init_Controller_Joystick(&Right_Joystick,2000,32768);
+    Init_Controller_Joystick(&Left_Joystick, 2000, 32768);
+    Init_Controller_Joystick(&Right_Joystick, 2000, 32768);
 }

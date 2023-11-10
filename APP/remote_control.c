@@ -34,7 +34,7 @@ enum ButtonState getButtonState(uint8_t data, uint8_t mask)
  *
  * ************************************************************************
  */
-static void Data_Resolve(Controller_t *ptr)
+void Data_Resolve(Controller_t *ptr)
 {
 
 	// ¼ÆÊý
