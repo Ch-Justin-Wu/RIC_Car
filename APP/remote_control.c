@@ -78,7 +78,7 @@ void Data_Resolve(Controller_t *ptr)
 		ptr->X = getButtonState(rx_p[14], 0x08);	   // 设置按钮 X 的状态
 		ptr->Y = getButtonState(rx_p[14], 0x10);	   // 设置按钮 Y 的状态
 		ptr->LB = getButtonState(rx_p[14], 0x40);	   // 设置按钮 LB 的状态
-		ptr->LB = getButtonState(rx_p[14], 0x80);	   // 设置按钮 RB 的状态
+		ptr->RB = getButtonState(rx_p[14], 0x80);	   // 设置按钮 RB 的状态
 		ptr->View = getButtonState(rx_p[15], 0x04);	   // 设置按钮 View 的状态
 		ptr->Menu = getButtonState(rx_p[15], 0x08);	   // 设置按钮 Menu 的状态
 		ptr->Xbox = getButtonState(rx_p[15], 0x10);	   // 设置按钮 Xbox 的状态

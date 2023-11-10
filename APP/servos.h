@@ -22,6 +22,8 @@ public:
     void PWM_Val_Cacl(float _angle_);
     void Control_Servo(float _angle_);
 
+    void Control_Claw();
+
 protected:
     TIM_HandleTypeDef Servos_TIM;
     uint32_t Servos_Channel;

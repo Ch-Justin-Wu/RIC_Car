@@ -6,10 +6,10 @@ Servos Servo[4];
 /**
  * ************************************************************************
  * @brief 舵机类初始化
- * 
+ *
  * @param[in] __Servos_TIM  舵机定时器
  * @param[in] __Servos_Channel  PWM通道
- * 
+ *
  * ************************************************************************
  */
 void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, float __angle)
@@ -24,9 +24,9 @@ void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, flo
 /**
  * ************************************************************************
  * @brief 计算输出的PWM
- * 
+ *
  * @param[in] _angle_  设定的角度
- * 
+ *
  * ************************************************************************
  */
 void Servos::PWM_Val_Cacl(float _angle_)
@@ -38,8 +38,8 @@ void Servos::PWM_Val_Cacl(float _angle_)
 /**
  * ************************************************************************
  * @brief 舵机控制
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void Servos::Control_Servo(float _angle_)
@@ -47,4 +47,29 @@ void Servos::Control_Servo(float _angle_)
     angle = _angle_;
     pwmVal = 500 + 2000.0f * _angle_ / 180.0f;
     __HAL_TIM_SET_COMPARE(&Servos_TIM, Servos_Channel, pwmVal);
+}
+
+// #define K_Claw 0.001
+#define Claw_MAX 100
+#define Claw_MIN 60
+void Servos::Control_Claw()
+{
+    if (xbox_t.RB && angle <= Claw_MAX)
+    {
+        angle += 1;
+        if (angle > Claw_MAX)
+        {
+            angle = Claw_MAX;
+        }
+    }
+
+    if (xbox_t.LB && angle >= Claw_MIN)
+    {
+        angle -= 1;
+        if (angle < Claw_MIN)
+        {
+            angle = Claw_MIN;
+        }
+    }
+    Control_Servo(angle);
 }
