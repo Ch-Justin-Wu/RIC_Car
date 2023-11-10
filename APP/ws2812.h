@@ -23,6 +23,6 @@ extern SPI_HandleTypeDef hspi1;
 void ws2812_reflash(uint8_t reflash_num);
 void ws2812_blue(uint8_t led_num);
 void ws2812_red(uint8_t led_num);
-void Set_color(void);
+
 
 #endif

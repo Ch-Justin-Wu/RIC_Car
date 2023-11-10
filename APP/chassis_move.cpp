@@ -12,16 +12,16 @@ chassis Mec_Chassis;
  * 
  * ************************************************************************
  */
-void chassis::XYZ_speed_set(Controller_t* ptr)
+void chassis::XYZ_speed_set()
 {
-    if ((ptr->R_Trigger)>3)
+    if ((Xbox.R_Trigger)>3)
     {
-        vx_set=(ptr->R_Trigger);
+        vx_set=(Xbox.R_Trigger);
     }
     //-x方向速度设置
-    else if ((ptr->L_Trigger)>3)
+    else if ((Xbox.L_Trigger)>3)
     {
-        vx_set=-(ptr->L_Trigger);
+        vx_set=-(Xbox.L_Trigger);
     }
     
 }

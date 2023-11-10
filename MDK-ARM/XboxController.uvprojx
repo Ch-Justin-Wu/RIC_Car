@@ -331,7 +331,7 @@
             <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>5</v6Lang>
-            <v6LangP>6</v6LangP>
+            <v6LangP>8</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>1</v6Lto>
@@ -421,11 +421,6 @@
               <FilePath>..\APP\ws2812.c</FilePath>
             </File>
             <File>
-              <FileName>remote_control.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\remote_control.c</FilePath>
-            </File>
-            <File>
               <FileName>chassis_move.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\APP\chassis_move.cpp</FilePath>
@@ -454,6 +449,11 @@
               <FileName>servos.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\APP\servos.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>remote_control.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\remote_control.cpp</FilePath>
             </File>
           </Files>
         </Group>

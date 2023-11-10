@@ -1,8 +1,8 @@
 #include "remote_control.h"
+using namespace std;
 
-Controller_t xbox_t = {0};
 ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
-
+remote_control Xbox;
 void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
 							  int __deadband, int __stick_offset_position)
 {
@@ -21,7 +21,7 @@ void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
  * @return The state of the button (BUTTON_PRESSED or BUTTON_NOT_PRESSED).
  */
 // 定义按钮状态的枚举
-enum ButtonState getButtonState(uint8_t data, uint8_t mask)
+enum ButtonState remote_control::getButtonState(uint8_t data, uint8_t mask)
 {
 	return (data & mask) ? BUTTON_PRESSED : BUTTON_NOT_PRESSED;
 }
@@ -34,7 +34,7 @@ enum ButtonState getButtonState(uint8_t data, uint8_t mask)
  *
  * ************************************************************************
  */
-void Data_Resolve(Controller_t *ptr)
+void remote_control::Controller_Data_Resolve(void)
 {
 
 	// 计数
@@ -58,33 +58,33 @@ void Data_Resolve(Controller_t *ptr)
 	{
 
 		// Horizontal stroke of the left stick
-		ptr->L_Joystick_Hor = rx_p[1] | (rx_p[2] << 8);
+		L_Joystick_Hor = rx_p[1] | (rx_p[2] << 8);
 		// The vertical travel of the left stick
-		ptr->L_Joystick_Ver = rx_p[3] | (rx_p[4] << 8);
+		L_Joystick_Ver = rx_p[3] | (rx_p[4] << 8);
 		// Horizontal stroke of the right stick
-		ptr->R_Joystick_Hor = rx_p[5] | (rx_p[6] << 8);
+		R_Joystick_Hor = rx_p[5] | (rx_p[6] << 8);
 		// The vertical stroke of the right stick
-		ptr->R_Joystick_Ver = rx_p[7] | (rx_p[8] << 8);
+		R_Joystick_Ver = rx_p[7] | (rx_p[8] << 8);
 		// Left trigger travel
-		ptr->L_Trigger = rx_p[9] | (rx_p[10] << 8);
+		L_Trigger = rx_p[9] | (rx_p[10] << 8);
 		// Right trigger stroke
-		ptr->R_Trigger = rx_p[11] | (rx_p[12] << 8);
+		R_Trigger = rx_p[11] | (rx_p[12] << 8);
 		// Joystick input combination
-		ptr->combination = rx_p[13];
+		combination = rx_p[13];
 		// Buttons
 		// 按键
-		ptr->A = getButtonState(rx_p[14], 0x01);	   // 设置按钮 A 的状态
-		ptr->B = getButtonState(rx_p[14], 0x02);	   // 设置按钮 B 的状态
-		ptr->X = getButtonState(rx_p[14], 0x08);	   // 设置按钮 X 的状态
-		ptr->Y = getButtonState(rx_p[14], 0x10);	   // 设置按钮 Y 的状态
-		ptr->LB = getButtonState(rx_p[14], 0x40);	   // 设置按钮 LB 的状态
-		ptr->RB = getButtonState(rx_p[14], 0x80);	   // 设置按钮 RB 的状态
-		ptr->View = getButtonState(rx_p[15], 0x04);	   // 设置按钮 View 的状态
-		ptr->Menu = getButtonState(rx_p[15], 0x08);	   // 设置按钮 Menu 的状态
-		ptr->Xbox = getButtonState(rx_p[15], 0x10);	   // 设置按钮 Xbox 的状态
-		ptr->press_L = getButtonState(rx_p[15], 0x20); // 设置按钮 press_L 的状态
-		ptr->press_R = getButtonState(rx_p[15], 0x40); // 设置按钮 press_R 的状态
-		ptr->Share = getButtonState(rx_p[16], 0x01);   // 设置按钮 Share 的状态
+		A = getButtonState(rx_p[14], 0x01);	   // 设置按钮 A 的状态
+		B = getButtonState(rx_p[14], 0x02);	   // 设置按钮 B 的状态
+		X = getButtonState(rx_p[14], 0x08);	   // 设置按钮 X 的状态
+		Y = getButtonState(rx_p[14], 0x10);	   // 设置按钮 Y 的状态
+		LB = getButtonState(rx_p[14], 0x40);	   // 设置按钮 LB 的状态
+		RB = getButtonState(rx_p[14], 0x80);	   // 设置按钮 RB 的状态
+		View = getButtonState(rx_p[15], 0x04);	   // 设置按钮 View 的状态
+		Menu = getButtonState(rx_p[15], 0x08);	   // 设置按钮 Menu 的状态
+		Xbox = getButtonState(rx_p[15], 0x10);	   // 设置按钮 Xbox 的状态
+		press_L = getButtonState(rx_p[15], 0x20); // 设置按钮 press_L 的状态
+		press_R = getButtonState(rx_p[15], 0x40); // 设置按钮 press_R 的状态
+		Share = getButtonState(rx_p[16], 0x01);   // 设置按钮 Share 的状态
 	}
 	else
 	{
@@ -92,11 +92,13 @@ void Data_Resolve(Controller_t *ptr)
 	}
 }
 
-void controller_data(void)
+
+
+void remote_control::Controller_Data_Rx(void)
 {
 	if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
 	{
-		Data_Resolve(&xbox_t);
+		Controller_Data_Resolve();
 
 		if (err == 1)
 		{
@@ -117,4 +119,28 @@ void controller_data(void)
 	// Turn DMA reception back on
 	//  重新打开DMA接收
 	HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
+}
+
+// B-red X-blue
+void remote_control::Set_color(void)
+{
+	if (B == 1 && X == 0)
+	{
+		Red_flag = 1;
+		Blue_flag = 0;
+	}
+	else if (B == 0 && X == 1)
+	{
+		Red_flag = 0;
+		Blue_flag = 1;
+	}
+
+	if (Red_flag == 1 && Blue_flag == 0)
+	{
+		ws2812_red(LED_NUM);
+	}
+	else if (Red_flag == 0 && Blue_flag == 1)
+	{
+		ws2812_blue(LED_NUM);
+	}
 }

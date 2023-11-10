@@ -14,14 +14,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		K_Claw+=1;
 		color_cnt++;
-		controller_data();
+		Xbox.Controller_Data_Rx();
 		
 		if (color_cnt==50)
 		{
-			Set_color();
-            color_cnt=0;
+			Xbox.Set_color();
+			color_cnt=0;
 		}
 		//Servo[0].Control_Servo(Servo[0].angle);
+		//¿ØÖÆ»úÐµ×¦
 		if (K_Claw==1)
 		{
 			Servo[3].Control_Claw();

@@ -54,7 +54,7 @@ void Servos::Control_Servo(float _angle_)
 #define Claw_MIN 60
 void Servos::Control_Claw()
 {
-    if (xbox_t.RB && angle <= Claw_MAX)
+    if (Xbox.RB && angle <= Claw_MAX)
     {
         angle += 1;
         if (angle > Claw_MAX)
@@ -63,7 +63,7 @@ void Servos::Control_Claw()
         }
     }
 
-    if (xbox_t.LB && angle >= Claw_MIN)
+    if (Xbox.LB && angle >= Claw_MIN)
     {
         angle -= 1;
         if (angle < Claw_MIN)

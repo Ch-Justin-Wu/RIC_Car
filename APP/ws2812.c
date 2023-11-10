@@ -65,26 +65,4 @@ void ws2812_blue(uint8_t led_num)
         ws2812_reflash(led_num);
     }
 }
-// B-red X-blue
-void Set_color(void)
-{
-    if (xbox_t.B == 1 && xbox_t.X == 0)
-    {
-        xbox_t.Red_flag = 1;
-        xbox_t.Blue_flag = 0;
-    }
-    else if (xbox_t.B == 0 && xbox_t.X == 1)
-    {
-        xbox_t.Red_flag = 0;
-        xbox_t.Blue_flag = 1;
-    }
 
-    if (xbox_t.Red_flag == 1 && xbox_t.Blue_flag == 0)
-    {
-        ws2812_red(LED_NUM);
-    }
-    else if (xbox_t.Red_flag == 0 && xbox_t.Blue_flag == 1)
-    {
-        ws2812_blue(LED_NUM);
-    }
-}
