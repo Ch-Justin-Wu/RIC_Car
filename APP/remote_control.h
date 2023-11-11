@@ -21,33 +21,35 @@ extern "C"
     enum DirectionCombination
     {
         NO_PRESS = 0,
-        PRESS_UP,
+        PRESS_UP = 1,
         PRESS_RIGHT_AND_UP,
-        PRESS_RIGHT,
+        PRESS_RIGHT = 3,
         PRESS_RIGHT_AND_DOWM,
-        PRESS_DOWN,
+        PRESS_DOWN = 5,
         PRESS_LEFT_AND_DOWN,
-        PRESS_LEFT,
+        PRESS_LEFT = 7,
         PRESS_LEFT_AND_UP
     };
 
     typedef struct
     {
-        int diff;
-        int stick_offset_position;
+        int H_diff;
+        int V_diff;
+        int H_stick_offset_position;
+        int V_stick_offset_position;
         int deadband;
     } ControllerJoystick_t;
-
 
     extern ControllerJoystick_t Left_Joystick, Right_Joystick;
 
     void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
-                                  int __deadband, int __stick_offset_position);
+                                  int __deadband, int __H_stick_offset_position, int __V_stick_offset_position);
 
     void DMA_Usart_Rx(uint8_t *Data, uint8_t len);
 
-    void Controller_Data(void);
-
+    void L_Joystick_Difference(ControllerJoystick_t *L_Joystick);
+    
+    void R_Joystick_Difference(ControllerJoystick_t *R_Joystick);
 #ifdef __cplusplus
 }
 using namespace std;

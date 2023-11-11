@@ -1,13 +1,79 @@
 #include "remote_control.h"
 using namespace std;
 
+#define ABS(x) ((x > 0) ? (x) : (-x))
+
 ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
 remote_control Xbox;
 void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
-							  int __deadband, int __stick_offset_position)
+							  int __deadband, int __H_stick_offset_position, int __V_stick_offset_position)
 {
 	Joystick->deadband = __deadband;
-	Joystick->stick_offset_position = __stick_offset_position;
+	Joystick->H_stick_offset_position = __H_stick_offset_position;
+	Joystick->V_stick_offset_position = __V_stick_offset_position;
+}
+// 左摇杆 L_Joystick
+void L_Joystick_Difference(ControllerJoystick_t *Joystick)
+{
+	// 水平方向
+	Joystick->H_diff = Xbox.L_Joystick_Hor - Joystick->H_stick_offset_position;
+	// 死区控制
+	if (Joystick->H_diff != 0 && ABS(Joystick->H_diff) < Joystick->deadband)
+		Joystick->H_diff = 0;
+	else if (Joystick->H_diff >= Joystick->deadband)
+	{
+		Joystick->H_diff = Joystick->H_diff - Joystick->deadband;
+	}
+	else if (Joystick->H_diff <= -(Joystick->deadband))
+	{
+		Joystick->H_diff = Joystick->H_diff + Joystick->deadband;
+	}
+
+	// 垂直方向
+	Joystick->V_diff = Xbox.L_Joystick_Hor - Joystick->V_stick_offset_position;
+	// 死区控制
+	if (Joystick->V_diff != 0 && ABS(Joystick->V_diff) < Joystick->deadband)
+		Joystick->V_diff = 0;
+	else if (Joystick->V_diff >= Joystick->deadband)
+	{
+		Joystick->V_diff = Joystick->V_diff - Joystick->deadband;
+	}
+	else if (Joystick->V_diff <= -(Joystick->deadband))
+	{
+		Joystick->V_diff = Joystick->V_diff + Joystick->deadband;
+	}
+}
+
+// 右摇杆 R_Joystick
+void R_Joystick_Difference(ControllerJoystick_t *Joystick)
+{
+	// 水平方向
+	Joystick->H_diff = Xbox.R_Joystick_Hor - Joystick->H_stick_offset_position;
+	// 死区控制
+	if (Joystick->H_diff != 0 && ABS(Joystick->H_diff) < Joystick->deadband)
+		Joystick->H_diff = 0;
+	else if (Joystick->H_diff >= Joystick->deadband)
+	{
+		Joystick->H_diff = Joystick->H_diff - Joystick->deadband;
+	}
+	else if (Joystick->H_diff <= -(Joystick->deadband))
+	{
+		Joystick->H_diff = Joystick->H_diff + Joystick->deadband;
+	}
+
+	// 垂直方向
+	Joystick->V_diff = Xbox.R_Joystick_Ver - Joystick->V_stick_offset_position;
+	// 死区控制
+	if (Joystick->V_diff != 0 && ABS(Joystick->V_diff) < Joystick->deadband)
+		Joystick->V_diff = 0;
+	else if (Joystick->V_diff >= Joystick->deadband)
+	{
+		Joystick->V_diff = Joystick->V_diff - Joystick->deadband;
+	}
+	else if (Joystick->V_diff <= -(Joystick->deadband))
+	{
+		Joystick->V_diff = Joystick->V_diff + Joystick->deadband;
+	}
 }
 
 /**
@@ -21,7 +87,8 @@ void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
  * @return The state of the button (BUTTON_PRESSED or BUTTON_NOT_PRESSED).
  */
 // 定义按钮状态的枚举
-enum ButtonState remote_control::getButtonState(uint8_t data, uint8_t mask)
+enum ButtonState
+remote_control::getButtonState(uint8_t data, uint8_t mask)
 {
 	return (data & mask) ? BUTTON_PRESSED : BUTTON_NOT_PRESSED;
 }
@@ -73,26 +140,24 @@ void remote_control::Controller_Data_Resolve(void)
 		combination = rx_p[13];
 		// Buttons
 		// 按键
-		A = getButtonState(rx_p[14], 0x01);	   // 设置按钮 A 的状态
-		B = getButtonState(rx_p[14], 0x02);	   // 设置按钮 B 的状态
-		X = getButtonState(rx_p[14], 0x08);	   // 设置按钮 X 的状态
-		Y = getButtonState(rx_p[14], 0x10);	   // 设置按钮 Y 的状态
-		LB = getButtonState(rx_p[14], 0x40);	   // 设置按钮 LB 的状态
-		RB = getButtonState(rx_p[14], 0x80);	   // 设置按钮 RB 的状态
-		View = getButtonState(rx_p[15], 0x04);	   // 设置按钮 View 的状态
-		Menu = getButtonState(rx_p[15], 0x08);	   // 设置按钮 Menu 的状态
-		Xbox = getButtonState(rx_p[15], 0x10);	   // 设置按钮 Xbox 的状态
+		A = getButtonState(rx_p[14], 0x01);		  // 设置按钮 A 的状态
+		B = getButtonState(rx_p[14], 0x02);		  // 设置按钮 B 的状态
+		X = getButtonState(rx_p[14], 0x08);		  // 设置按钮 X 的状态
+		Y = getButtonState(rx_p[14], 0x10);		  // 设置按钮 Y 的状态
+		LB = getButtonState(rx_p[14], 0x40);	  // 设置按钮 LB 的状态
+		RB = getButtonState(rx_p[14], 0x80);	  // 设置按钮 RB 的状态
+		View = getButtonState(rx_p[15], 0x04);	  // 设置按钮 View 的状态
+		Menu = getButtonState(rx_p[15], 0x08);	  // 设置按钮 Menu 的状态
+		Xbox = getButtonState(rx_p[15], 0x10);	  // 设置按钮 Xbox 的状态
 		press_L = getButtonState(rx_p[15], 0x20); // 设置按钮 press_L 的状态
 		press_R = getButtonState(rx_p[15], 0x40); // 设置按钮 press_R 的状态
-		Share = getButtonState(rx_p[16], 0x01);   // 设置按钮 Share 的状态
+		Share = getButtonState(rx_p[16], 0x01);	  // 设置按钮 Share 的状态
 	}
 	else
 	{
 		err = 1;
 	}
 }
-
-
 
 void remote_control::Controller_Data_Rx(void)
 {

@@ -59,8 +59,8 @@ void Init_all_servos(void)
 {
 
     Servo[0].Init(htim4, TIM_CHANNEL_1, 90); // Servo1
-    Servo[1].Init(htim4, TIM_CHANNEL_2, 50); // Servo2
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 90); // Servo3
+    Servo[1].Init(htim4, TIM_CHANNEL_2, 65); // Servo2
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 120); // Servo3
     Servo[3].Init(htim4, TIM_CHANNEL_4, 80); // Servo4 110-60 ะก->ด๓
 }
 
@@ -99,6 +99,6 @@ void Init_10ms_timer(void)
 
 void Init_all_Controller_Joysticks(void)
 {
-    Init_Controller_Joystick(&Left_Joystick, 2000, 32768);
-    Init_Controller_Joystick(&Right_Joystick, 2000, 32768);
+    Init_Controller_Joystick(&Left_Joystick, 2000, 32768, 32768);
+    Init_Controller_Joystick(&Right_Joystick, 2000, 32768, 32768);
 }
