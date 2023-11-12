@@ -14,12 +14,17 @@ chassis Mec_Chassis;
  */
 void chassis::XYZ_speed_set()
 {
-    if ((Xbox.R_Trigger)>3)
+    if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
+    {
+        vx_set = 0;
+    }
+    
+    else if ((Xbox.R_Trigger)>0)
     {
         vx_set=(Xbox.R_Trigger);
     }
     //-x方向速度设置
-    else if ((Xbox.L_Trigger)>3)
+    else if ((Xbox.L_Trigger)>0)
     {
         vx_set=-(Xbox.L_Trigger);
     }
@@ -37,7 +42,7 @@ void chassis::XYZ_speed_set()
  * 
  * ************************************************************************
  */
-void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set,fp32 wheel_speed[4])
+void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set)
 {
     wheel_speed[0] = -vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
     wheel_speed[1] = vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;

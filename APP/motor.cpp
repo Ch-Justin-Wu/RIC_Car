@@ -80,11 +80,11 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		{
 		case Positive:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		case Negative:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal);
 			break;
 		default:
 			break;
@@ -96,11 +96,11 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		{
 		case Positive:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal);
 			break;
 		case Negative:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		default:
 			break;
@@ -110,7 +110,7 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		break;
 	}
 }
-
+//±‡¬Î∆˜¬ˆ≥Â ˝…Ë÷√
 void motor::Encoder_Count()
 {
 	if (HAL_GPIO_ReadPin(Speed_Direction_GPIOx,

@@ -123,7 +123,7 @@ void Servos::Control_Arm(void)
 void Servos::Control_Wrist(void)
 {
     R_Joystick_Difference(&Right_Joystick);
-    if (Right_Joystick.V_diff<0 && angle <= Wrist_MAX_ANGLE)
+    if (Right_Joystick.V_diff>0 && angle <= Wrist_MAX_ANGLE)
     {
         angle += 1;
         if (angle > Wrist_MAX_ANGLE)
@@ -132,7 +132,7 @@ void Servos::Control_Wrist(void)
         }
     }
 
-    else if (Right_Joystick.V_diff > 0 && angle >= Wrist_MIN_ANGLE)
+    else if (Right_Joystick.V_diff < 0 && angle >= Wrist_MIN_ANGLE)
     {
         angle -= 1;
         if (angle < Wrist_MIN_ANGLE)
