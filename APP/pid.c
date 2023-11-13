@@ -4,10 +4,10 @@
 
 #define ABS(x) ((x > 0) ? (x) : (-x))
 // 电机速度 PID 结构体定义
-pid_t pid_motor[motor_num] = {0}; //速度环
-//pid_t pid_angle[motor_num] = {0}; //角度环
-// pid_t pid_motor2 = {0};
-// pid_t pid_angle2 = {0};
+pid_t pid_motor[motor_num] = {0}; // 速度环
+// pid_t pid_angle[motor_num] = {0}; //角度环
+//  pid_t pid_motor2 = {0};
+//  pid_t pid_angle2 = {0};
 
 void abs_limit(float *a, float ABS_MAX)
 {
@@ -29,7 +29,7 @@ void abs_limit(float *a, float ABS_MAX)
  * @param ki        积分系数
  * @param kd        微分系数
  */
-void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd)
+void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd, uint16_t __separationThreshold)
 {
     pid->integral_limit = intergral_limit;
     pid->max_output = max_out;
@@ -39,6 +39,8 @@ void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Dead
     pid->p = kp;
     pid->i = ki;
     pid->d = kd;
+
+    pid->separationThreshold = __separationThreshold;
 }
 
 /**
@@ -61,13 +63,20 @@ float pid_calc(pid_t *pid, float get, float set)
 
     // Check if the current error is within the deadband range
     if (pid->deadband != 0 && ABS(pid->err[NOW]) < pid->deadband)
-        return 0;  // Deadband control
+        return 0; // Deadband control
 
     // Calculate the proportional component
     pid->pout = pid->p * pid->err[NOW];
 
-    // Update the integral component
-    pid->iout += pid->i * pid->err[NOW];
+    if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) < pid->separationThreshold)
+    {
+        pid->iout = 0;
+    }
+    else if (!pid->separationThreshold)
+    {
+        // Update the integral component
+        pid->iout += pid->i * pid->err[NOW];
+    }
 
     // Calculate the derivative component
     pid->dout = pid->d * (pid->err[NOW] - pid->err[LAST]);
@@ -87,7 +96,6 @@ float pid_calc(pid_t *pid, float get, float set)
     return pid->out;
 }
 
-
 /**
  * @brief     PID 参数复位函数
  * @param[in] pid: PID 结构体
@@ -104,5 +112,3 @@ float pid_calc(pid_t *pid, float get, float set)
 //     // pid->dout = 0;
 //     // pid->out = 0;
 // }
-
-

@@ -14,19 +14,33 @@ chassis Mec_Chassis;
  */
 inline void chassis::XYZ_speed_set()
 {
+    //Vx setting
     if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
     {
         vx_set = 0;
     }
-    
-    else if ((Xbox.R_Trigger)>0)
+
+    else if ((Xbox.R_Trigger) > 0 && Xbox.L_Trigger == 0)
     {
-        vx_set=(Xbox.R_Trigger);
+        vx_set=(Xbox.R_Trigger)*K_VX_SET;
     }
     //-x方向速度设置
-    else if ((Xbox.L_Trigger)>0)
+    else if ((Xbox.L_Trigger) > 0 && Xbox.R_Trigger == 0)
     {
-        vx_set=-(Xbox.L_Trigger);
+        vx_set = -(Xbox.L_Trigger) * K_VX_SET;
+    }
+    //Vy setting
+
+    //Wz setting
+    L_Joystick_Difference(&Left_Joystick);
+    if (Left_Joystick.H_diff==0)
+    {
+        wz_set = 0;
+    }
+    
+    else if (Left_Joystick.H_diff)
+    {
+        wz_set = -(Left_Joystick.H_diff);
     }
     
 }
@@ -50,6 +64,4 @@ inline void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set
     wheel_speed[3] = -vx_set + vy_set + (-CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
 }
 
-
-
-
+// MAX wheel_speed=300 RPM*60 mm*PI

@@ -7,7 +7,7 @@ uint16_t K_Gimbal = 0;
 uint16_t K_Arm = 0;
 uint16_t K_Wrist = 0;
 
-inline void Control_Robotic_Arm();
+void Control_Robotic_Arm();
 
 /**
  * @brief Timer interrupt callback function
@@ -18,28 +18,39 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM1)
 	{
+		color_cnt++;
 		K_Claw++;
 		K_Gimbal++;
 		K_Arm++;
-
 		K_Wrist++;
+		
 		Xbox.Controller_Data_Rx();
 
-		color_cnt++;
 		if (color_cnt == 50)
 		{
-			//Xbox.Set_color();
+			// Xbox.Set_color();
 			color_cnt = 0;
 		}
 
 		Control_Robotic_Arm();
-		
-		motors[0].Motor_PWM_Tx(0);
+
+		uint8_t i = 0;
+		Test_M1.get = motors[i].get_rpm;
+		Test_M1.set = motors[i].set_rpm;
+
+		for (uint8_t i = 0; i < motor_num; i++)
+		{
+			motors[i].Motor_PWM_Tx(i);
+		}
+
+		// motors[2].Motor_PWM_Tx(2);
+		// motors[3].Motor_PWM_Tx(3);
 	}
 }
 
-inline void Control_Robotic_Arm()
+void Control_Robotic_Arm()
 {
+
 	// ¿ØÖÆ»úÐµ×¦
 	if (K_Claw == 1)
 	{

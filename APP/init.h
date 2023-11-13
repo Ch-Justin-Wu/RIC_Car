@@ -7,7 +7,7 @@
 extern "C"
 {
 #endif
-
+#include "ws2812.h"
 #include "main.h"
 #include "dma.h"
 #include "spi.h"

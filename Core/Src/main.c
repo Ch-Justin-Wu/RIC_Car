@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "init.h"
 #include "start.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,12 +102,11 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   Init_all_func();
-  ws2812_reflash(LED_NUM);
-  ws2812_blue(LED_NUM);
+ 
   startup();
 
   /* USER CODE END 2 */
-  
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

@@ -19,6 +19,9 @@ using namespace std;
 #define BASE 82.0f
 #define TRACK 125.0f
 #define WHEEL_R 30.0f
+#define WHEEL_D 60.0f
+#define K_VX_SET 55.0f
+#define K_VY_SET 1.0f
 class chassis
 {
 private:

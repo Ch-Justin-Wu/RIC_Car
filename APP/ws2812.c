@@ -14,7 +14,7 @@ static void ws2812_set_color(uint8_t ID, uint8_t color[3])
     { // red
         LED_BUFFER[ID * 24 + LED_NUM + i] = ((color[0] << i) & 0x80) ? CODE_1 : CODE_0;
     }
-    
+
     for (i = 0; i < LED_NUM; i++)
     { // green
         LED_BUFFER[ID * 24 + i] = ((color[1] << i) & 0x80) ? CODE_1 : CODE_0;
@@ -29,6 +29,8 @@ static void ws2812_set_color(uint8_t ID, uint8_t color[3])
 // SPI_DMA·¢ËÍ
 void ws2812_reflash(uint8_t reflash_num)
 {
+    while (HAL_DMA_GetState(&hdma_spi1_tx) != HAL_DMA_STATE_READY)
+        ;
     HAL_SPI_Transmit_DMA(&hspi1, LED_BUFFER, 24 * reflash_num);
 }
 

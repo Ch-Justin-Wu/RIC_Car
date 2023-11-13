@@ -13,6 +13,11 @@ extern "C"
     NOW = 1,
   };
 
+  enum Flag
+  {
+    OFF = 0,
+    ON = 1
+  };
   /**
    * @brief     PID 结构体
    */
@@ -43,6 +48,9 @@ extern "C"
 
     /* pid积分输出项限幅 */
     uint32_t integral_limit;
+    /* pid积分分离设置 */
+    uint16_t separationThreshold;
+    uint8_t separationThreshold_Flag;
 
   } pid_t;
 
@@ -53,7 +61,7 @@ extern "C"
    * @param[in] intergral_limit: 积分限幅
    * @param[in] kp/ki/kd: 具体 PID 参数
    */
-  void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd);
+  void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd, uint16_t __separationThreshold);
 
   /**
    * @brief     PID 参数复位函数

@@ -2,8 +2,13 @@
 #include "motor.h"
 
 using namespace std;
+/*
+Test.get = get_rpm;
+	set_rpm = Test.set;
+*/
 
 motor motors[motor_num];
+pid_test Test_M1, Test_M2, Test_M3, Test_M4 = {0};
 
 // 初始化电机类
 /**
@@ -26,7 +31,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 				 TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 				 GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
 				 GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
-				 Enum_Speed_Direction __Speed_Default_Direction)
+				 uint8_t __Speed_Default_Direction)
 {
 	Driver_PWM1_TIM = __Driver_PWM1_TIM;
 	Driver_PWM1_TIM_Channel_x = __Driver_PWM1_TIM_Channel_x;
@@ -50,64 +55,88 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
  */
 inline void motor::Real_rpm()
 {
+	
 	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 30.0 / 2.0 * 100 * 60;
+	
 	encoder.Hall_Encoder_Count = 0;
 }
 
-/**
- * ************************************************************************
- * @brief 设置电机转速
- *	IN1		IN2		功能
- *	0		0		滑行，休眠
- *	1		0		正向
- *	0		1		反向
- *	1		1		刹车
- *
- * PWM		0		正转PWM，快衰减
- * 1		PWM		正转PWM，慢衰减
- * 0		PWM		反转PWM，快衰减
- * PWM		1		反转PWM，慢衰减
- * ************************************************************************
- */
-void motor::Motor_PWM_Tx(uint8_t i)
+
+
+	/**
+	 * ************************************************************************
+	 * @brief 设置电机转速
+	 *	IN1		IN2		功能
+	 *	0		0		滑行，休眠
+	 *	1		0		正向
+	 *	0		1		反向
+	 *	1		1		刹车
+	 *
+	 * PWM		0		正转PWM，快衰减
+	 * 1		PWM		正转PWM，慢衰减
+	 * 0		PWM		反转PWM，快衰减
+	 * PWM		1		反转PWM，慢衰减
+	 * ************************************************************************
+	 */
+	void motor::Motor_PWM_Tx(uint8_t i)
 {
+	uint16_t init_pwm = 3600;
+	
 	Real_rpm();
+	
 	pwmVal = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
-	pwmVal = pwmVal + 10;
+	
 	// 快衰减
+	if (set_rpm>0)
+	{
+		Set_speed_direction = 1;
+	}
+	else if(set_rpm<0)
+	{
+		Set_speed_direction = -1;
+	}
+	else if (!set_rpm)
+	{
+		Set_speed_direction = 0;
+	}
+	
 	switch (Set_speed_direction)
 	{
 		// 正转
-	case 1:
+	case -1:
 		switch (Speed_Default_Direction)
 		{
-		case Positive:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal);
+		case POSITIVE:
+			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal + init_pwm);
 			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
-		case Negative:
+		case NEGATIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal + init_pwm);
 			break;
 		default:
 			break;
 		}
 		break;
 		// 反转
-	case -1:
+	case 1:
 		switch (Speed_Default_Direction)
 		{
-		case Positive:
+		case POSITIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal + init_pwm);
 			break;
-		case Negative:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal);
+		case NEGATIVE:
+			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal + init_pwm);
 			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		default:
 			break;
 		}
+		break;
+		case 0:
+		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
+		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 		break;
 	default:
 		break;
@@ -129,9 +158,10 @@ void motor::Encoder_Count()
 	}
 }
 
-inline void motor::Wheelspeed_to_RPM(uint8_t i)
+inline void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 {
-	temp_rpm = 60.0f * Mec_Chassis.wheel_speed[i] / WHEEL_R / 2.0f / PI;
+	float temp_rpm=0;
+	temp_rpm =  Mec_Chassis.wheel_speed[i] / WHEEL_D / PI;
 }
 
 // MotorData_t motors[motor_num];

@@ -1,8 +1,6 @@
 #ifndef __MOTOR_H
 #define __MOTOR_H
 
-
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -18,13 +16,13 @@ extern "C"
 #define FILTER_BUF_LEN 5
 
 // PID param
-#define MAX_OUTPUT_LIMIT 1000
-#define INTEGRAL_LIMIT 300
+#define MAX_OUTPUT_LIMIT 3600
+#define INTEGRAL_LIMIT 1000
 #define DEADBAND 0
 #define MAX_ERROR 0
 
-#define KP_MOTOR1 5.0f
-#define KI_MOTOR1 0.8f
+#define KP_MOTOR1 1.0f
+#define KI_MOTOR1 0.1f
 #define KD_MOTOR1 0.0f
 
 #define KP_MOTOR2 4.0f
@@ -39,6 +37,7 @@ extern "C"
 #define KI_MOTOR4 0.02f
 #define KD_MOTOR4 1.5f
 
+#define SEPA_INTEGRAL 100
 	// typedef struct
 	// {
 	// 	float real_total_angle;
@@ -48,17 +47,22 @@ extern "C"
 	// 	pid_t *pid_angle;
 	// } MotorData_t;
 
+typedef struct 
+{
+	int16_t set;
+	int16_t get;
+}pid_test;
+
+extern pid_test Test_M1, Test_M2, Test_M3, Test_M4;
 #ifdef __cplusplus
 }
 
 using namespace std;
 #define PI 3.143592f
-// 电机方向
-enum Enum_Speed_Direction
-{
-	Negative = 0,
-	Positive
-};
+// 电机默认方向
+
+#define NEGATIVE 0
+#define POSITIVE 1
 
 class motor
 {
@@ -66,10 +70,11 @@ class motor
 public:
 	int16_t get_rpm;
 	int16_t set_rpm;
-	uint16_t pwmVal;
+	int16_t pwmVal;
+
 	int8_t Set_speed_direction;
 	int8_t Get_speed_direction;
-	float temp_rpm;
+	
 	struct
 	{
 		int32_t pulse;
@@ -81,11 +86,11 @@ public:
 			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
 			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
-			  Enum_Speed_Direction __Speed_Default_Direction);
-	inline void Real_rpm();
+			  uint8_t __Speed_Default_Direction);
+	void Real_rpm();
 	void Motor_PWM_Tx(uint8_t i);
 	void Encoder_Count();
-	inline void Wheelspeed_to_RPM(uint8_t i);
+	void Wheel_Linear_Speed_to_RPM(uint8_t i);
 
 protected:
 	// 电机驱动定时器编号
@@ -100,7 +105,7 @@ protected:
 	// 运动方向引脚
 	GPIO_TypeDef *Speed_Direction_GPIOx;
 	uint16_t Speed_Direction_GPIO_Pin;
-	Enum_Speed_Direction Speed_Default_Direction;
+	uint8_t Speed_Default_Direction;
 };
 
 extern motor motors[motor_num];
