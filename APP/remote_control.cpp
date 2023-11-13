@@ -93,6 +93,14 @@ getButtonState(uint8_t data, uint8_t mask)
 	return (data & mask) ? BUTTON_PRESSED : BUTTON_NOT_PRESSED;
 }
 
+void remote_control::Init()
+{
+	L_Joystick_Hor = OFFSET_POSITION;
+	L_Joystick_Ver = OFFSET_POSITION;
+	R_Joystick_Hor = OFFSET_POSITION;
+	R_Joystick_Ver = OFFSET_POSITION;
+}
+
 /**
  * ************************************************************************
  * @brief Receive data processing 接收数据处理

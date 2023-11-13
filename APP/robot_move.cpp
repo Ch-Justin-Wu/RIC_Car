@@ -48,7 +48,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 }
 
-void Control_Robotic_Arm()
+inline void Control_Robotic_Arm()
 {
 
 	// ¿ØÖÆ»úÐµ×¦

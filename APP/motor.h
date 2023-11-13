@@ -16,8 +16,8 @@ extern "C"
 #define FILTER_BUF_LEN 5
 
 // PID param
-#define MAX_OUTPUT_LIMIT 3600
-#define INTEGRAL_LIMIT 1000
+#define MAX_OUTPUT_LIMIT 1800
+#define INTEGRAL_LIMIT 600
 #define DEADBAND 0
 #define MAX_ERROR 0
 
@@ -70,15 +70,15 @@ class motor
 public:
 	int16_t get_rpm;
 	int16_t set_rpm;
-	int16_t pwmVal;
+	uint16_t pwmVal;
 
 	int8_t Set_speed_direction;
 	int8_t Get_speed_direction;
 	
 	struct
 	{
-		int32_t pulse;
-		int32_t Hall_Encoder_Count;
+		
+		int16_t Hall_Encoder_Count;
 
 	} encoder;
 
@@ -87,12 +87,12 @@ public:
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
 			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
 			  uint8_t __Speed_Default_Direction);
-	void Real_rpm();
+	//void Real_rpm();
 	void Motor_PWM_Tx(uint8_t i);
-	void Encoder_Count();
+	//void Encoder_Count();
 	void Wheel_Linear_Speed_to_RPM(uint8_t i);
 
-protected:
+
 	// 电机驱动定时器编号
 	TIM_HandleTypeDef Driver_PWM1_TIM;
 	TIM_HandleTypeDef Driver_PWM2_TIM;

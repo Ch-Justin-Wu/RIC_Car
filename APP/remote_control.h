@@ -11,6 +11,7 @@ extern "C"
 #include "bsp_usart.h"
 #include "usart.h"
 #include "ws2812.h"
+#define OFFSET_POSITION 32768
     // 定义按钮状态的枚举
     enum ButtonState
     {
@@ -94,10 +95,11 @@ public:
     // 错误标志位
     uint8_t err;
 
-    
-    inline void Controller_Data_Resolve(void);
+    void Init(void);
+    void Controller_Data_Resolve(void);
     void Controller_Data_Rx(void);
     void Set_color(void);
+    
 };
 
 extern remote_control Xbox;

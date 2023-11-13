@@ -53,45 +53,48 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
  *
  * ************************************************************************
  */
-inline void motor::Real_rpm()
+// inline void motor::Real_rpm()
+// {
+
+// 	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 30.0 / 2.0 * 100 * 60;
+
+// 	encoder.Hall_Encoder_Count = 0;
+// }
+
+/**
+ * ************************************************************************
+ * @brief 设置电机转速
+ *	IN1		IN2		功能
+ *	0		0		滑行，休眠
+ *	1		0		正向
+ *	0		1		反向
+ *	1		1		刹车
+ *
+ * PWM		0		正转PWM，快衰减
+ * 1		PWM		正转PWM，慢衰减
+ * 0		PWM		反转PWM，快衰减
+ * PWM		1		反转PWM，慢衰减
+ * ************************************************************************
+ */
+void motor::Motor_PWM_Tx(uint8_t i)
 {
-	
+	int16_t tempVAL = 0;
+
+	// Real_rpm
 	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 30.0 / 2.0 * 100 * 60;
-	
 	encoder.Hall_Encoder_Count = 0;
-}
 
+	tempVAL = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
 
+	tempVAL += 1800;
 
-	/**
-	 * ************************************************************************
-	 * @brief 设置电机转速
-	 *	IN1		IN2		功能
-	 *	0		0		滑行，休眠
-	 *	1		0		正向
-	 *	0		1		反向
-	 *	1		1		刹车
-	 *
-	 * PWM		0		正转PWM，快衰减
-	 * 1		PWM		正转PWM，慢衰减
-	 * 0		PWM		反转PWM，快衰减
-	 * PWM		1		反转PWM，慢衰减
-	 * ************************************************************************
-	 */
-	void motor::Motor_PWM_Tx(uint8_t i)
-{
-	uint16_t init_pwm = 3600;
-	
-	Real_rpm();
-	
-	pwmVal = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
-	
+	pwmVal = tempVAL;
 	// 快衰减
-	if (set_rpm>0)
+	if (set_rpm > 0)
 	{
 		Set_speed_direction = 1;
 	}
-	else if(set_rpm<0)
+	else if (set_rpm < 0)
 	{
 		Set_speed_direction = -1;
 	}
@@ -99,7 +102,7 @@ inline void motor::Real_rpm()
 	{
 		Set_speed_direction = 0;
 	}
-	
+
 	switch (Set_speed_direction)
 	{
 		// 正转
@@ -107,12 +110,12 @@ inline void motor::Real_rpm()
 		switch (Speed_Default_Direction)
 		{
 		case POSITIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal + init_pwm);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL);
 			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		case NEGATIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal + init_pwm);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, tempVAL);
 			break;
 		default:
 			break;
@@ -124,44 +127,49 @@ inline void motor::Real_rpm()
 		{
 		case POSITIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, pwmVal + init_pwm);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, tempVAL);
 			break;
 		case NEGATIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, pwmVal + init_pwm);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL);
 			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		default:
 			break;
 		}
 		break;
-		case 0:
+	case 0:
+		// 电机无力
 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
+		// 电机刹车
+		// __HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 3600);
+		// __HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 3600);
 		break;
 	default:
 		break;
 	}
 }
 // 编码器脉冲数设置
-void motor::Encoder_Count()
-{
-	if (HAL_GPIO_ReadPin(Speed_Direction_GPIOx,
-						 Speed_Direction_GPIO_Pin) == Speed_Default_Direction)
-	{
-		encoder.Hall_Encoder_Count++;
-		Get_speed_direction = 1;
-	}
-	else
-	{
-		encoder.Hall_Encoder_Count--;
-		Get_speed_direction = -1;
-	}
-}
+// void motor::Encoder_Count()
+// {
+// 	uint8_t i = 0;
+// 	if (HAL_GPIO_ReadPin(motors[i].Speed_Direction_GPIOx,
+// 						 motors[i].Speed_Direction_GPIO_Pin) == motors[i].Speed_Default_Direction)
+// 	{
+// 		motors[i].encoder.Hall_Encoder_Count++;
+// 		motors[i].Get_speed_direction = 1;
+// 	}
+// 	else
+// 	{
+// 		motors[i].encoder.Hall_Encoder_Count--;
+// 		motors[i].Get_speed_direction = -1;
+// 	}
+// }
 
 inline void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 {
-	float temp_rpm=0;
-	temp_rpm =  Mec_Chassis.wheel_speed[i] / WHEEL_D / PI;
+
+	set_rpm = Mec_Chassis.wheel_speed[i] / WHEEL_D / PI;
 }
 
 // MotorData_t motors[motor_num];

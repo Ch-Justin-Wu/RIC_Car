@@ -10,7 +10,7 @@ void Init_all_Controller_Joysticks(void);
 
 void Init_all_func(void)
 {
-
+    Xbox.Init();
     Init_all_Controller_Joysticks();
     My_USART2_Init();
 
@@ -33,7 +33,7 @@ void Init_all_pid(void)
              MAX_ERROR,                 // Max Error
              KP_MOTOR1,                 // Proportional Coefficient
              KI_MOTOR1,                 // Integral Coefficient
-             KD_MOTOR1, SEPA_INTEGRAL); // Derivative Coefficient
+             KD_MOTOR1, 0); // Derivative Coefficient
 
     pid_init(&pid_motor[1],             // Motor 2 Motor PID
              MAX_OUTPUT_LIMIT,          // Max Output Limit
@@ -42,7 +42,7 @@ void Init_all_pid(void)
              MAX_ERROR,                 // Max Error
              KP_MOTOR2,                 // Proportional Coefficient
              KI_MOTOR2,                 // Integral Coefficient
-             KD_MOTOR2, SEPA_INTEGRAL); // Derivative Coefficient
+             KD_MOTOR2, 0); // Derivative Coefficient
 
     pid_init(&pid_motor[2],             // Motor 3 Motor PID
              MAX_OUTPUT_LIMIT,          // Max Output Limit
@@ -51,7 +51,7 @@ void Init_all_pid(void)
              MAX_ERROR,                 // Max Error
              KP_MOTOR3,                 // Proportional Coefficient
              KI_MOTOR3,                 // Integral Coefficient
-             KD_MOTOR3, SEPA_INTEGRAL); // Derivative Coefficient
+             KD_MOTOR3, 0); // Derivative Coefficient
 
     pid_init(&pid_motor[3],    // Motor 4 Motor PID
              MAX_OUTPUT_LIMIT, // Max Output Limit
@@ -61,7 +61,7 @@ void Init_all_pid(void)
              KP_MOTOR4,        // Proportional Coefficient
              KI_MOTOR4,        // Integral Coefficient
              KD_MOTOR4,
-             SEPA_INTEGRAL); // Derivative Coefficient
+             0); // Derivative Coefficient
 }
 
 void Init_all_servos(void)
@@ -117,6 +117,6 @@ void Init_10ms_timer(void)
 
 void Init_all_Controller_Joysticks(void)
 {
-    Init_Controller_Joystick(&Left_Joystick, 2000, 32768, 32768);
-    Init_Controller_Joystick(&Right_Joystick, 2000, 32768, 32768);
+    Init_Controller_Joystick(&Left_Joystick, 2000, OFFSET_POSITION, OFFSET_POSITION);
+    Init_Controller_Joystick(&Right_Joystick, 2000, OFFSET_POSITION, OFFSET_POSITION);
 }
