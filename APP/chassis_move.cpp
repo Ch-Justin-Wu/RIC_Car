@@ -12,7 +12,7 @@ chassis Mec_Chassis;
  * 
  * ************************************************************************
  */
-void chassis::XYZ_speed_set()
+inline void chassis::XYZ_speed_set()
 {
     if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
     {
@@ -42,7 +42,7 @@ void chassis::XYZ_speed_set()
  * 
  * ************************************************************************
  */
-void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set)
+inline void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set)
 {
     wheel_speed[0] = -vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
     wheel_speed[1] = vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;

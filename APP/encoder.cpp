@@ -1,4 +1,5 @@
 #include "encoder.h"
+#include "motor.h"
 using namespace std;
 
 // ±àÂëÆ÷Âö³å¼ÇÂ¼

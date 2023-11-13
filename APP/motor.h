@@ -1,17 +1,18 @@
 #ifndef __MOTOR_H
 #define __MOTOR_H
 
-#include "encoder.h"
+
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
+#include "encoder.h"
 #include "bsp_usart.h"
 #include "stm32f1xx_hal.h"
 #include "mytype.h"
 #include "pid.h"
+#include "chassis_move.h"
 
 #define motor_num 4
 #define FILTER_BUF_LEN 5
@@ -47,11 +48,11 @@ extern "C"
 	// 	pid_t *pid_angle;
 	// } MotorData_t;
 
-
 #ifdef __cplusplus
 }
 
 using namespace std;
+#define PI 3.143592f
 // 电机方向
 enum Enum_Speed_Direction
 {
@@ -66,13 +67,13 @@ public:
 	int16_t get_rpm;
 	int16_t set_rpm;
 	uint16_t pwmVal;
-	uint8_t Set_speed_direction;
-	uint8_t Get_speed_direction;
+	int8_t Set_speed_direction;
+	int8_t Get_speed_direction;
+	float temp_rpm;
 	struct
 	{
 		int32_t pulse;
 		int32_t Hall_Encoder_Count;
-		
 
 	} encoder;
 
@@ -81,9 +82,10 @@ public:
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
 			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
 			  Enum_Speed_Direction __Speed_Default_Direction);
-	void Real_rpm();
+	inline void Real_rpm();
 	void Motor_PWM_Tx(uint8_t i);
 	void Encoder_Count();
+	inline void Wheelspeed_to_RPM(uint8_t i);
 
 protected:
 	// 电机驱动定时器编号

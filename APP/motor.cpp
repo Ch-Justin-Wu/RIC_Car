@@ -18,6 +18,7 @@ motor motors[motor_num];
  * @param[in] __Encoder_GPIO_Pin  编码器脉冲引脚号
  * @param[in] __Speed_Direction_GPIOx  电机速度方向引脚组
  * @param[in] __Speed_Direction_GPIO_Pin  电机速度方向引脚号
+ * @param[in] __Speed_Default_Direction 电机默认方向
  *
  * ************************************************************************
  */
@@ -25,7 +26,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 				 TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 				 GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
 				 GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
-				 Enum_Speed_Direction __Speed_Direction)
+				 Enum_Speed_Direction __Speed_Default_Direction)
 {
 	Driver_PWM1_TIM = __Driver_PWM1_TIM;
 	Driver_PWM1_TIM_Channel_x = __Driver_PWM1_TIM_Channel_x;
@@ -35,7 +36,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 	Encoder_GPIO_Pin = __Encoder_GPIO_Pin;
 	Speed_Direction_GPIOx = __Speed_Direction_GPIOx;
 	Speed_Direction_GPIO_Pin = __Speed_Direction_GPIO_Pin;
-	Speed_Default_Direction = __Speed_Direction;
+	Speed_Default_Direction = __Speed_Default_Direction;
 	HAL_TIM_PWM_Start(&__Driver_PWM1_TIM, __Driver_PWM1_TIM_Channel_x);
 	HAL_TIM_PWM_Start(&__Driver_PWM2_TIM, __Driver_PWM2_TIM_Channel_x);
 }
@@ -47,9 +48,9 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
  *
  * ************************************************************************
  */
-void motor::Real_rpm()
+inline void motor::Real_rpm()
 {
-	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 2.0 * 100 * 60;
+	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 30.0 / 2.0 * 100 * 60;
 	encoder.Hall_Encoder_Count = 0;
 }
 
@@ -70,11 +71,13 @@ void motor::Real_rpm()
  */
 void motor::Motor_PWM_Tx(uint8_t i)
 {
+	Real_rpm();
 	pwmVal = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
+	pwmVal = pwmVal + 10;
 	// 快衰减
 	switch (Set_speed_direction)
 	{
-		//正转
+		// 正转
 	case 1:
 		switch (Speed_Default_Direction)
 		{
@@ -90,7 +93,7 @@ void motor::Motor_PWM_Tx(uint8_t i)
 			break;
 		}
 		break;
-		//反转
+		// 反转
 	case -1:
 		switch (Speed_Default_Direction)
 		{
@@ -110,7 +113,7 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		break;
 	}
 }
-//编码器脉冲数设置
+// 编码器脉冲数设置
 void motor::Encoder_Count()
 {
 	if (HAL_GPIO_ReadPin(Speed_Direction_GPIOx,
@@ -124,6 +127,11 @@ void motor::Encoder_Count()
 		encoder.Hall_Encoder_Count--;
 		Get_speed_direction = -1;
 	}
+}
+
+inline void motor::Wheelspeed_to_RPM(uint8_t i)
+{
+	temp_rpm = 60.0f * Mec_Chassis.wheel_speed[i] / WHEEL_R / 2.0f / PI;
 }
 
 // MotorData_t motors[motor_num];

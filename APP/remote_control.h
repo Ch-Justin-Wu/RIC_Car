@@ -47,9 +47,9 @@ extern "C"
 
     void DMA_Usart_Rx(uint8_t *Data, uint8_t len);
 
-    void L_Joystick_Difference(ControllerJoystick_t *L_Joystick);
-    
-    void R_Joystick_Difference(ControllerJoystick_t *R_Joystick);
+    void L_Joystick_Difference(ControllerJoystick_t *Joystick);
+
+    void R_Joystick_Difference(ControllerJoystick_t *Joystick);
 #ifdef __cplusplus
 }
 using namespace std;
@@ -94,8 +94,8 @@ public:
     // ´íÎó±êÖ¾Î»
     uint8_t err;
 
-    enum ButtonState getButtonState(uint8_t data, uint8_t mask);
-    void Controller_Data_Resolve(void);
+    
+    inline void Controller_Data_Resolve(void);
     void Controller_Data_Rx(void);
     void Set_color(void);
 };

@@ -93,16 +93,16 @@ float pid_calc(pid_t *pid, float get, float set)
  * @param[in] pid: PID 结构体
  * @param[in] kp/ki/kd: 具体 PID 参数
  */
-void pid_reset(pid_t *pid, float kp, float ki, float kd)
-{
-    pid->p = kp;
-    pid->i = ki;
-    pid->d = kd;
+// void pid_reset(pid_t *pid, float kp, float ki, float kd)
+// {
+//     pid->p = kp;
+//     pid->i = ki;
+//     pid->d = kd;
 
-    // pid->pout = 0;
-    // pid->iout = 0;
-    // pid->dout = 0;
-    // pid->out = 0;
-}
+//     // pid->pout = 0;
+//     // pid->iout = 0;
+//     // pid->dout = 0;
+//     // pid->out = 0;
+// }
 
 

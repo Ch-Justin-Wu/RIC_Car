@@ -60,7 +60,7 @@ extern "C"
    * @param[in] pid: PID 结构体
    * @param[in] kp/ki/kd: 具体 PID 参数
    */
-  void pid_reset(pid_t *pid, float kp, float ki, float kd);
+  //void pid_reset(pid_t *pid, float kp, float ki, float kd);
 
   /**
    * @brief     PID 计算函数，使用位置式 PID 计算

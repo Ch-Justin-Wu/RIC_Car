@@ -11,14 +11,16 @@ static void ws2812_set_color(uint8_t ID, uint8_t color[3])
 {
     int i = 0;
     for (i = 0; i < LED_NUM; i++)
-    { // green
-        LED_BUFFER[ID * 24 + i] = ((color[1] << i) & 0x80) ? CODE_1 : CODE_0;
-    }
-    for (i = 0; i < 8; i++)
     { // red
         LED_BUFFER[ID * 24 + LED_NUM + i] = ((color[0] << i) & 0x80) ? CODE_1 : CODE_0;
     }
-    for (i = 0; i < 8; i++)
+    
+    for (i = 0; i < LED_NUM; i++)
+    { // green
+        LED_BUFFER[ID * 24 + i] = ((color[1] << i) & 0x80) ? CODE_1 : CODE_0;
+    }
+
+    for (i = 0; i < LED_NUM; i++)
     { // blue
         LED_BUFFER[ID * 24 + 2 * LED_NUM + i] = ((color[2] << i) & 0x80) ? CODE_1 : CODE_0;
     }
@@ -65,4 +67,3 @@ void ws2812_blue(uint8_t led_num)
         ws2812_reflash(led_num);
     }
 }
-

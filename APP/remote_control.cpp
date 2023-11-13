@@ -88,7 +88,7 @@ void R_Joystick_Difference(ControllerJoystick_t *Joystick)
  */
 // 定义按钮状态的枚举
 enum ButtonState
-remote_control::getButtonState(uint8_t data, uint8_t mask)
+getButtonState(uint8_t data, uint8_t mask)
 {
 	return (data & mask) ? BUTTON_PRESSED : BUTTON_NOT_PRESSED;
 }

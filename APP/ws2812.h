@@ -4,10 +4,10 @@
 #include "stdint.h"
 #include "spi.h"
 #include "remote_control.h"
-//            ±àÂë 0
-#define CODE_0 0xC0
-//            ±àÂë 1
-#define CODE_1 0xF0
+//            ±àÂë 0 0xC0
+#define CODE_0 0xE0
+//            ±àÂë 1 0xF0
+#define CODE_1 0xF8
 /*ws2812bµÆÖéÊıÁ¿*/
 #define LED_NUM 8
 

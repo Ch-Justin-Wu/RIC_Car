@@ -16,7 +16,9 @@ extern "C"
 #ifdef __cplusplus
 }
 using namespace std;
-
+#define BASE 82.0f
+#define TRACK 125.0f
+#define WHEEL_R 30.0f
 class chassis
 {
 private:
@@ -25,10 +27,10 @@ public:
     fp32 vy_set;
     fp32 wz_set;
     fp32 wheel_speed[4];
-    void XYZ_speed_set();
-    void Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set);
+    inline void XYZ_speed_set();
+    inline void Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set);
 };
-
+extern chassis Mec_Chassis;
 #endif
 
 #endif
