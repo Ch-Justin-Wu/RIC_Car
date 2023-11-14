@@ -79,6 +79,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 void motor::Motor_PWM_Tx(uint8_t i)
 {
 	int16_t tempVAL = 0;
+	int16_t const_VAL = 1800;
 
 	// Real_rpm
 	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 30.0 / 2.0 * 100 * 60;
@@ -86,16 +87,17 @@ void motor::Motor_PWM_Tx(uint8_t i)
 
 	tempVAL = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
 
-	tempVAL += 1800;
-
 	pwmVal = tempVAL;
+
 	// 快衰减
 	if (set_rpm > 0)
 	{
+		
 		Set_speed_direction = 1;
 	}
-	else if (set_rpm < 0)
+	else if (set_rpm < 0 )
 	{
+		
 		Set_speed_direction = -1;
 	}
 	else if (!set_rpm)
@@ -110,12 +112,12 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		switch (Speed_Default_Direction)
 		{
 		case POSITIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL+const_VAL);
 			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		case NEGATIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, tempVAL);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, tempVAL+const_VAL);
 			break;
 		default:
 			break;
@@ -127,10 +129,10 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		{
 		case POSITIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, tempVAL);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, tempVAL+const_VAL);
 			break;
 		case NEGATIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL+const_VAL);
 			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		default:
@@ -138,33 +140,35 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		}
 		break;
 	case 0:
-		// 电机无力
+		// // 电机无力
 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 		// 电机刹车
 		// __HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 3600);
 		// __HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 3600);
-		break;
+		// break;
 	default:
 		break;
+
+	}
+	
+}
+//编码器脉冲数设置
+void motor::Encoder_Count()
+{
+	
+	if (HAL_GPIO_ReadPin(Speed_Direction_GPIOx,
+						 Speed_Direction_GPIO_Pin) == Speed_Default_Direction)
+	{
+		encoder.Hall_Encoder_Count++;
+		Get_speed_direction = 1;
+	}
+	else
+	{
+		encoder.Hall_Encoder_Count--;
+		Get_speed_direction = -1;
 	}
 }
-// 编码器脉冲数设置
-// void motor::Encoder_Count()
-// {
-// 	uint8_t i = 0;
-// 	if (HAL_GPIO_ReadPin(motors[i].Speed_Direction_GPIOx,
-// 						 motors[i].Speed_Direction_GPIO_Pin) == motors[i].Speed_Default_Direction)
-// 	{
-// 		motors[i].encoder.Hall_Encoder_Count++;
-// 		motors[i].Get_speed_direction = 1;
-// 	}
-// 	else
-// 	{
-// 		motors[i].encoder.Hall_Encoder_Count--;
-// 		motors[i].Get_speed_direction = -1;
-// 	}
-// }
 
 inline void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 {

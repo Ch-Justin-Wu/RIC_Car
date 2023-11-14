@@ -34,17 +34,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 		Control_Robotic_Arm();
 
-		uint8_t i = 0;
+		uint8_t i = 2;
 		Test_M1.get = motors[i].get_rpm;
 		Test_M1.set = motors[i].set_rpm;
 
-		for (uint8_t i = 0; i < motor_num; i++)
-		{
-			motors[i].Motor_PWM_Tx(i);
-		}
+		
+			motors[0].Motor_PWM_Tx(0);
+			motors[1].Motor_PWM_Tx(1);
 
-		// motors[2].Motor_PWM_Tx(2);
-		// motors[3].Motor_PWM_Tx(3);
+			motors[2].Motor_PWM_Tx(2);
+			motors[3].Motor_PWM_Tx(3);
 	}
 }
 
