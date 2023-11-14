@@ -51,40 +51,40 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = ENCODER1_Pin;
+  GPIO_InitStruct.Pin = ENCODER3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(ENCODER1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(ENCODER3_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = SPEED_DIRECTION1_Pin;
+  GPIO_InitStruct.Pin = SPEED_DIRECTION3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(SPEED_DIRECTION1_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(SPEED_DIRECTION3_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PBPin PBPin */
-  GPIO_InitStruct.Pin = SPEED_DIRECTION4_Pin|SPEED_DIRECTION3_Pin;
+  GPIO_InitStruct.Pin = SPEED_DIRECTION2_Pin|SPEED_DIRECTION1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = ENCODER4_Pin;
+  GPIO_InitStruct.Pin = ENCODER2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(ENCODER4_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(ENCODER2_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PAPin PAPin */
-  GPIO_InitStruct.Pin = ENCODER3_Pin|ENCODER2_Pin;
+  GPIO_InitStruct.Pin = ENCODER1_Pin|ENCODER4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = SPEED_DIRECTION2_Pin;
+  GPIO_InitStruct.Pin = SPEED_DIRECTION4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  HAL_GPIO_Init(SPEED_DIRECTION2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(SPEED_DIRECTION4_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI9_5_IRQn, 1, 0);

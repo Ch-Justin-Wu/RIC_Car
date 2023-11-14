@@ -19,8 +19,7 @@ void Init_all_func(void)
     Init_all_motors();
 
     Init_all_servos();
-    ws2812_reflash(LED_NUM);
-    ws2812_blue(LED_NUM);
+    RGB_RED(8);
     Init_10ms_timer();
 }
 
@@ -85,26 +84,26 @@ void Init_all_servos(void)
 void Init_all_motors(void)
 {
     // Motor1
-    motors[2].Init(htim2, TIM_CHANNEL_1,
-                   htim2, TIM_CHANNEL_2,
-                   GPIOC, ENCODER1_Pin,
-                   GPIOC, SPEED_DIRECTION1_Pin,
-                   POSITIVE);
-    // Motor2
-    motors[3].Init(htim3, TIM_CHANNEL_1,
-                   htim3, TIM_CHANNEL_2,
-                   GPIOA, ENCODER2_Pin,
-                   GPIOA, SPEED_DIRECTION2_Pin,
-                   NEGATIVE);
-    // Motor3
     motors[0].Init(htim3, TIM_CHANNEL_3,
                    htim3, TIM_CHANNEL_4,
+                   GPIOC, ENCODER1_Pin,
+                   GPIOC, SPEED_DIRECTION1_Pin,
+                   NEGATIVE);
+    // Motor2
+    motors[1].Init(htim2, TIM_CHANNEL_3,
+                   htim2, TIM_CHANNEL_4,
+                   GPIOA, ENCODER2_Pin,
+                   GPIOA, SPEED_DIRECTION2_Pin,
+                   POSITIVE);
+    // Motor3
+    motors[2].Init(htim2, TIM_CHANNEL_1,
+                   htim2, TIM_CHANNEL_2,
                    GPIOA, ENCODER3_Pin,
                    GPIOB, SPEED_DIRECTION3_Pin,
                    NEGATIVE);
     // Motor4
-    motors[1].Init(htim2, TIM_CHANNEL_3,
-                   htim2, TIM_CHANNEL_4,
+    motors[3].Init(htim3, TIM_CHANNEL_1,
+                   htim3, TIM_CHANNEL_2,
                    GPIOB, ENCODER4_Pin,
                    GPIOB, SPEED_DIRECTION4_Pin,
                    POSITIVE);

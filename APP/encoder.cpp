@@ -12,18 +12,18 @@ void ENCODER_OUTPUT()
     {
     case ENCODER1_Pin:
 
-        motors[2].Encoder_Count();
+        motors[0].Encoder_Count();
         break;
     case ENCODER2_Pin:
 
-        motors[3].Encoder_Count();
+        motors[1].Encoder_Count();
         break;
     case ENCODER3_Pin:
 
-        motors[3].Encoder_Count();
+        motors[2].Encoder_Count();
     case ENCODER4_Pin:
 
-        motors[1].Encoder_Count();
+        motors[3].Encoder_Count();
         break;
     default:
         break;

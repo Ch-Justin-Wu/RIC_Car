@@ -86,7 +86,7 @@ void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 1-1;
+  htim2.Init.Prescaler = 5-1;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 3600-1;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -152,7 +152,7 @@ void MX_TIM3_Init(void)
 
   /* USER CODE END TIM3_Init 1 */
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 1-1;
+  htim3.Init.Prescaler = 5-1;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 3600-1;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -338,12 +338,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     PB10     ------> TIM2_CH3
     PB11     ------> TIM2_CH4
     */
-    GPIO_InitStruct.Pin = MOTO1_IN1_Pin|MOTO1_IN2_Pin;
+    GPIO_InitStruct.Pin = MOTO3_IN1_Pin|MOTO3_IN2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = MOTO4_IN1_Pin|MOTO4_IN2_Pin;
+    GPIO_InitStruct.Pin = MOTO2_IN1_Pin|MOTO2_IN2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -368,12 +368,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     PB0     ------> TIM3_CH3
     PB1     ------> TIM3_CH4
     */
-    GPIO_InitStruct.Pin = MOTO2_IN1_Pin|MOTO2_IN2_Pin;
+    GPIO_InitStruct.Pin = MOTO4_IN1_Pin|MOTO4_IN2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = MOTO3_IN1_Pin|MOTO3_IN2_Pin;
+    GPIO_InitStruct.Pin = MOTO1_IN1_Pin|MOTO1_IN2_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);

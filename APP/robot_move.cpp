@@ -44,6 +44,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 			motors[2].Motor_PWM_Tx(2);
 			motors[3].Motor_PWM_Tx(3);
+		// motors[0].Speed_test(0);
+		// motors[2].Speed_test(0);
+		// motors[3].Speed_test(0);
+		// motors[1].Speed_test(0);
 	}
 }
 

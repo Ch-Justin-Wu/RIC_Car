@@ -1,28 +1,31 @@
-#ifndef WS2812_H
-#define WS2812_H
+#ifndef __WS2812_H
+#define __WS2812_H
 
-#include "stdint.h"
-#include "spi.h"
-#include "remote_control.h"
-//            编码 0 0xC0
-#define CODE_0 0xc0
-//            编码 1 0xF0
-#define CODE_1 0xf0
-/*ws2812b灯珠数量*/
-#define LED_NUM 8
+#include "main.h"
 
-typedef struct
+typedef struct // 颜色结构体
 {
 	uint8_t R;
 	uint8_t G;
 	uint8_t B;
 } RGBColor_TypeDef;
 
-extern SPI_HandleTypeDef hspi1;
-extern DMA_HandleTypeDef hdma_spi1_tx;
-void ws2812_reflash(uint8_t reflash_num);
-void ws2812_blue(uint8_t led_num);
-void ws2812_red(uint8_t led_num);
+#define RGB_NUM 30 // RGB灯的数量，即为缓冲区长度
 
+// 复位函数
+void RGB_RST(void);
+// 颜色设置函数
+void RGB_Set_Color(uint8_t LedId, RGBColor_TypeDef Color);
+// RGB 刷新函数
+void RGB_Reflash(uint8_t reflash_num);
 
-#endif
+// 各种颜色测试
+void RGB_RED(uint16_t RGB_LEN);		// 红
+void RGB_GREEN(uint16_t RGB_LEN);	// 绿
+void RGB_BLUE(uint16_t RGB_LEN);	// 蓝
+void RGB_YELLOW(uint16_t RGB_LEN);	// 黄
+void RGB_MAGENTA(uint16_t RGB_LEN); // 紫
+void RGB_BLACK(uint16_t RGB_LEN);	// 黑
+void RGB_WHITE(uint16_t RGB_LEN);	// 白
+
+#endif /* __WS2812_H */

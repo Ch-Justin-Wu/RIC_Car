@@ -91,7 +91,7 @@ public:
 	void Motor_PWM_Tx(uint8_t i);
 	void Encoder_Count();
 	void Wheel_Linear_Speed_to_RPM(uint8_t i);
-
+	void Speed_test(uint8_t i);
 
 	// 电机驱动定时器编号
 	TIM_HandleTypeDef Driver_PWM1_TIM;

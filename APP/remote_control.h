@@ -58,8 +58,8 @@ class remote_control
 {
 
 public:
-    // Joystick horizontal stroke[0] + vertical stroke[1]
-    // 摇杆 水平行程[0]+垂直行程[1]
+    // Joystick horizontal stroke + vertical stroke
+    // 摇杆 水平行程+垂直行程
 
     uint16_t L_Joystick_Hor; // 0--65535
     uint16_t L_Joystick_Ver; // 65535--0
@@ -89,8 +89,9 @@ public:
     // 输入组合
     uint8_t combination; // 0--8
 
-    uint8_t Red_flag;
-    uint8_t Blue_flag;
+    // uint8_t Red_flag;
+    // uint8_t Blue_flag;
+
     // Error flag
     // 错误标志位
     uint8_t err;

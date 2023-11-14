@@ -1,71 +1,129 @@
+/*
+ * ws2812.c
+ *
+ *  Created on: Mar 27, 2023
+ *      Author: mxia2
+ */
+
 #include "ws2812.h"
+#include "spi.h"
 #include "dma.h"
 
-uint8_t BLACK[3] = {0, 0, 0};
-uint8_t RED[3] = {30, 0, 0};
-uint8_t GREEN[3] = {0, 30, 0};
-uint8_t BLUE[3] = {0, 0, 30};
-uint8_t LED_BUFFER[24 * LED_NUM + 10];
+// ?????????????
+const RGBColor_TypeDef RED = {30, 0, 0};
+const RGBColor_TypeDef GREEN = {0, 50, 0};
+const RGBColor_TypeDef BLUE = {0, 0, 100};
+const RGBColor_TypeDef YELLOW = {30, 30, 0};
+const RGBColor_TypeDef MAGENTA = {30, 0, 30};
+const RGBColor_TypeDef BLACK = {0, 0, 0};
+const RGBColor_TypeDef WHITE = {80, 80, 80};
 
-static void ws2812_set_color(uint8_t ID, uint8_t color[3])
+// ??bit?:0xC0 ? 0,0xF8 ? 1
+const uint8_t code[] = {0xC0, 0xF8};
+
+// ??????????30???????
+RGBColor_TypeDef RGB_DAT[RGB_NUM];
+
+// SPI??????????24???????1??
+extern DMA_HandleTypeDef hdma_spi1_tx;
+
+static void SPI_Send(uint8_t *SPI_RGB_BUFFER)
 {
-    int i = 0;
-    for (i = 0; i < LED_NUM; i++)
-    { // red
-        LED_BUFFER[ID * 24 + LED_NUM + i] = ((color[0] << i) & 0x80) ? CODE_1 : CODE_0;
-    }
-
-    for (i = 0; i < LED_NUM; i++)
-    { // green
-        LED_BUFFER[ID * 24 + i] = ((color[1] << i) & 0x80) ? CODE_1 : CODE_0;
-    }
-
-    for (i = 0; i < LED_NUM; i++)
-    { // blue
-        LED_BUFFER[ID * 24 + 2 * LED_NUM + i] = ((color[2] << i) & 0x80) ? CODE_1 : CODE_0;
-    }
-}
-
-// SPI_DMA·¢ËÍ
-void ws2812_reflash(uint8_t reflash_num)
-{
+    /* ????DMA??????? */
     while (HAL_DMA_GetState(&hdma_spi1_tx) != HAL_DMA_STATE_READY)
         ;
-    HAL_SPI_Transmit_DMA(&hspi1, LED_BUFFER, 24 * reflash_num);
+    /* ????(24bit)? RGB ??? 2812 */
+    HAL_SPI_Transmit_DMA(&hspi1, SPI_RGB_BUFFER, 24);
 }
 
-void ws2812_black(uint8_t led_num)
+// ????????? ID ? ??????????
+void RGB_Set_Color(uint8_t LedId, RGBColor_TypeDef Color)
 {
-    for (int i = 0; i < led_num; i++)
+    if (LedId < RGB_NUM)
     {
-        ws2812_set_color(i, BLACK);
-        ws2812_reflash(led_num);
+        RGB_DAT[LedId].G = Color.G;
+        RGB_DAT[LedId].R = Color.R;
+        RGB_DAT[LedId].B = Color.B;
     }
 }
 
-void ws2812_red(uint8_t led_num)
+// ??????????????WS2812?????????????
+void RGB_Reflash(uint8_t reflash_num)
 {
-    for (int i = 0; i < led_num; i++)
+    static uint8_t RGB_BUFFER[24] = {0};
+    uint8_t dat_b, dat_r, dat_g;
+    // ???????? 24 ?????????
+    if (reflash_num > 0 && reflash_num <= RGB_NUM)
     {
-        ws2812_set_color(i, RED);
-        ws2812_reflash(led_num);
+        for (int i = 0; i < reflash_num; i++)
+        {
+            dat_g = RGB_DAT[i].G;
+            dat_r = RGB_DAT[i].R;
+            dat_b = RGB_DAT[i].B;
+            for (int j = 0; j < 8; j++)
+            {
+                RGB_BUFFER[7 - j] = code[dat_g & 0x01];
+                RGB_BUFFER[15 - j] = code[dat_r & 0x01];
+                RGB_BUFFER[23 - j] = code[dat_b & 0x01];
+                dat_g >>= 1;
+                dat_r >>= 1;
+                dat_b >>= 1;
+            }
+            SPI_Send(RGB_BUFFER);
+        }
     }
 }
 
-void ws2812_green(uint8_t led_num)
+// ????
+void RGB_RST(void)
 {
-    for (int i = 0; i < led_num; i++)
-    {
-        ws2812_set_color(i, GREEN);
-        ws2812_reflash(led_num);
-    }
+    uint8_t dat[100] = {0};
+    /* ????DMA??????? */
+    while (HAL_DMA_GetState(&hdma_spi1_tx) != HAL_DMA_STATE_READY)
+        ;
+    /* RGB RESET */
+    HAL_SPI_Transmit_DMA(&hspi1, dat, 100);
+    HAL_Delay(10);
 }
 
-void ws2812_blue(uint8_t led_num)
+// ???????????
+
+void RGB_RED(uint16_t RGB_LEN)
 {
-    for (int i = 0; i < led_num; i++)
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
     {
-        ws2812_set_color(i, BLUE);
-        ws2812_reflash(led_num);
+        RGB_Set_Color(i, RED);
     }
+    RGB_Reflash(RGB_LEN);
+}
+
+void RGB_GREEN(uint16_t RGB_LEN)
+{
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
+    {
+        RGB_Set_Color(i, GREEN);
+    }
+    RGB_Reflash(RGB_LEN);
+}
+
+void RGB_BLUE(uint16_t RGB_LEN)
+{
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
+    {
+        RGB_Set_Color(i, BLUE);
+    }
+    RGB_Reflash(RGB_LEN);
+}
+
+void RGB_WHITE(uint16_t RGB_LEN)
+{
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
+    {
+        RGB_Set_Color(i, WHITE);
+    }
+    RGB_Reflash(RGB_LEN);
 }
