@@ -455,6 +455,11 @@
               <FileType>8</FileType>
               <FilePath>..\APP\remote_control.cpp</FilePath>
             </File>
+            <File>
+              <FileName>ROS2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\ROS2.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

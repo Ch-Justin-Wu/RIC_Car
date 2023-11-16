@@ -16,7 +16,7 @@
 #include "stm32f1xx_it.h"
 #include "stdio.h"
 
-
+//#define ROS
 
 // Error flag
 // 错误标志位
@@ -28,10 +28,14 @@ volatile uint8_t rx_len = 0;
 // 一帧数据接收完成标志
 volatile uint8_t recv_end_flag = 0;
 
+#if defined(ROS)
+volatile uint8_t rx_len1 = 0;
+volatile uint8_t recv_end_flag1 = 0;
+uint8_t rx_buffer1[BUF_SIZE] = {0};
+#endif
 // Define the serial port receiving buffer
 //  定义串口接收缓存区
 uint8_t rx_buffer[BUF_SIZE] = {0};
-
 
 void My_USART2_Init(void)
 {
@@ -39,6 +43,14 @@ void My_USART2_Init(void)
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
 	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUF_SIZE);
 }
+
+#if defined(ROS)
+void My_USART1_Init(void)
+{
+	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+	HAL_UART_Receive_DMA(&huart1, rx_buffer1, BUF_SIZE1);
+}
+#endif
 
 /**
  * ************************************************************************
@@ -94,81 +106,41 @@ void USART2_IRQHandler(void)
 	HAL_UART_IRQHandler(&c_huart);
 }
 
-//int fputc(int ch, FILE *f)
+#if defined(ROS)
 
-//{
+void USART1_IRQHandler(void)
+{
 
-//	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xffff);
+	uint32_t tmp_flag = 0;
+	uint32_t temp;
 
-//	return ch;
-//}
+	// Get the IDLE flag bit
+	tmp_flag = __HAL_UART_GET_FLAG(&c_huart1, UART_FLAG_IDLE);
 
-/**
- * ************************************************************************
- * @brief @brief Print Controller Data 打印控制器数据
- *
- *
- * ************************************************************************
- */
-// void Print_Controller_Data(Controller_t *ptr)
-// {
+	if (tmp_flag != RESET)
+	{
+		// Clear the IDLE flag in UART
+		__HAL_UART_CLEAR_IDLEFLAG(&c_huart1);
 
-// 	// 打印摇杆和扳机数据
-// 	printf("摇杆水平行程:\n");
-// 	printf("左: %d\n", ptr->L_Joystick[0]);
-// 	printf("右: %d\n", ptr->R_Joystick[0]);
-// 	printf("摇杆垂直行程:\n");
-// 	printf("左: %d\n", ptr->L_Joystick[1]);
-// 	printf("右: %d\n", ptr->R_Joystick[1]);
+		// Clear the status register (SR)
+		temp = c_huart1.Instance->SR;
 
-// 	// 打印扳机行程
-// 	printf("扳机行程:\n");
-// 	printf("左: %d\n", ptr->L_Trigger);
-// 	printf("右: %d\n", ptr->R_Trigger);
+		// Read data from DR (Data Register)
+		temp = c_huart1.Instance->DR;
 
-// 	// 打印按钮状态
-// 	printf("按键输入情况:\n");
-// 	for (int i = 0; i < sizeof(buttonNames) / sizeof(buttonNames[0]); i++)
-// 	{
-// 		if (ptr->buttons[i] == BUTTON_PRESSED)
-// 		{
-// 			printf("按下 %s\n", buttonNames[i]);
-// 		}
-// 	}
+		HAL_UART_DMAStop(&c_huart1); // Stop DMA transfer
 
-// 	printf("Gamepad arrow keys input combination:\n");
-// 	switch (ptr->combination)
-// 	{
-// 	case 0:
-// 		printf("无输入\n");
-// 		break;
-// 	case 1:
-// 		printf("上\n");
-// 		break;
-// 	case 2:
-// 		printf("右+上\n");
-// 		break;
-// 	case 8:
-// 		printf("左+上\n");
-// 		break;
-// 	case 5:
-// 		printf("下\n");
-// 		break;
-// 	case 4:
-// 		printf("右+下\n");
-// 		break;
-// 	case 6:
-// 		printf("左+下\n");
-// 		break;
-// 	case 3:
-// 		printf("右\n");
-// 		break;
-// 	case 7:
-// 		printf("左\n");
-// 		break;
-// 	default:
-// 		printf("Data error!\n");
-// 		break;
-// 	}
-// }
+		// Get the number of untransmitted data in DMA
+		temp = c_dma1.Instance->CNDTR;
 
+		// Calculate the number of received data by subtracting the total count from the untransmitted data count
+		rx_len = BUF_SIZE1 - temp;
+
+		// Set the receive completion flag to 1
+		recv_end_flag1 = 1;
+	}
+
+	HAL_UART_IRQHandler(&c_huart1);
+}
+
+#endif

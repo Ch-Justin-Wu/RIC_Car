@@ -12,13 +12,13 @@ extern "C"
 }
 using namespace std;
 
-#define Claw_MAX_ANGLE 100
-#define Claw_MIN_ANGLE 60
-#define Gimbal_MAX_ANGLE 179
-#define Gimbal_MIN_ANGLE 1
-#define Arm_MAX_ANGLE 179
-#define Arm_MIN_ANGLE 49
-#define Wrist_MAX_ANGLE 120
+#define Claw_MAX_ANGLE 85
+#define Claw_MIN_ANGLE 55
+#define Gimbal_MAX_ANGLE 103
+#define Gimbal_MIN_ANGLE 61
+#define Arm_MAX_ANGLE 73
+#define Arm_MIN_ANGLE 44
+#define Wrist_MAX_ANGLE 179
 #define Wrist_MIN_ANGLE 1
 class Servos
 {

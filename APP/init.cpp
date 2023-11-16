@@ -70,14 +70,14 @@ void Init_all_servos(void)
     Servo[0].Init(htim4, TIM_CHANNEL_1, 90); // Servo1
     Servo[0].Control_Gimbal();
     HAL_Delay(100);
-    Servo[1].Init(htim4, TIM_CHANNEL_2, 65); // Servo2
+    Servo[1].Init(htim4, TIM_CHANNEL_2, 64); // Servo2
     Servo[1].Control_Arm();
     HAL_Delay(100);
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 120); // Servo3
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 117); // Servo3
     Servo[2].Control_Wrist();
     HAL_Delay(100);
     // Servo4 110-60 ะก->ด๓
-    Servo[3].Init(htim4, TIM_CHANNEL_4, 80);
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 70);
     Servo[3].Control_Claw();
 }
 
@@ -100,13 +100,13 @@ void Init_all_motors(void)
                    htim2, TIM_CHANNEL_2,
                    GPIOA, ENCODER3_Pin,
                    GPIOB, SPEED_DIRECTION3_Pin,
-                   NEGATIVE);
+                   POSITIVE);
     // Motor4
     motors[3].Init(htim3, TIM_CHANNEL_1,
                    htim3, TIM_CHANNEL_2,
                    GPIOB, ENCODER4_Pin,
                    GPIOB, SPEED_DIRECTION4_Pin,
-                   POSITIVE);
+                   NEGATIVE);
 }
 
 void Init_10ms_timer(void)

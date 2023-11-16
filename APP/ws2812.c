@@ -1,9 +1,4 @@
-/*
- * ws2812.c
- *
- *  Created on: Mar 27, 2023
- *      Author: mxia2
- */
+
 
 #include "ws2812.h"
 #include "spi.h"

@@ -2,7 +2,7 @@
 
 using namespace std;
 chassis Mec_Chassis;
-
+#define ABS(x) ((x > 0) ? (x) : (-x))
 /**
  * ************************************************************************
  * @brief 
@@ -12,7 +12,7 @@ chassis Mec_Chassis;
  * 
  * ************************************************************************
  */
-inline void chassis::XYZ_speed_set()
+void chassis::XYZ_speed_set()
 {
     //Vx setting
     if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
@@ -30,7 +30,16 @@ inline void chassis::XYZ_speed_set()
         vx_set = -(Xbox.L_Trigger) * K_VX_SET;
     }
     //Vy setting
-
+    R_Joystick_Difference(&Right_Joystick);
+    if (Right_Joystick.H_diff)
+    {
+        vy_set = -(Right_Joystick.H_diff) * K_VY_SET;
+    }
+    else if (Right_Joystick.H_diff == 0)
+    {
+        vy_set = 0;
+    }
+    
     //Wz setting
     L_Joystick_Difference(&Left_Joystick);
     if (Left_Joystick.H_diff==0)
@@ -40,8 +49,9 @@ inline void chassis::XYZ_speed_set()
     
     else if (Left_Joystick.H_diff)
     {
-        wz_set = -(Left_Joystick.H_diff);
+        wz_set = -(Left_Joystick.H_diff)*3;
     }
+    
     
 }
 
@@ -56,7 +66,7 @@ inline void chassis::XYZ_speed_set()
  * 
  * ************************************************************************
  */
-inline void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set)
+void chassis::Mec_chassis_wheel_speed()
 {
     wheel_speed[0] = -vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
     wheel_speed[1] = vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
@@ -64,4 +74,6 @@ inline void chassis::Mec_chassis_wheel_speed(fp32 vx_set,fp32 vy_set,fp32 wz_set
     wheel_speed[3] = -vx_set + vy_set + (-CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
 }
 
+
 // MAX wheel_speed=300 RPM*60 mm*PI
+

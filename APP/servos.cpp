@@ -100,7 +100,7 @@ void Servos::Control_Arm(void)
 {
     // R_Joystick_Difference(&Right_Joystick);
 
-    if ((Xbox.combination == PRESS_UP || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_RIGHT_AND_UP) && angle <= Arm_MAX_ANGLE)
+    if ((Xbox.combination == PRESS_DOWN || Xbox.combination == PRESS_LEFT_AND_DOWN || Xbox.combination == PRESS_RIGHT_AND_DOWM) && angle <= Arm_MAX_ANGLE)
     {
         angle += 1;
         if (angle > Arm_MAX_ANGLE)
@@ -108,7 +108,7 @@ void Servos::Control_Arm(void)
             angle = Arm_MAX_ANGLE;
         }
     }
-    else if ((Xbox.combination == PRESS_DOWN || Xbox.combination == PRESS_LEFT_AND_DOWN || Xbox.combination == PRESS_RIGHT_AND_DOWM) && angle >= Arm_MIN_ANGLE)
+    else if ((Xbox.combination == PRESS_UP || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_RIGHT_AND_UP) && angle >= Arm_MIN_ANGLE)
     {
         angle -= 1;
     }
@@ -122,8 +122,8 @@ void Servos::Control_Arm(void)
 //PB8
 void Servos::Control_Wrist(void)
 {
-    R_Joystick_Difference(&Right_Joystick);
-    if (Right_Joystick.V_diff>0 && angle <= Wrist_MAX_ANGLE)
+    
+    if (Xbox.A && angle <= Wrist_MAX_ANGLE)
     {
         angle += 1;
         if (angle > Wrist_MAX_ANGLE)
@@ -132,7 +132,7 @@ void Servos::Control_Wrist(void)
         }
     }
 
-    else if (Right_Joystick.V_diff < 0 && angle >= Wrist_MIN_ANGLE)
+    else if (Xbox.Y && angle >= Wrist_MIN_ANGLE)
     {
         angle -= 1;
         if (angle < Wrist_MIN_ANGLE)
