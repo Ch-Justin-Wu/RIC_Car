@@ -16,8 +16,7 @@
 #include "stm32f1xx_it.h"
 #include "stdio.h"
 
-//#define ROS
-
+#if defined(Controller)
 // Error flag
 // 错误标志位
 uint8_t err;
@@ -27,22 +26,25 @@ volatile uint8_t rx_len = 0;
 // A frame of data reception completion flag
 // 一帧数据接收完成标志
 volatile uint8_t recv_end_flag = 0;
+// Define the serial port receiving buffer
+//  定义串口接收缓存区
+uint8_t rx_buffer[BUF_SIZE] = {0};
+#endif
 
 #if defined(ROS)
 volatile uint8_t rx_len1 = 0;
 volatile uint8_t recv_end_flag1 = 0;
-uint8_t rx_buffer1[BUF_SIZE] = {0};
+uint8_t rx_buffer1[BUF_SIZE1] = {0};
 #endif
-// Define the serial port receiving buffer
-//  定义串口接收缓存区
-uint8_t rx_buffer[BUF_SIZE] = {0};
 
+#if defined(Controller)
 void My_USART2_Init(void)
 {
 	// 不加收不到数据
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
 	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUF_SIZE);
 }
+#endif
 
 #if defined(ROS)
 void My_USART1_Init(void)
@@ -51,7 +53,7 @@ void My_USART1_Init(void)
 	HAL_UART_Receive_DMA(&huart1, rx_buffer1, BUF_SIZE1);
 }
 #endif
-
+#if defined(Controller)
 /**
  * ************************************************************************
  * @brief Serial port receive function 串口接收封装
@@ -67,6 +69,7 @@ void DMA_Usart_Rx(uint8_t *Data, uint8_t len)
 	//  重新打开DMA接收
 	HAL_UART_Receive_DMA(&c_huart, Data, len);
 }
+
 
 /**
  * @brief This function handles USART2 global interrupt.
@@ -105,6 +108,7 @@ void USART2_IRQHandler(void)
 
 	HAL_UART_IRQHandler(&c_huart);
 }
+#endif
 
 #if defined(ROS)
 

@@ -8,7 +8,7 @@ uint16_t K_Arm = 0;
 uint16_t K_Wrist = 0;
 
 void Control_Robotic_Arm();
-void Moto_Test();
+
 
 /**
  * @brief Timer interrupt callback function
@@ -24,15 +24,22 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		K_Gimbal++;
 		K_Arm++;
 		K_Wrist++;
-
+#if defined(Controller)
 		Xbox.Controller_Data_Rx();
-
+#endif
 		// if (color_cnt == 50)
 		// {
 		// 	// Xbox.Set_color();
 		// 	color_cnt = 0;
 		// }
-
+		{
+			Mec_Chassis.XYZ_speed_set();
+			Mec_Chassis.Mec_chassis_wheel_speed();
+			for (uint8_t i = 0; i < 4; i++)
+			{
+				motors[i].wheel_speed_to_pwm(i);
+			}
+		}
 		Control_Robotic_Arm();
 		//J-Scope
 		// uint8_t i = 1;
@@ -50,14 +57,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		
 		// open control
-		{
-			Mec_Chassis.XYZ_speed_set();
-			Mec_Chassis.Mec_chassis_wheel_speed();
-			for (uint8_t i = 0; i < 4; i++)
-			{
-				motors[i].wheel_speed_to_pwm(i);
-			}
-		}
+
 	}
 }
 
@@ -89,27 +89,4 @@ inline void Control_Robotic_Arm()
 	}
 }
 
-void Moto_Test()
-{
-	if (Xbox.A)
-	{
-		motors[0].Speed_test(0);
-		motors[1].Speed_test(1);
-		motors[2].Speed_test(1);
-		motors[3].Speed_test(0);
-	}
-	else if ((!Xbox.A) && (!Xbox.B))
-	{
-		motors[0].Speed_test(2);
-		motors[1].Speed_test(2);
-		motors[2].Speed_test(2);
-		motors[3].Speed_test(2);
-	}
-	else if (Xbox.B)
-	{
-		motors[0].Speed_test(1);
-		motors[1].Speed_test(0);
-		motors[2].Speed_test(0);
-		motors[3].Speed_test(1);
-	}
-}
+

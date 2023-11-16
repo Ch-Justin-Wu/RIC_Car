@@ -2,10 +2,6 @@
 #include "motor.h"
 
 using namespace std;
-/*
-Test.get = get_rpm;
-	set_rpm = Test.set;
-*/
 
 motor motors[motor_num];
 pid_test Test_M1 = {0};
@@ -181,24 +177,6 @@ void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 	
 }
 
-void motor::Speed_test(uint8_t i)
-{
-	if (i == 1)
-	{
-		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 3600);
-		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
-	}
-	else if (i == 0) //
-	{
-		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 3600);
-	}
-	else if (i == 2)
-	{
-		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
-	}
-}
 #define ABS(x) ((x > 0) ? (x) : (-x))
 void motor::wheel_speed_to_pwm(uint8_t i)
 {
@@ -242,6 +220,7 @@ void motor::wheel_speed_to_pwm(uint8_t i)
 	}
 	else if (Mec_Chassis.wheel_speed[i] ==0)
 	{
+		//电机无力
 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 	}
@@ -249,6 +228,24 @@ void motor::wheel_speed_to_pwm(uint8_t i)
 	
 }
 
+// void motor::Speed_test(uint8_t i)
+// {
+// 	if (i == 1)
+// 	{
+// 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 3600);
+// 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
+// 	}
+// 	else if (i == 0) //
+// 	{
+// 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
+// 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 3600);
+// 	}
+// 	else if (i == 2)
+// 	{
+// 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
+// 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
+// 	}
+// }
 
 // MotorData_t motors[motor_num];
 

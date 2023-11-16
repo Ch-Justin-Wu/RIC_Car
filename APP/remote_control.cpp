@@ -1,6 +1,8 @@
 #include "remote_control.h"
 using namespace std;
 
+#if defined(Controller)
+
 #define ABS(x) ((x > 0) ? (x) : (-x))
 
 ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
@@ -193,10 +195,10 @@ void remote_control::Controller_Data_Rx(void)
 	//  重新打开DMA接收
 	HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
 }
-
+#endif
 // B-red X-blue
-void remote_control::Set_color(void)
-{
+// void remote_control::Set_color(void)
+// {
 	// if (B == 1 && X == 0)
 	// {
 	// 	Red_flag = 1;
@@ -216,4 +218,4 @@ void remote_control::Set_color(void)
 	// {
 	// 	ws2812_blue(LED_NUM);
 	// }
-}
+// }

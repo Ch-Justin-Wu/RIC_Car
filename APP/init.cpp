@@ -67,7 +67,7 @@ void Init_all_servos(void)
 {
 
     HAL_Delay(100);
-    Servo[0].Init(htim4, TIM_CHANNEL_1, 90); // Servo1
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 78); // Servo1
     Servo[0].Control_Gimbal();
     HAL_Delay(100);
     Servo[1].Init(htim4, TIM_CHANNEL_2, 64); // Servo2

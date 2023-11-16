@@ -7,7 +7,14 @@ extern "C"
 #endif
 
 #include "bsp_usart.h"
+#include "chassis_move.h"
 
+typedef struct ROS2
+{
+    int16_t Vx;
+    int16_t Vy;
+    int16_t Wz;
+}Ros_cmd;
 
 
 #ifdef __cplusplus
