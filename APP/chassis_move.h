@@ -33,7 +33,7 @@ public:
     fp32 wheel_speed[4];
     void XYZ_speed_set();
     void Mec_chassis_wheel_speed();
-    void ROS2_Speed_Set();
+    void ROS2_Speed_Set(Ros_cmd* ptr);
 };
 extern chassis Mec_Chassis;
 #endif

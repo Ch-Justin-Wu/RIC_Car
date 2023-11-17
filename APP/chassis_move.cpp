@@ -75,7 +75,9 @@ void chassis::Mec_chassis_wheel_speed()
 
 // MAX wheel_speed=300 RPM*60 mm*PI
 
-void chassis::ROS2_Speed_Set()
+void chassis::ROS2_Speed_Set(Ros_cmd *ptr)
 {
-
+    vx_set = ptr->Vx;
+    vy_set = ptr->Vy;
+    wz_set = ptr->Wz;
 }

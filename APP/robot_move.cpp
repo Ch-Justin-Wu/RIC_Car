@@ -82,6 +82,7 @@ inline void Control_Robotic_Arm()
 		Servo[1].Control_Arm();
 		K_Arm = 0;
 	}
+	//¿ØÖÆÍó
 	if (K_Wrist == 3)
 	{
 		Servo[2].Control_Wrist();
