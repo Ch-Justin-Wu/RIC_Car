@@ -4,7 +4,7 @@
 #include "spi.h"
 #include "dma.h"
 
-// ?????????????
+// Color structure
 const RGBColor_TypeDef RED = {30, 0, 0};
 const RGBColor_TypeDef GREEN = {0, 50, 0};
 const RGBColor_TypeDef BLUE = {0, 0, 100};
@@ -13,25 +13,25 @@ const RGBColor_TypeDef MAGENTA = {30, 0, 30};
 const RGBColor_TypeDef BLACK = {0, 0, 0};
 const RGBColor_TypeDef WHITE = {80, 80, 80};
 
-// ??bit?:0xC0 ? 0,0xF8 ? 1
+// 0 code 0xC0 ,1 code 0xF8
 const uint8_t code[] = {0xC0, 0xF8};
 
-// ??????????30???????
+// 
 RGBColor_TypeDef RGB_DAT[RGB_NUM];
 
-// SPI??????????24???????1??
+// SPI DMA Handle
 extern DMA_HandleTypeDef hdma_spi1_tx;
 
 static void SPI_Send(uint8_t *SPI_RGB_BUFFER)
 {
-    /* ????DMA??????? */
+    
     while (HAL_DMA_GetState(&hdma_spi1_tx) != HAL_DMA_STATE_READY)
         ;
-    /* ????(24bit)? RGB ??? 2812 */
+    /*  (24bit)SPI DMA Transmit */
     HAL_SPI_Transmit_DMA(&hspi1, SPI_RGB_BUFFER, 24);
 }
 
-// ????????? ID ? ??????????
+//   LED ID Set Color
 void RGB_Set_Color(uint8_t LedId, RGBColor_TypeDef Color)
 {
     if (LedId < RGB_NUM)
@@ -42,12 +42,12 @@ void RGB_Set_Color(uint8_t LedId, RGBColor_TypeDef Color)
     }
 }
 
-// ??????????????WS2812?????????????
+// ws2812 Data
 void RGB_Reflash(uint8_t reflash_num)
 {
     static uint8_t RGB_BUFFER[24] = {0};
     uint8_t dat_b, dat_r, dat_g;
-    // ???????? 24 ?????????
+    //  24 bit
     if (reflash_num > 0 && reflash_num <= RGB_NUM)
     {
         for (int i = 0; i < reflash_num; i++)
@@ -69,11 +69,11 @@ void RGB_Reflash(uint8_t reflash_num)
     }
 }
 
-// ????
+// reset
 void RGB_RST(void)
 {
     uint8_t dat[100] = {0};
-    /* ????DMA??????? */
+    /* DMA GetState */
     while (HAL_DMA_GetState(&hdma_spi1_tx) != HAL_DMA_STATE_READY)
         ;
     /* RGB RESET */
@@ -81,7 +81,7 @@ void RGB_RST(void)
     HAL_Delay(10);
 }
 
-// ???????????
+// Color Set
 
 void RGB_RED(uint16_t RGB_LEN)
 {

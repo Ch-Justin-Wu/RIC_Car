@@ -16,7 +16,7 @@ typedef struct ROS2
     int16_t Wz;
 }Ros_cmd;
 
-
+extern Ros_cmd Ros2;
 #ifdef __cplusplus
 }
 #endif

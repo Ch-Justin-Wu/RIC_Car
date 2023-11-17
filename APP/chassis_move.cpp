@@ -5,9 +5,8 @@ chassis Mec_Chassis;
 #define ABS(x) ((x > 0) ? (x) : (-x))
 /**
  * ************************************************************************
- * @brief 
+ * @brief Controller X Y Z speed set
  * 
- * @param[in] ptr  手柄结构体指针
  * 
  * 
  * ************************************************************************
@@ -74,6 +73,9 @@ void chassis::Mec_chassis_wheel_speed()
     wheel_speed[3] = -vx_set + vy_set + (-CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
 }
 
-
 // MAX wheel_speed=300 RPM*60 mm*PI
 
+void chassis::ROS2_Speed_Set()
+{
+
+}

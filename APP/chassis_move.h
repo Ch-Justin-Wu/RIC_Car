@@ -9,6 +9,7 @@ extern "C"
 #include "motor.h"
 #include "remote_control.h"
 #include "pid.h"
+#include "ROS2.h"
 
 #define CHASSIS_WZ_SET_SCALE 0.1f
 #define MOTOR_DISTANCE_TO_CENTER 0.2f
@@ -24,7 +25,7 @@ using namespace std;
 #define K_VY_SET 1.0f
 class chassis
 {
-private:
+
 public:
     fp32 vx_set;
     fp32 vy_set;
@@ -32,7 +33,7 @@ public:
     fp32 wheel_speed[4];
     void XYZ_speed_set();
     void Mec_chassis_wheel_speed();
-    
+    void ROS2_Speed_Set();
 };
 extern chassis Mec_Chassis;
 #endif

@@ -21,19 +21,7 @@ void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, flo
     HAL_TIM_PWM_Start(&__Servos_TIM, __Servos_Channel);
 }
 
-/**
- * ************************************************************************
- * @brief 计算输出的PWM
- *
- * @param[in] _angle_  设定的角度
- *
- * ************************************************************************
- */
-void Servos::PWM_Val_Cacl(float _angle_)
-{
-    angle = _angle_;
-    pwmVal = 500 + 2000.0f * _angle_ / 180.0f;
-}
+
 
 /**
  * ************************************************************************

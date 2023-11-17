@@ -1,7 +1,6 @@
 #include "init.h"
 using namespace std;
 
-
 void Init_all_pid(void);
 void Init_all_servos(void);
 void Init_all_motors(void);
@@ -25,32 +24,32 @@ void Init_all_func(void)
 
 void Init_all_pid(void)
 {
-    pid_init(&pid_motor[0],             // Motor 1 Motor PID
-             MAX_OUTPUT_LIMIT,          // Max Output Limit
-             INTEGRAL_LIMIT,            // Integral Limit
-             DEADBAND,                  // Deadband
-             MAX_ERROR,                 // Max Error
-             KP_MOTOR1,                 // Proportional Coefficient
-             KI_MOTOR1,                 // Integral Coefficient
-             KD_MOTOR1, 0); // Derivative Coefficient
+    pid_init(&pid_motor[0],    // Motor 1 Motor PID
+             MAX_OUTPUT_LIMIT, // Max Output Limit
+             INTEGRAL_LIMIT,   // Integral Limit
+             DEADBAND,         // Deadband
+             MAX_ERROR,        // Max Error
+             KP_MOTOR1,        // Proportional Coefficient
+             KI_MOTOR1,        // Integral Coefficient
+             KD_MOTOR1, 0);    // Derivative Coefficient
 
-    pid_init(&pid_motor[1],             // Motor 2 Motor PID
-             MAX_OUTPUT_LIMIT,          // Max Output Limit
-             INTEGRAL_LIMIT,            // Integral Limit
-             DEADBAND,                  // Deadband
-             MAX_ERROR,                 // Max Error
-             KP_MOTOR2,                 // Proportional Coefficient
-             KI_MOTOR2,                 // Integral Coefficient
-             KD_MOTOR2, 0); // Derivative Coefficient
+    pid_init(&pid_motor[1],    // Motor 2 Motor PID
+             MAX_OUTPUT_LIMIT, // Max Output Limit
+             INTEGRAL_LIMIT,   // Integral Limit
+             DEADBAND,         // Deadband
+             MAX_ERROR,        // Max Error
+             KP_MOTOR2,        // Proportional Coefficient
+             KI_MOTOR2,        // Integral Coefficient
+             KD_MOTOR2, 0);    // Derivative Coefficient
 
-    pid_init(&pid_motor[2],             // Motor 3 Motor PID
-             MAX_OUTPUT_LIMIT,          // Max Output Limit
-             INTEGRAL_LIMIT,            // Integral Limit
-             DEADBAND,                  // Deadband
-             MAX_ERROR,                 // Max Error
-             KP_MOTOR3,                 // Proportional Coefficient
-             KI_MOTOR3,                 // Integral Coefficient
-             KD_MOTOR3, 0); // Derivative Coefficient
+    pid_init(&pid_motor[2],    // Motor 3 Motor PID
+             MAX_OUTPUT_LIMIT, // Max Output Limit
+             INTEGRAL_LIMIT,   // Integral Limit
+             DEADBAND,         // Deadband
+             MAX_ERROR,        // Max Error
+             KP_MOTOR3,        // Proportional Coefficient
+             KI_MOTOR3,        // Integral Coefficient
+             KD_MOTOR3, 0);    // Derivative Coefficient
 
     pid_init(&pid_motor[3],    // Motor 4 Motor PID
              MAX_OUTPUT_LIMIT, // Max Output Limit
@@ -66,7 +65,7 @@ void Init_all_pid(void)
 void Init_all_servos(void)
 {
 
-    HAL_Delay(100);
+    HAL_Delay(100);                          // Offset angle
     Servo[0].Init(htim4, TIM_CHANNEL_1, 78); // Servo1
     Servo[0].Control_Gimbal();
     HAL_Delay(100);
