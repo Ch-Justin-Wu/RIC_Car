@@ -11,6 +11,7 @@ extern "C"
 #include "servos.h"
 #include "ws2812.h"
 #include "remote_control.h"
+#include "ROS2.h"
 #ifdef __cplusplus
 }
 #endif

@@ -17,6 +17,7 @@ typedef struct ROS2
 }Ros_cmd;
 
 extern Ros_cmd Ros2;
+void ROS2_Data_Rx(void);
 #ifdef __cplusplus
 }
 #endif

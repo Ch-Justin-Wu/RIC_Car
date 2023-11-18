@@ -14,6 +14,7 @@ const RGBColor_TypeDef BLACK = {0, 0, 0};
 const RGBColor_TypeDef WHITE = {80, 80, 80};
 
 // 0 code 0xC0 ,1 code 0xF8
+// 0 0x19 ,1 0x3a
 const uint8_t code[] = {0xC0, 0xF8};
 
 // 
@@ -119,6 +120,16 @@ void RGB_WHITE(uint16_t RGB_LEN)
     for (i = 0; i < RGB_LEN; i++)
     {
         RGB_Set_Color(i, WHITE);
+    }
+    RGB_Reflash(RGB_LEN);
+}
+
+void RGB_YELLOW(uint16_t RGB_LEN)
+{
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
+    {
+        RGB_Set_Color(i, YELLOW);
     }
     RGB_Reflash(RGB_LEN);
 }
