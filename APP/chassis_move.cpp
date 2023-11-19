@@ -48,7 +48,7 @@ void chassis::XYZ_speed_set()
     
     else if (Left_Joystick.H_diff)
     {
-        wz_set = -(Left_Joystick.H_diff)*3;
+        wz_set = -(Left_Joystick.H_diff)*2.7;
     }
     
     

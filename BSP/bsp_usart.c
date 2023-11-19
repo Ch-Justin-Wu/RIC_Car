@@ -116,7 +116,7 @@ void USART1_IRQHandler(void)
 {
 
 	uint32_t tmp_flag = 0;
-	uint32_t temp;
+	uint32_t temp=0;
 
 	// Get the IDLE flag bit
 	tmp_flag = __HAL_UART_GET_FLAG(&c_huart1, UART_FLAG_IDLE);
@@ -138,7 +138,7 @@ void USART1_IRQHandler(void)
 		temp = c_dma1.Instance->CNDTR;
 
 		// Calculate the number of received data by subtracting the total count from the untransmitted data count
-		rx_len = BUF_SIZE1 - temp;
+		rx_len1 = BUF_SIZE1 - temp;
 
 		// Set the receive completion flag to 1
 		recv_end_flag1 = 1;

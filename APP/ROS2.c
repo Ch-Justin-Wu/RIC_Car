@@ -20,10 +20,9 @@ void Ros2_Data_Resolve(Ros_cmd* ptr)
     // Determine the frame header and end of the frame
     if (rx_p[0] == 0xA5 && rx_p[7] == 0xA6)
     {
-        ptr->Vx = (rx_p[1] << 8) | rx_p[2];
-        ptr->Vy = (rx_p[3] << 8) | rx_p[4];
-        ptr->Wz = ((rx_p[5] << 8) | rx_p[6])*3;
-
+        ptr->Vx = (rx_p[1]) | (rx_p[2] << 8);
+        ptr->Vy = (rx_p[3] ) | (rx_p[4]<< 8);
+        ptr->Wz = ((rx_p[5] ) | (rx_p[6]<< 8));
     }
 }
 

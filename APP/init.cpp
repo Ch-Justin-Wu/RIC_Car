@@ -16,6 +16,8 @@ void Init_all_func(void)
     Init_all_Controller_Joysticks();
     My_USART2_Init();
 
+    //My_USART1_Init();
+    
     Init_all_pid();
 
     Init_all_motors();
@@ -84,7 +86,7 @@ void Init_all_servos(void)
     Servo[2].Control_Wrist();
     HAL_Delay(100);
     // Servo4 110-60 ะก->ด๓
-    Servo[3].Init(htim4, TIM_CHANNEL_4, 70);
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 60);
     Servo[3].Control_Claw();
 }
 

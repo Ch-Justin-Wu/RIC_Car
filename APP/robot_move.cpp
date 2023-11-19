@@ -1,8 +1,8 @@
 #include "robot_move.h"
 using namespace std;
 
-// #define OPEN
-#define PID
+#define OPEN
+// #define PID
 
 uint16_t color_cnt = 0;
 uint16_t K_Claw = 0;

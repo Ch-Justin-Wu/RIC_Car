@@ -22,7 +22,7 @@ using namespace std;
 #define WHEEL_R 30.0f
 #define WHEEL_D 60.0f
 #define K_VX_SET 25.0f
-#define K_VY_SET 1.0f
+#define K_VY_SET 0.8f
 class chassis
 {
 

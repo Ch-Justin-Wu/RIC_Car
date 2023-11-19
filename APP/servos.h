@@ -13,8 +13,8 @@ extern "C"
 using namespace std;
 
 #define Claw_MAX_ANGLE 85
-#define Claw_MIN_ANGLE 55
-#define Gimbal_MAX_ANGLE 180
+#define Claw_MIN_ANGLE 30
+#define Gimbal_MAX_ANGLE 164
 #define Gimbal_MIN_ANGLE 0
 #define Arm_MAX_ANGLE 73
 #define Arm_MIN_ANGLE 44
