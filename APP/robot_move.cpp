@@ -1,8 +1,8 @@
 #include "robot_move.h"
 using namespace std;
 
-#define OPEN
-// #define PID
+// #define OPEN
+#define PID
 
 uint16_t color_cnt = 0;
 uint16_t K_Claw = 0;
@@ -85,13 +85,13 @@ inline void Control_Robotic_Arm()
 		K_Gimbal = 0;
 	}
 	// ¿ØÖÆ±Û
-	if (K_Arm == 3)
+	if (K_Arm == 2)
 	{
 		Servo[1].Control_Arm();
 		K_Arm = 0;
 	}
 	// ¿ØÖÆÍó
-	if (K_Wrist == 3)
+	if (K_Wrist == 1)
 	{
 		Servo[2].Control_Wrist();
 		K_Wrist = 0;

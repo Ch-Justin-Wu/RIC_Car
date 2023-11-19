@@ -67,10 +67,10 @@ void chassis::XYZ_speed_set()
  */
 void chassis::Mec_chassis_wheel_speed()
 {
-    wheel_speed[0] = -vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
-    wheel_speed[1] = vx_set - vy_set + (CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
-    wheel_speed[2] = vx_set + vy_set + (-CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
-    wheel_speed[3] = -vx_set + vy_set + (-CHASSIS_WZ_SET_SCALE - 1.0f) * MOTOR_DISTANCE_TO_CENTER * wz_set;
+    wheel_speed[0] = -vx_set - vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
+    wheel_speed[1] = vx_set - vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
+    wheel_speed[2] = vx_set + vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
+    wheel_speed[3] = -vx_set + vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
 }
 
 // MAX wheel_speed=300 RPM*60 mm*PI

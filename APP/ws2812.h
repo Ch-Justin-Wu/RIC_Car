@@ -24,8 +24,9 @@ void RGB_RED(uint16_t RGB_LEN);		// ºì
 void RGB_GREEN(uint16_t RGB_LEN);	// ÂÌ
 void RGB_BLUE(uint16_t RGB_LEN);	// À¶
 void RGB_YELLOW(uint16_t RGB_LEN);	// »Æ
-void RGB_MAGENTA(uint16_t RGB_LEN); // ×Ï
-void RGB_BLACK(uint16_t RGB_LEN);	// ºÚ
+//void RGB_MAGENTA(uint16_t RGB_LEN); // ×Ï
+//void RGB_BLACK(uint16_t RGB_LEN);	// ºÚ
 void RGB_WHITE(uint16_t RGB_LEN);	// °×
-
-#endif /* __WS2812_H */
+void RGB_SKY(uint16_t RGB_LEN);		// µ­À¶
+void RGB_ORANGE(uint16_t RGB_LEN);	// ³È
+#endif								/* __WS2812_H */

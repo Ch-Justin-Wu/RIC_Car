@@ -11,7 +11,7 @@ extern "C"
 #include "pid.h"
 #include "ROS2.h"
 
-#define CHASSIS_WZ_SET_SCALE 0.1f
+#define CHASSIS_WZ_SET_SCALE 1.1f
 #define MOTOR_DISTANCE_TO_CENTER 0.2f
 
 #ifdef __cplusplus

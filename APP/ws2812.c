@@ -12,12 +12,14 @@ const RGBColor_TypeDef YELLOW = {30, 30, 0};
 const RGBColor_TypeDef MAGENTA = {30, 0, 30};
 const RGBColor_TypeDef BLACK = {0, 0, 0};
 const RGBColor_TypeDef WHITE = {80, 80, 80};
+const RGBColor_TypeDef SKY = {0, 255, 200};
+const RGBColor_TypeDef ORANGE = {255, 40, 0};
 
 // 0 code 0xC0 ,1 code 0xF8
 // 0 0x19 ,1 0x3a
 const uint8_t code[] = {0xC0, 0xF8};
 
-// 
+//
 RGBColor_TypeDef RGB_DAT[RGB_NUM];
 
 // SPI DMA Handle
@@ -25,7 +27,7 @@ extern DMA_HandleTypeDef hdma_spi1_tx;
 
 static void SPI_Send(uint8_t *SPI_RGB_BUFFER)
 {
-    
+
     while (HAL_DMA_GetState(&hdma_spi1_tx) != HAL_DMA_STATE_READY)
         ;
     /*  (24bit)SPI DMA Transmit */
@@ -90,6 +92,26 @@ void RGB_RED(uint16_t RGB_LEN)
     for (i = 0; i < RGB_LEN; i++)
     {
         RGB_Set_Color(i, RED);
+    }
+    RGB_Reflash(RGB_LEN);
+}
+
+void RGB_SKY(uint16_t RGB_LEN)
+{
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
+    {
+        RGB_Set_Color(i, SKY);
+    }
+    RGB_Reflash(RGB_LEN);
+}
+
+void RGB_ORANGE(uint16_t RGB_LEN)
+{
+    uint8_t i;
+    for (i = 0; i < RGB_LEN; i++)
+    {
+        RGB_Set_Color(i, ORANGE);
     }
     RGB_Reflash(RGB_LEN);
 }

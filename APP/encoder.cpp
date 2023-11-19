@@ -14,28 +14,28 @@ using namespace std;
 void ENCODER_OUTPUT()
 {
     
-    switch (GPIO_Pin)
-    {
-    case ENCODER1_Pin:
+    // switch (GPIO_Pin)
+    // {
+    // case ENCODER1_Pin:
 
-        motors[0].Encoder_Count();
-        break;
-    case ENCODER2_Pin:
+    //     motors[0].Encoder_Count();
+    //     break;
+    // case ENCODER2_Pin:
 
-        motors[1].Encoder_Count();
-        break;
-    case ENCODER3_Pin:
+    //     motors[1].Encoder_Count();
+    //     break;
+    // case ENCODER3_Pin:
 
-        motors[2].Encoder_Count();
-        break;
-    case ENCODER4_Pin:
+    //     motors[2].Encoder_Count();
+    //     break;
+    // case ENCODER4_Pin:
 
-        motors[3].Encoder_Count();
-        break;
-    default:
-        break;
-    }
-    // ??? ???????
+    //     motors[3].Encoder_Count();
+    //     break;
+    // default:
+    //     break;
+    // }
+    // 2 wheels 2 sides
     // switch (GPIO_Pin)
     // {
     // case ENCODER1_Pin:
@@ -52,7 +52,7 @@ void ENCODER_OUTPUT()
     // default:
     //     break;
     // }
-    //??? 1?4
+    //single side 
     // switch (GPIO_Pin)
     // {
     // case ENCODER1_Pin:

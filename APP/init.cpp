@@ -1,7 +1,7 @@
 #include "init.h"
 using namespace std;
 
-#define RED
+#define ORANGE
 //#define BLUE
 
 void Init_all_pid(void);
@@ -21,11 +21,11 @@ void Init_all_func(void)
     Init_all_motors();
 
     Init_all_servos();
-    #if defined(RED)
-    RGB_YELLOW(8);
+    #if defined(ORANGE)
+    RGB_ORANGE(8);
     #endif
     #if defined(BLUE)
-    RGB_BLUE(8);
+    RGB_SKY(8);
     #endif
     Init_10ms_timer();
 }
