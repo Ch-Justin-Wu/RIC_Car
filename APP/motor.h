@@ -22,16 +22,16 @@ extern "C"
 #define MAX_ERROR 0
 
 #define KP_MOTOR1 12.0f
-#define KI_MOTOR1 5.0f
-#define KD_MOTOR1 7.0f
+#define KI_MOTOR1 4.0f
+#define KD_MOTOR1 5.0f
 
 #define KP_MOTOR2 12.0f
-#define KI_MOTOR2 5.0f
-#define KD_MOTOR2 7.0f
+#define KI_MOTOR2 4.0f
+#define KD_MOTOR2 5.0f
 
 #define KP_MOTOR3 12.0f
 #define KI_MOTOR3 5.0f
-#define KD_MOTOR3 7.0f
+#define KD_MOTOR3 5.0f
 
 #define KP_MOTOR4 12.0f
 #define KI_MOTOR4 5.0f
@@ -85,7 +85,7 @@ public:
 	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
 			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
-			  GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
+			  
 			  uint8_t __Speed_Default_Direction);
 	//void Real_rpm();
 	void Motor_PWM_Tx(uint8_t i);
@@ -103,9 +103,7 @@ public:
 	// 编码器脉冲引脚编号
 	GPIO_TypeDef *Encoder_GPIOx;
 	uint16_t Encoder_GPIO_Pin;
-	// 运动方向引脚
-	GPIO_TypeDef *Speed_Direction_GPIOx;
-	uint16_t Speed_Direction_GPIO_Pin;
+
 	uint8_t Speed_Default_Direction;
 };
 

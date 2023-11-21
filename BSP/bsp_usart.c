@@ -54,21 +54,7 @@ void My_USART1_Init(void)
 }
 #endif
 #if defined(Controller)
-/**
- * ************************************************************************
- * @brief Serial port receive function 串口接收封装
- *
- * @param[in] Data 数据地址 Data address
- * @param[in] len  数据长度 Data length
- *
- * ************************************************************************
- */
-void DMA_Usart_Rx(uint8_t *Data, uint8_t len)
-{
-	// Turn DMA reception back on
-	//  重新打开DMA接收
-	HAL_UART_Receive_DMA(&c_huart, Data, len);
-}
+
 
 
 /**
@@ -116,7 +102,7 @@ void USART1_IRQHandler(void)
 {
 
 	uint32_t tmp_flag = 0;
-	uint32_t temp=0;
+	uint32_t temp;
 
 	// Get the IDLE flag bit
 	tmp_flag = __HAL_UART_GET_FLAG(&c_huart1, UART_FLAG_IDLE);

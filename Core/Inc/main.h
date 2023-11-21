@@ -57,10 +57,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define ENCODER3_Pin GPIO_PIN_13
-#define ENCODER3_GPIO_Port GPIOC
-#define SPEED_DIRECTION3_Pin GPIO_PIN_14
-#define SPEED_DIRECTION3_GPIO_Port GPIOC
 #define MOTO3_IN1_Pin GPIO_PIN_0
 #define MOTO3_IN1_GPIO_Port GPIOA
 #define MOTO3_IN2_Pin GPIO_PIN_1
@@ -79,22 +75,22 @@ void Error_Handler(void);
 #define MOTO2_IN1_GPIO_Port GPIOB
 #define MOTO2_IN2_Pin GPIO_PIN_11
 #define MOTO2_IN2_GPIO_Port GPIOB
-#define SPEED_DIRECTION2_Pin GPIO_PIN_13
-#define SPEED_DIRECTION2_GPIO_Port GPIOB
-#define ENCODER2_Pin GPIO_PIN_14
-#define ENCODER2_GPIO_Port GPIOB
-#define SPEED_DIRECTION1_Pin GPIO_PIN_15
-#define SPEED_DIRECTION1_GPIO_Port GPIOB
-#define ENCODER1_Pin GPIO_PIN_8
-#define ENCODER1_GPIO_Port GPIOA
+#define ENCODER1_Pin GPIO_PIN_14
+#define ENCODER1_GPIO_Port GPIOB
+#define ENCODER1_EXTI_IRQn EXTI15_10_IRQn
+#define ENCODER2_Pin GPIO_PIN_8
+#define ENCODER2_GPIO_Port GPIOA
+#define ENCODER2_EXTI_IRQn EXTI9_5_IRQn
 #define TX_TO_ROS_Pin GPIO_PIN_9
 #define TX_TO_ROS_GPIO_Port GPIOA
 #define RX_ROS_Pin GPIO_PIN_10
 #define RX_ROS_GPIO_Port GPIOA
-#define SPEED_DIRECTION4_Pin GPIO_PIN_11
-#define SPEED_DIRECTION4_GPIO_Port GPIOA
+#define ENCODER3_Pin GPIO_PIN_11
+#define ENCODER3_GPIO_Port GPIOA
+#define ENCODER3_EXTI_IRQn EXTI15_10_IRQn
 #define ENCODER4_Pin GPIO_PIN_12
 #define ENCODER4_GPIO_Port GPIOA
+#define ENCODER4_EXTI_IRQn EXTI15_10_IRQn
 #define SERVO1_Pin GPIO_PIN_6
 #define SERVO1_GPIO_Port GPIOB
 #define SERVO2_Pin GPIO_PIN_7

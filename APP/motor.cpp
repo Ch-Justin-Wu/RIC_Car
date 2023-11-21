@@ -26,7 +26,6 @@ pid_test Test_M1 = {0};
 void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
 				 TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 				 GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
-				 GPIO_TypeDef *__Speed_Direction_GPIOx, uint16_t __Speed_Direction_GPIO_Pin,
 				 uint8_t __Speed_Default_Direction)
 {
 	Driver_PWM1_TIM = __Driver_PWM1_TIM;
@@ -35,8 +34,6 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 	Driver_PWM2_TIM_Channel_x = __Driver_PWM2_TIM_Channel_x;
 	Encoder_GPIOx = __Encoder_GPIOx;
 	Encoder_GPIO_Pin = __Encoder_GPIO_Pin;
-	Speed_Direction_GPIOx = __Speed_Direction_GPIOx;
-	Speed_Direction_GPIO_Pin = __Speed_Direction_GPIO_Pin;
 	Speed_Default_Direction = __Speed_Default_Direction;
 	HAL_TIM_PWM_Start(&__Driver_PWM1_TIM, __Driver_PWM1_TIM_Channel_x);
 	HAL_TIM_PWM_Start(&__Driver_PWM2_TIM, __Driver_PWM2_TIM_Channel_x);
@@ -78,7 +75,7 @@ void motor::Motor_PWM_Tx(uint8_t i)
 	int16_t const_VAL = 1800;
 
 	// Real_rpm
-	get_rpm = encoder.Hall_Encoder_Count / 13.0 / 2.0 / 30.0 * 100 * 60;
+	get_rpm = encoder.Hall_Encoder_Count / 13.0 /2.0/ 30.0 * 100 * 60;
 	encoder.Hall_Encoder_Count = 0;
 
 	tempVAL = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
@@ -167,7 +164,7 @@ void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0*300;
 	if (set_rpm>=300)
 	{
-		set_rpm == 300;
+		set_rpm = 300;
 	}
 	else if (set_rpm<=-300)
 	{

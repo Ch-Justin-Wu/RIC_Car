@@ -2,7 +2,7 @@
 using namespace std;
 
 #define ORANGE
-//#define BLUE
+// #define BLUE
 
 void Init_all_pid(void);
 void Init_all_servos(void);
@@ -15,20 +15,20 @@ void Init_all_func(void)
     Xbox.Init();
     Init_all_Controller_Joysticks();
     My_USART2_Init();
-
-    //My_USART1_Init();
-    
+#if defined(ROS)
+    My_USART1_Init();
+#endif
     Init_all_pid();
 
     Init_all_motors();
 
     Init_all_servos();
-    #if defined(ORANGE)
+#if defined(ORANGE)
     RGB_ORANGE(8);
-    #endif
-    #if defined(BLUE)
+#endif
+#if defined(BLUE)
     RGB_SKY(8);
-    #endif
+#endif
     Init_10ms_timer();
 }
 
@@ -96,25 +96,21 @@ void Init_all_motors(void)
     motors[0].Init(htim3, TIM_CHANNEL_3,
                    htim3, TIM_CHANNEL_4,
                    GPIOC, ENCODER1_Pin,
-                   GPIOC, SPEED_DIRECTION1_Pin,
                    NEGATIVE);
     // Motor2
     motors[1].Init(htim2, TIM_CHANNEL_3,
                    htim2, TIM_CHANNEL_4,
                    GPIOA, ENCODER2_Pin,
-                   GPIOA, SPEED_DIRECTION2_Pin,
                    POSITIVE);
     // Motor3
     motors[2].Init(htim2, TIM_CHANNEL_1,
                    htim2, TIM_CHANNEL_2,
                    GPIOA, ENCODER3_Pin,
-                   GPIOB, SPEED_DIRECTION3_Pin,
                    POSITIVE);
     // Motor4
     motors[3].Init(htim3, TIM_CHANNEL_1,
                    htim3, TIM_CHANNEL_2,
                    GPIOB, ENCODER4_Pin,
-                   GPIOB, SPEED_DIRECTION4_Pin,
                    NEGATIVE);
 }
 
