@@ -139,7 +139,7 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		// µç»úÉ²³µ
 		// __HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 3600);
 		// __HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 3600);
-		// break;
+		break;
 	default:
 		break;
 	}
@@ -162,13 +162,13 @@ void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 {
 
 	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0*300;
-	if (set_rpm>=300)
+	if (set_rpm>=MAX_RPM)
 	{
-		set_rpm = 300;
+		set_rpm = MAX_RPM;
 	}
-	else if (set_rpm<=-300)
+	else if (set_rpm <= -MAX_RPM)
 	{
-		set_rpm = -300;
+		set_rpm = -MAX_RPM;
 	}
 	
 	

@@ -11,7 +11,7 @@ chassis Mec_Chassis;
  * 
  * ************************************************************************
  */
-void chassis::XYZ_speed_set()
+void chassis::controller_speed_set()
 {
     //Vx setting
     if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
@@ -79,5 +79,5 @@ void chassis::ROS2_Speed_Set(Ros_cmd *ptr)
 {
     vx_set = ptr->Vx;
     vy_set = ptr->Vy;
-    wz_set = ptr->Wz;
+    wz_set = (ptr->Wz)*4;
 }

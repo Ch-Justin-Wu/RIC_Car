@@ -37,14 +37,13 @@ volatile uint8_t recv_end_flag1 = 0;
 uint8_t rx_buffer1[BUF_SIZE1] = {0};
 #endif
 
-#if defined(Controller)
 void My_USART2_Init(void)
 {
 	// 不加收不到数据
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
 	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUF_SIZE);
 }
-#endif
+
 
 #if defined(ROS)
 void My_USART1_Init(void)
@@ -53,7 +52,7 @@ void My_USART1_Init(void)
 	HAL_UART_Receive_DMA(&huart1, rx_buffer1, BUF_SIZE1);
 }
 #endif
-#if defined(Controller)
+
 
 
 
@@ -94,7 +93,7 @@ void USART2_IRQHandler(void)
 
 	HAL_UART_IRQHandler(&c_huart);
 }
-#endif
+
 
 #if defined(ROS)
 

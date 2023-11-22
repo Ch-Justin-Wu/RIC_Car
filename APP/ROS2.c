@@ -3,7 +3,7 @@
 Ros_cmd Ros2={0};
 
 // Data base:0xA5 vx1 vx2 vy1 vy2 ω1 ω2 0xA6
-void Ros2_Data_Resolve(Ros_cmd* ptr)
+void ros2_data_resolve(Ros_cmd* ptr)
 {
     // 计数 count
     uint8_t temp_cnt = 0;
@@ -27,11 +27,11 @@ void Ros2_Data_Resolve(Ros_cmd* ptr)
 }
 
 
-void ROS2_Data_Rx(void)
+void ROS2_data_rx(void)
 {
     if (recv_end_flag1 == 1 && rx_len1 == DATA_FRAME_LENGTH1)
     {
-        Ros2_Data_Resolve(&Ros2);
+        ros2_data_resolve(&Ros2);
 
         // Clear the count
         //  清除计数

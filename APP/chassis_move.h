@@ -14,6 +14,8 @@ extern "C"
 #define CHASSIS_WZ_SET_SCALE 1.1f
 #define MOTOR_DISTANCE_TO_CENTER 0.2f
 
+
+
 #ifdef __cplusplus
 }
 using namespace std;
@@ -31,7 +33,7 @@ public:
     fp32 vy_set;
     fp32 wz_set;
     fp32 wheel_speed[4];
-    void XYZ_speed_set();
+    void controller_speed_set();
     void Mec_chassis_wheel_speed();
     void ROS2_Speed_Set(Ros_cmd* ptr);
 };

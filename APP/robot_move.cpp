@@ -28,9 +28,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		K_Wrist++;
 #if defined(Controller)
 		Xbox.Controller_Data_Rx();
+		Mec_Chassis.controller_speed_set();
 #endif
 #if defined(ROS)
-		ROS2_Data_Rx();
+		ROS2_data_rx();
+		Mec_Chassis.ROS2_Speed_Set(&Ros2);
 #endif
 		// if (color_cnt == 50)
 		// {
@@ -39,8 +41,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		// }
 #if defined(OPEN)
 		{
-			// ROS2_Data_Rx();
-			Mec_Chassis.XYZ_speed_set();
+
+			
 			Mec_Chassis.Mec_chassis_wheel_speed();
 			for (uint8_t i = 0; i < 4; i++)
 			{
@@ -55,7 +57,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //  Test_M1.set = motors[i].set_rpm;
 //  motors[i].Motor_PWM_Tx(i);
 #if defined(PID)
-		Mec_Chassis.XYZ_speed_set();
+		//Mec_Chassis.XYZ_speed_set();
+		
 		Mec_Chassis.Mec_chassis_wheel_speed();
 		for (uint8_t i = 0; i < 4; i++)
 		{

@@ -34,32 +34,32 @@ void Init_all_func(void)
 
 void Init_all_pid(void)
 {
-    pid_init(&pid_motor[0],    // Motor 1 Motor PID
-             MAX_OUTPUT_LIMIT, // Max Output Limit
-             INTEGRAL_LIMIT,   // Integral Limit
-             DEADBAND,         // Deadband
-             MAX_ERROR,        // Max Error
-             KP_MOTOR1,        // Proportional Coefficient
-             KI_MOTOR1,        // Integral Coefficient
-             KD_MOTOR1, 0);    // Derivative Coefficient
+    pid_init(&pid_motor[0],             // Motor 1 Motor PID
+             MAX_OUTPUT_LIMIT,          // Max Output Limit
+             INTEGRAL_LIMIT,            // Integral Limit
+             DEADBAND,                  // Deadband
+             MAX_ERROR,                 // Max Error
+             KP_MOTOR1,                 // Proportional Coefficient
+             KI_MOTOR1,                 // Integral Coefficient
+             KD_MOTOR1, SEPA_INTEGRAL); // Derivative Coefficient
 
-    pid_init(&pid_motor[1],    // Motor 2 Motor PID
-             MAX_OUTPUT_LIMIT, // Max Output Limit
-             INTEGRAL_LIMIT,   // Integral Limit
-             DEADBAND,         // Deadband
-             MAX_ERROR,        // Max Error
-             KP_MOTOR2,        // Proportional Coefficient
-             KI_MOTOR2,        // Integral Coefficient
-             KD_MOTOR2, 0);    // Derivative Coefficient
+    pid_init(&pid_motor[1],             // Motor 2 Motor PID
+             MAX_OUTPUT_LIMIT,          // Max Output Limit
+             INTEGRAL_LIMIT,            // Integral Limit
+             DEADBAND,                  // Deadband
+             MAX_ERROR,                 // Max Error
+             KP_MOTOR2,                 // Proportional Coefficient
+             KI_MOTOR2,                 // Integral Coefficient
+             KD_MOTOR2, SEPA_INTEGRAL); // Derivative Coefficient
 
-    pid_init(&pid_motor[2],    // Motor 3 Motor PID
-             MAX_OUTPUT_LIMIT, // Max Output Limit
-             INTEGRAL_LIMIT,   // Integral Limit
-             DEADBAND,         // Deadband
-             MAX_ERROR,        // Max Error
-             KP_MOTOR3,        // Proportional Coefficient
-             KI_MOTOR3,        // Integral Coefficient
-             KD_MOTOR3, 0);    // Derivative Coefficient
+    pid_init(&pid_motor[2],             // Motor 3 Motor PID
+             MAX_OUTPUT_LIMIT,          // Max Output Limit
+             INTEGRAL_LIMIT,            // Integral Limit
+             DEADBAND,                  // Deadband
+             MAX_ERROR,                 // Max Error
+             KP_MOTOR3,                 // Proportional Coefficient
+             KI_MOTOR3,                 // Integral Coefficient
+             KD_MOTOR3, SEPA_INTEGRAL); // Derivative Coefficient
 
     pid_init(&pid_motor[3],    // Motor 4 Motor PID
              MAX_OUTPUT_LIMIT, // Max Output Limit
@@ -69,24 +69,24 @@ void Init_all_pid(void)
              KP_MOTOR4,        // Proportional Coefficient
              KI_MOTOR4,        // Integral Coefficient
              KD_MOTOR4,
-             0); // Derivative Coefficient
+             SEPA_INTEGRAL); // Derivative Coefficient
 }
 
 void Init_all_servos(void)
 {
 
     HAL_Delay(100);                          // Offset angle
-    Servo[0].Init(htim4, TIM_CHANNEL_1, 78); // Servo1
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 70); // Servo1
     Servo[0].Control_Gimbal();
     HAL_Delay(100);
-    Servo[1].Init(htim4, TIM_CHANNEL_2, 64); // Servo2
+    Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2
     Servo[1].Control_Arm();
     HAL_Delay(100);
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 117); // Servo3
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 75); // Servo3
     Servo[2].Control_Wrist();
     HAL_Delay(100);
     // Servo4 110-60 ะก->ด๓
-    Servo[3].Init(htim4, TIM_CHANNEL_4, 60);
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 76);
     Servo[3].Control_Claw();
 }
 

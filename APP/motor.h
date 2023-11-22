@@ -18,7 +18,7 @@ extern "C"
 // PID param
 #define MAX_OUTPUT_LIMIT 1800
 #define INTEGRAL_LIMIT 1800
-#define DEADBAND 0
+#define DEADBAND 3
 #define MAX_ERROR 0
 
 #define KP_MOTOR1 12.0f
@@ -63,7 +63,7 @@ using namespace std;
 
 #define NEGATIVE 0
 #define POSITIVE 1
-
+#define MAX_RPM 310
 class motor
 {
 

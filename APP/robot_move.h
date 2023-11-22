@@ -12,6 +12,7 @@ extern "C"
 #include "ws2812.h"
 #include "remote_control.h"
 #include "ROS2.h"
+#include "chassis_move.h"
 #ifdef __cplusplus
 }
 #endif
