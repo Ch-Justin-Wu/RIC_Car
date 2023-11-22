@@ -13,6 +13,7 @@ chassis Mec_Chassis;
  */
 void chassis::controller_speed_set()
 {
+    R_Joystick_Difference(&Right_Joystick);
     //Vx setting
     if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
     {
@@ -28,8 +29,10 @@ void chassis::controller_speed_set()
     {
         vx_set = -(Xbox.L_Trigger) * K_VX_SET;
     }
+
+    
     //Vy setting
-    R_Joystick_Difference(&Right_Joystick);
+   
     if (Right_Joystick.H_diff)
     {
         vy_set = -(Right_Joystick.H_diff) * K_VY_SET;

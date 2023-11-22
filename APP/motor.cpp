@@ -53,7 +53,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 
 // 	encoder.Hall_Encoder_Count = 0;
 // }
-
+#define ABS(x) ((x > 0) ? (x) : (-x))
 /**
  * ************************************************************************
  * @brief 设置电机转速
@@ -83,20 +83,34 @@ void motor::Motor_PWM_Tx(uint8_t i)
 	pwmVal = tempVAL;
 
 	// 快衰减
-	if (set_rpm > 0)
+	if (set_rpm - get_rpm >RPM_DEADBAND)
 	{
 
 		Set_speed_direction = 1;
 	}
-	else if (set_rpm < 0)
+	else if (set_rpm - get_rpm < -RPM_DEADBAND)
 	{
 
 		Set_speed_direction = -1;
 	}
-	else if (!set_rpm)
+
+	else if (ABS(set_rpm - get_rpm) <= RPM_DEADBAND)
 	{
-		Set_speed_direction = 0;
+		if (set_rpm>0)
+		{
+			Set_speed_direction = 1;
+		}
+		else if (set_rpm<0)
+		{
+			Set_speed_direction = -1;
+		}
+		
 	}
+	
+	// else if (!set_rpm)
+	// {
+	// 	Set_speed_direction = 0;
+	// }
 
 	switch (Set_speed_direction)
 	{

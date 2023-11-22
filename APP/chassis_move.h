@@ -23,8 +23,8 @@ using namespace std;
 #define TRACK 125.0f
 #define WHEEL_R 30.0f
 #define WHEEL_D 60.0f
-#define K_VX_SET 25.0f
-#define K_VY_SET 0.8f
+#define K_VX_SET 24.5f
+#define K_VY_SET 0.82f
 class chassis
 {
 

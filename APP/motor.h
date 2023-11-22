@@ -17,8 +17,10 @@ extern "C"
 
 // PID param
 #define MAX_OUTPUT_LIMIT 1800
-#define INTEGRAL_LIMIT 1800
-#define DEADBAND 3
+#define INTEGRAL_LIMIT 1000
+#define DEADBAND 2
+#define RPM_DEADBAND 10
+
 #define MAX_ERROR 0
 
 #define KP_MOTOR1 12.0f
@@ -70,6 +72,7 @@ class motor
 public:
 	int16_t get_rpm;
 	int16_t set_rpm;
+	
 	int16_t pwmVal;
 
 	int8_t Set_speed_direction;
