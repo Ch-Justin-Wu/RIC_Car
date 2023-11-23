@@ -28,6 +28,7 @@ void abs_limit(float *a, float ABS_MAX)
  * @param kp        比例系数
  * @param ki        积分系数
  * @param kd        微分系数
+ * @param __separationThreshold 积分分离系数
  */
 void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd, uint16_t __separationThreshold)
 {

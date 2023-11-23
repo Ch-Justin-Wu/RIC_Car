@@ -16,7 +16,6 @@
 #include "stm32f1xx_it.h"
 #include "stdio.h"
 
-#if defined(Controller)
 // Error flag
 // 错误标志位
 uint8_t err;
@@ -29,7 +28,7 @@ volatile uint8_t recv_end_flag = 0;
 // Define the serial port receiving buffer
 //  定义串口接收缓存区
 uint8_t rx_buffer[BUF_SIZE] = {0};
-#endif
+
 
 #if defined(ROS)
 volatile uint8_t rx_len1 = 0;

@@ -34,6 +34,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		ROS2_data_rx();
 		Mec_Chassis.ROS2_Speed_Set(&Ros2);
 #endif
+
+#if defined(PID)
+		// Mec_Chassis.XYZ_speed_set();
+
+		Mec_Chassis.Mec_chassis_wheel_speed();
+		for (uint8_t i = 0; i < 4; i++)
+		{
+
+			motors[i].Wheel_Linear_Speed_to_RPM(i);
+			motors[i].Motor_PWM_Tx(i);
+		}
+#endif
 		// if (color_cnt == 50)
 		// {
 		// 	// Xbox.Set_color();
@@ -56,17 +68,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 //  Test_M1.get = motors[i].get_rpm;
 //  Test_M1.set = motors[i].set_rpm;
 //  motors[i].Motor_PWM_Tx(i);
-#if defined(PID)
-		//Mec_Chassis.XYZ_speed_set();
-		
-		Mec_Chassis.Mec_chassis_wheel_speed();
-		for (uint8_t i = 0; i < 4; i++)
-		{
-			
-			motors[i].Wheel_Linear_Speed_to_RPM(i);
-			motors[i].Motor_PWM_Tx(i);
-		}
-#endif
+
 		Control_Robotic_Arm();
 		// open control
 	}

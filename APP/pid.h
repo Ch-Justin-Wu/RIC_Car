@@ -50,7 +50,7 @@ extern "C"
     uint32_t integral_limit;
     /* pid积分分离设置 */
     uint16_t separationThreshold;
-    uint8_t separationThreshold_Flag;
+    
 
   } pid_t;
 
@@ -80,7 +80,7 @@ extern "C"
   float pid_calc(pid_t *pid, float get, float set);
 
   extern pid_t pid_motor[];
-  extern pid_t pid_angle[];
+  
 // extern pid_t pid_motor2;
 // extern pid_t pid_angle2;
 #ifdef __cplusplus
