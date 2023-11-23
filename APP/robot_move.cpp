@@ -3,7 +3,7 @@ using namespace std;
 
 // #define OPEN
 #define PID
-#define xbox
+//#define xbox
 // uint16_t color_cnt = 0;
 uint16_t K_Claw = 0;
 uint16_t K_Gimbal = 0;

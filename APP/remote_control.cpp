@@ -1,4 +1,5 @@
 #include "remote_control.h"
+
 using namespace std;
 
 #if defined(Controller)
@@ -199,23 +200,23 @@ void remote_control::controller_data_rx(void)
 // B-red X-blue
 // void remote_control::Set_color(void)
 // {
-	// if (B == 1 && X == 0)
-	// {
-	// 	Red_flag = 1;
-	// 	Blue_flag = 0;
-	// }
-	// else if (B == 0 && X == 1)
-	// {
-	// 	Red_flag = 0;
-	// 	Blue_flag = 1;
-	// }
+// if (B == 1 && X == 0)
+// {
+// 	Red_flag = 1;
+// 	Blue_flag = 0;
+// }
+// else if (B == 0 && X == 1)
+// {
+// 	Red_flag = 0;
+// 	Blue_flag = 1;
+// }
 
-	// if (Red_flag == 1 && Blue_flag == 0)
-	// {
-	// 	ws2812_red(LED_NUM);
-	// }
-	// else if (Red_flag == 0 && Blue_flag == 1)
-	// {
-	// 	ws2812_blue(LED_NUM);
-	// }
+// if (Red_flag == 1 && Blue_flag == 0)
+// {
+// 	ws2812_red(LED_NUM);
+// }
+// else if (Red_flag == 0 && Blue_flag == 1)
+// {
+// 	ws2812_blue(LED_NUM);
+// }
 // }

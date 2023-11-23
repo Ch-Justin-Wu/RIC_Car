@@ -14,8 +14,8 @@ void kalman_init(kalman* ptr)
 
 /**
  *卡尔曼滤波器
- *@param 	kalman *kfp 卡尔曼结构体参数
- *   			float input 需要滤波的参数的测量值（即传感器的采集值）
+ *@param 	kfp 卡尔曼结构体参数
+ *@param   	input 需要滤波的参数的测量值（即传感器的采集值）
  *@return 滤波后的参数（最优值）
  */
 float kalman_filter(kalman *kfp, float input)
