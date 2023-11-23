@@ -1,15 +1,15 @@
 #include "kalman.h"
 
-kalman kfp={0};
+kalman kfp[motor_num]={0};
 
-void kalman_init()
+void kalman_init(kalman* ptr)
 {
-    kfp.Last_P = 1;
-    kfp.Now_P = 0;
-    kfp.out = 0;
-    kfp.Kg = 0;
-    kfp.Q = 0;
-    kfp.R = 0.01;
+    ptr->Last_P = 0.001;
+    ptr->Now_P = 0;
+    ptr->out = 0;
+    ptr->Kg = 0;
+    ptr->Q = 0.0001;
+    ptr->R = 0.0005;
 }
 
 /**

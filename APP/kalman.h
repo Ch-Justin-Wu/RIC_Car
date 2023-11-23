@@ -2,7 +2,7 @@
 #define kalman_H
 
 #include "main.h"
-
+#include "motor.h"
 typedef struct
 {
     float Last_P; // 上次估算协方差 不可以为0 ! ! ! ! !
@@ -13,9 +13,9 @@ typedef struct
     float R;      // 观测噪声协方差
 } kalman;
 
-void kalman_init(void);
+void kalman_init(kalman *ptr);
 float kalman_filter(kalman *kfp, float input);
 
-extern kalman kfp;
+extern kalman kfp[];
 
 #endif

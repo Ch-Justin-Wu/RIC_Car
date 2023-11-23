@@ -44,14 +44,16 @@ extern "C"
     float max_err;
     float deadband; // err < deadband return
     /* pid最大输出限制  */
-    uint32_t max_output;
+    float max_output;
 
     /* pid积分输出项限幅 */
-    uint32_t integral_limit;
+    float integral_limit;
     /* pid积分分离设置 */
-    uint16_t separationThreshold;
-    
-
+    float separationThreshold;
+    // 自适应Kp
+    float k1;
+    float k2;
+    float k3;
   } pid_t;
 
   /**
@@ -68,7 +70,7 @@ extern "C"
    * @param[in] pid: PID 结构体
    * @param[in] kp/ki/kd: 具体 PID 参数
    */
-  //void pid_reset(pid_t *pid, float kp, float ki, float kd);
+  // void pid_reset(pid_t *pid, float kp, float ki, float kd);
 
   /**
    * @brief     PID 计算函数，使用位置式 PID 计算
@@ -80,7 +82,7 @@ extern "C"
   float pid_calc(pid_t *pid, float get, float set);
 
   extern pid_t pid_motor[];
-  
+
 // extern pid_t pid_motor2;
 // extern pid_t pid_angle2;
 #ifdef __cplusplus

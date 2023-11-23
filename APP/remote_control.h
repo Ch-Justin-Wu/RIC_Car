@@ -19,7 +19,7 @@ extern "C"
         BUTTON_PRESSED
     };
     // 方向键组合
-    enum DirectionCombination
+    enum direction_combination
     {
         NO_PRESS = 0,
         PRESS_UP = 1,
@@ -45,8 +45,6 @@ extern "C"
 
     void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
                                   int __deadband, int __H_stick_offset_position, int __V_stick_offset_position);
-
-    void DMA_Usart_Rx(uint8_t *Data, uint8_t len);
 
     void L_Joystick_Difference(ControllerJoystick_t *Joystick);
 
@@ -97,9 +95,9 @@ public:
     uint8_t err;
 
     void Init(void);
-    void Controller_Data_Resolve(void);
-    void Controller_Data_Rx(void);
-    void Set_color(void);
+    void controller_data_resolve(void);
+    void controller_data_rx(void);
+    //void Set_color(void);
     
 };
 

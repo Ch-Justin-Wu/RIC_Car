@@ -11,32 +11,32 @@ extern "C"
 #include "mytype.h"
 #include "pid.h"
 #include "chassis_move.h"
+#include "kalman.h"
 
 #define motor_num 4
-#define FILTER_BUF_LEN 5
 
 // PID param
 #define MAX_OUTPUT_LIMIT 1800
-#define INTEGRAL_LIMIT 1000
+#define INTEGRAL_LIMIT 1600
 #define DEADBAND 2
-#define RPM_DEADBAND 10
+#define RPM_DEADBAND 80
 
 #define MAX_ERROR 0
 
 #define KP_MOTOR1 12.0f
-#define KI_MOTOR1 4.0f
-#define KD_MOTOR1 5.0f
+#define KI_MOTOR1 3.0f
+#define KD_MOTOR1 7.0f
 
 #define KP_MOTOR2 12.0f
-#define KI_MOTOR2 4.0f
+#define KI_MOTOR2 3.0f
 #define KD_MOTOR2 5.0f
 
 #define KP_MOTOR3 12.0f
-#define KI_MOTOR3 5.0f
+#define KI_MOTOR3 3.0f
 #define KD_MOTOR3 5.0f
 
 #define KP_MOTOR4 12.0f
-#define KI_MOTOR4 5.0f
+#define KI_MOTOR4 3.0f
 #define KD_MOTOR4 7.0f
 
 #define SEPA_INTEGRAL 100
@@ -53,6 +53,7 @@ typedef struct
 {
 	int16_t set;
 	int16_t get;
+	int16_t before_filter_get;
 }pid_test;
 
 extern pid_test Test_M1, Test_M2, Test_M3, Test_M4;
@@ -72,7 +73,9 @@ class motor
 public:
 	int16_t get_rpm;
 	int16_t set_rpm;
-	
+
+	int16_t ori_rpm;
+
 	int16_t pwmVal;
 
 	int8_t Set_speed_direction;
@@ -91,9 +94,9 @@ public:
 			  
 			  uint8_t __Speed_Default_Direction);
 	//void Real_rpm();
-	void Motor_PWM_Tx(uint8_t i);
+	void motor_pwm_tx(uint8_t i);
 	void Encoder_Count();
-	void Wheel_Linear_Speed_to_RPM(uint8_t i);
+	void wheel_linear_speed_to_rpm(uint8_t i);
 	//void Speed_test(uint8_t i);
 	void wheel_speed_to_pwm(uint8_t i);
 

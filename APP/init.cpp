@@ -13,6 +13,12 @@ void Init_all_Controller_Joysticks(void);
 void Init_all_func(void)
 {
     Xbox.Init();
+    for (uint8_t i = 0; i < motor_num; i++)
+    {
+        kalman_init(&kfp[i]);
+    }
+    
+    
     Init_all_Controller_Joysticks();
     My_USART2_Init();
 #if defined(ROS)

@@ -111,7 +111,7 @@ void remote_control::Init()
  *
  * ************************************************************************
  */
-void remote_control::Controller_Data_Resolve(void)
+void remote_control::controller_data_resolve(void)
 {
 
 	// ¼ÆÊý
@@ -169,11 +169,11 @@ void remote_control::Controller_Data_Resolve(void)
 	}
 }
 
-void remote_control::Controller_Data_Rx(void)
+void remote_control::controller_data_rx(void)
 {
 	if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
 	{
-		Controller_Data_Resolve();
+		controller_data_resolve();
 
 		if (err == 1)
 		{

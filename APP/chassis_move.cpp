@@ -30,7 +30,7 @@ void chassis::controller_speed_set()
         vx_set = -(Xbox.L_Trigger) * K_VX_SET;
     }
 
-    
+
     //Vy setting
    
     if (Right_Joystick.H_diff)
@@ -68,7 +68,7 @@ void chassis::controller_speed_set()
  * 
  * ************************************************************************
  */
-void chassis::Mec_chassis_wheel_speed()
+void chassis::mec_chassis_wheel_speed()
 {
     wheel_speed[0] = -vx_set - vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
     wheel_speed[1] = vx_set - vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;

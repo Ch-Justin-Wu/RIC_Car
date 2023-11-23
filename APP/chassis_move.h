@@ -34,7 +34,7 @@ public:
     fp32 wz_set;
     fp32 wheel_speed[4];
     void controller_speed_set();
-    void Mec_chassis_wheel_speed();
+    void mec_chassis_wheel_speed();
     void ROS2_Speed_Set(Ros_cmd* ptr);
 };
 extern chassis Mec_Chassis;

@@ -69,21 +69,25 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
  * PWM		1		反转PWM，慢衰减
  * ************************************************************************
  */
-void motor::Motor_PWM_Tx(uint8_t i)
+void motor::motor_pwm_tx(uint8_t i)
 {
 	int16_t tempVAL = 0;
 	int16_t const_VAL = 1800;
 
 	// Real_rpm
-	get_rpm = encoder.Hall_Encoder_Count / 13.0 /2.0/ 30.0 * 100 * 60;
+	ori_rpm = encoder.Hall_Encoder_Count / 13.0 / 2.0 / 30.0 * 100 * 60;
 	encoder.Hall_Encoder_Count = 0;
+
+	
+	// Kalman filter
+	get_rpm = kalman_filter(&kfp[i], ori_rpm);
 
 	tempVAL = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
 
 	pwmVal = tempVAL;
 
 	// 快衰减
-	if (set_rpm - get_rpm >RPM_DEADBAND)
+	if (set_rpm - get_rpm > RPM_DEADBAND)
 	{
 
 		Set_speed_direction = 1;
@@ -96,17 +100,21 @@ void motor::Motor_PWM_Tx(uint8_t i)
 
 	else if (ABS(set_rpm - get_rpm) <= RPM_DEADBAND)
 	{
-		if (set_rpm>0)
+		if (set_rpm > 0)
 		{
 			Set_speed_direction = 1;
 		}
-		else if (set_rpm<0)
+		else if (set_rpm < 0)
 		{
 			Set_speed_direction = -1;
 		}
+		// else if (set_rpm==0||ABS(get_rpm)<=1)
+		// {
+		// 	Set_speed_direction = 0;
+		// }
 		
 	}
-	
+
 	// else if (!set_rpm)
 	// {
 	// 	Set_speed_direction = 0;
@@ -136,7 +144,7 @@ void motor::Motor_PWM_Tx(uint8_t i)
 		{
 		case POSITIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL + const_VAL);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x,0);
+			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 			break;
 		case NEGATIVE:
 			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL + const_VAL);
@@ -162,21 +170,21 @@ void motor::Motor_PWM_Tx(uint8_t i)
 void motor::Encoder_Count()
 {
 
-	if (Set_speed_direction == 1)
+	if (Set_speed_direction>0)
 	{
 		encoder.Hall_Encoder_Count++;
 	}
-	else if (Set_speed_direction == -1)
+	else if (Set_speed_direction<0)
 	{
 		encoder.Hall_Encoder_Count--;
 	}
 }
 
-void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
+void motor::wheel_linear_speed_to_rpm(uint8_t i)
 {
 
-	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0*300;
-	if (set_rpm>=MAX_RPM)
+	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0 * 300;
+	if (set_rpm >= MAX_RPM)
 	{
 		set_rpm = MAX_RPM;
 	}
@@ -184,20 +192,18 @@ void motor::Wheel_Linear_Speed_to_RPM(uint8_t i)
 	{
 		set_rpm = -MAX_RPM;
 	}
-	
-	
 }
 
 #define ABS(x) ((x > 0) ? (x) : (-x))
 void motor::wheel_speed_to_pwm(uint8_t i)
 {
 	pwmVal = ABS(Mec_Chassis.wheel_speed[i]) / 25000 * 3600;
-	if (pwmVal>=3600)
+	if (pwmVal >= 3600)
 	{
 		pwmVal = 3600;
 	}
-	
-	if (Mec_Chassis.wheel_speed[i]>0)
+
+	if (Mec_Chassis.wheel_speed[i] > 0)
 	{
 		switch (Speed_Default_Direction)
 		{
@@ -229,14 +235,12 @@ void motor::wheel_speed_to_pwm(uint8_t i)
 			break;
 		}
 	}
-	else if (Mec_Chassis.wheel_speed[i] ==0)
+	else if (Mec_Chassis.wheel_speed[i] == 0)
 	{
-		//电机无力
+		// 电机无力
 		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
 		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
 	}
-	
-	
 }
 
 // void motor::Speed_test(uint8_t i)

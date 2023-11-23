@@ -6,8 +6,7 @@
 // 电机速度 PID 结构体定义
 pid_t pid_motor[motor_num] = {0}; // 速度环
 // pid_t pid_angle[motor_num] = {0}; //角度环
-//  pid_t pid_motor2 = {0};
-//  pid_t pid_angle2 = {0};
+
 
 void abs_limit(float *a, float ABS_MAX)
 {
@@ -42,6 +41,10 @@ void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Dead
     pid->d = kd;
 
     pid->separationThreshold = __separationThreshold;
+
+    pid->k1 = 5;
+    pid->k2 = 53;
+    pid->k3 = 10;
 }
 
 /**
@@ -66,14 +69,21 @@ float pid_calc(pid_t *pid, float get, float set)
     if (pid->deadband != 0 && ABS(pid->err[NOW]) < pid->deadband)
         return 0; // Deadband control
 
+    // 自适应Kp调节 auto control Kp
+    if (pid->k1 != 0 || pid->k2 != 0 || pid->k3 != 0)
+    {
+        pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW] + pid->k3));
+    }
+
     // Calculate the proportional component
     pid->pout = pid->p * pid->err[NOW];
 
-    if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) < pid->separationThreshold)
+    if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) > pid->separationThreshold||ABS(pid->set)<100)//低速稳定
     {
         pid->iout = 0;
     }
-    else if (!pid->separationThreshold)
+
+    else if (!pid->separationThreshold || ABS(pid->err[NOW]) < pid->separationThreshold)
     {
         // Update the integral component
         pid->iout += pid->i * pid->err[NOW];

@@ -1,10 +1,10 @@
 #include "robot_move.h"
 using namespace std;
 
-//#define OPEN
+// #define OPEN
 #define PID
-
-//uint16_t color_cnt = 0;
+#define xbox
+// uint16_t color_cnt = 0;
 uint16_t K_Claw = 0;
 uint16_t K_Gimbal = 0;
 uint16_t K_Arm = 0;
@@ -26,8 +26,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		K_Gimbal++;
 		K_Arm++;
 		K_Wrist++;
-#if defined(Controller)
-		Xbox.Controller_Data_Rx();
+#if defined(xbox)
+		Xbox.controller_data_rx();
 		Mec_Chassis.controller_speed_set();
 #endif
 #if defined(ROS)
@@ -35,15 +35,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		Mec_Chassis.ROS2_Speed_Set(&Ros2);
 #endif
 
-#if defined(PID)
-		// Mec_Chassis.XYZ_speed_set();
+		// J-Scope
+		// uint8_t i = 3;
+		// Test_M1.get = motors[i].get_rpm;
+		// Test_M1.set = motors[i].set_rpm;
+		// Test_M1.before_filter_get = motors[i].ori_rpm;
+		// motors[i].Motor_PWM_Tx(i);
 
-		Mec_Chassis.Mec_chassis_wheel_speed();
+#if defined(PID)
+
+		Mec_Chassis.mec_chassis_wheel_speed();
 		for (uint8_t i = 0; i < 4; i++)
 		{
 
-			motors[i].Wheel_Linear_Speed_to_RPM(i);
-			motors[i].Motor_PWM_Tx(i);
+			motors[i].wheel_linear_speed_to_rpm(i);
+			motors[i].motor_pwm_tx(i);
 		}
 #endif
 		// if (color_cnt == 50)
@@ -54,20 +60,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 #if defined(OPEN)
 		{
 
-			
-			Mec_Chassis.Mec_chassis_wheel_speed();
+			Mec_Chassis.mec_chassis_wheel_speed();
 			for (uint8_t i = 0; i < 4; i++)
 			{
 				motors[i].wheel_speed_to_pwm(i);
 			}
 		}
 #endif
-
-// J-Scope
-//  uint8_t i = 0;
-//  Test_M1.get = motors[i].get_rpm;
-//  Test_M1.set = motors[i].set_rpm;
-//  motors[i].Motor_PWM_Tx(i);
 
 		Control_Robotic_Arm();
 		// open control

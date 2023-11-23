@@ -471,11 +471,6 @@
           <GroupName>Application/User/Core</GroupName>
           <Files>
             <File>
-              <FileName>start.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\start.cpp</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>

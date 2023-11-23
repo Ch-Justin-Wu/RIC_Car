@@ -27,7 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "init.h"
-#include "start.h"
+
 
 /* USER CODE END Includes */
 
@@ -103,7 +103,7 @@ int main(void)
 
   Init_all_func();
  
-  startup();
+
 
   /* USER CODE END 2 */
 
