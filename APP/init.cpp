@@ -88,7 +88,7 @@ void Init_all_servos(void)
     Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2
     Servo[1].Control_Arm();
     HAL_Delay(100);
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 75); // Servo3
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3
     Servo[2].Control_Wrist();
     HAL_Delay(100);
     // Servo4 110-60 ะก->ด๓

@@ -83,7 +83,7 @@ float pid_calc(pid_t *pid, float get, float set)
         pid->iout = 0;
     }
 
-    else if (!pid->separationThreshold || ABS(pid->err[NOW]) < pid->separationThreshold)
+    else if (!pid->separationThreshold || ABS(pid->err[NOW]) <= pid->separationThreshold)
     {
         // Update the integral component
         pid->iout += pid->i * pid->err[NOW];
