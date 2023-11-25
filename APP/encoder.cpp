@@ -13,7 +13,7 @@ using namespace std;
  */
 void EXTI_IRQ(uint32_t ExtiLine)
 {
-
+    
     switch (ExtiLine)
     {
     case ENCODER1_Pin:
