@@ -465,6 +465,11 @@
               <FileType>1</FileType>
               <FilePath>..\APP\kalman.c</FilePath>
             </File>
+            <File>
+              <FileName>fuzzy.c</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\fuzzy.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -662,11 +667,6 @@
               <FileName>stm32f1xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f1xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>fuzzy.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\fuzzy.c</FilePath>
             </File>
           </Files>
         </Group>

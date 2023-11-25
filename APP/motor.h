@@ -12,6 +12,7 @@ extern "C"
 #include "pid.h"
 #include "chassis_move.h"
 #include "kalman.h"
+#include "fuzzy.h"
 
 #define motor_num 4
 
@@ -99,6 +100,7 @@ public:
 	void wheel_linear_speed_to_rpm(uint8_t i);
 	//void Speed_test(uint8_t i);
 	void wheel_speed_to_pwm(uint8_t i);
+	void fuzzy_pid_control(u8 i);
 
 	// 电机驱动定时器编号
 	TIM_HandleTypeDef Driver_PWM1_TIM;

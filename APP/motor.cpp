@@ -243,6 +243,11 @@ void motor::wheel_speed_to_pwm(uint8_t i)
 	}
 }
 
+void motor::fuzzy_pid_control(u8 i)
+{
+	
+}
+
 // void motor::Speed_test(uint8_t i)
 // {
 // 	if (i == 1)

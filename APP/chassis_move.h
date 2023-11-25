@@ -8,8 +8,8 @@ extern "C"
 #include "struct_typedef.h"
 #include "motor.h"
 #include "remote_control.h"
-#include "pid.h"
 #include "ROS2.h"
+
 
 #define CHASSIS_WZ_SET_SCALE 1.1f
 #define MOTOR_DISTANCE_TO_CENTER 0.2f

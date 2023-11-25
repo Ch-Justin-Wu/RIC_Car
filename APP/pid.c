@@ -3,10 +3,9 @@
 #include "motor.h"
 
 #define ABS(x) ((x > 0) ? (x) : (-x))
-// ç”µæœºé€Ÿåº¦ PID ç»“æ„ä½“å®šä¹‰
-pid_t pid_motor[motor_num] = {0}; // é€Ÿåº¦ç¯
-// pid_t pid_angle[motor_num] = {0}; //è§’åº¦ç¯
-
+// µç»úËÙ¶È PID ½á¹¹Ìå¶¨Òå
+pid_t pid_motor[motor_num] = {0}; // ËÙ¶È»·
+// pid_t pid_angle[motor_num] = {0}; //½Ç¶È»·
 
 void abs_limit(float *a, float ABS_MAX)
 {
@@ -17,17 +16,17 @@ void abs_limit(float *a, float ABS_MAX)
 }
 
 /**
- * @brief åˆå§‹åŒ–PIDæ§åˆ¶å™¨å‚æ•°
+ * @brief ³õÊ¼»¯PID¿ØÖÆÆ÷²ÎÊı
  *
- * @param pid       è¦åˆå§‹åŒ–çš„PIDæ§åˆ¶å™¨
- * @param max_out   æœ€å¤§è¾“å‡ºé™åˆ¶
- * @param integral_limit ç§¯åˆ†é™åˆ¶
- * @param Deadband  æ­»åŒºå€¼
- * @param Max_err   æœ€å¤§è¯¯å·®
- * @param kp        æ¯”ä¾‹ç³»æ•°
- * @param ki        ç§¯åˆ†ç³»æ•°
- * @param kd        å¾®åˆ†ç³»æ•°
- * @param __separationThreshold ç§¯åˆ†åˆ†ç¦»ç³»æ•°
+ * @param pid       Òª³õÊ¼»¯µÄPID¿ØÖÆÆ÷
+ * @param max_out   ×î´óÊä³öÏŞÖÆ
+ * @param integral_limit »ı·ÖÏŞÖÆ
+ * @param Deadband  ËÀÇøÖµ
+ * @param Max_err   ×î´óÎó²î
+ * @param kp        ±ÈÀıÏµÊı
+ * @param ki        »ı·ÖÏµÊı
+ * @param kd        Î¢·ÖÏµÊı
+ * @param __separationThreshold »ı·Ö·ÖÀëÏµÊı
  */
 void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd, uint16_t __separationThreshold)
 {
@@ -48,11 +47,11 @@ void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Dead
 }
 
 /**
- * @brief     PID è®¡ç®—å‡½æ•°ï¼Œä½¿ç”¨ä½ç½®å¼ PID è®¡ç®—
- * @param[in] pid: PID ç»“æ„ä½“
- * @param[in] get: åé¦ˆæ•°æ®
- * @param[in] set: ç›®æ ‡æ•°æ®
- * @retval    PID è®¡ç®—è¾“å‡º
+ * @brief     PID ¼ÆËãº¯Êı£¬Ê¹ÓÃÎ»ÖÃÊ½ PID ¼ÆËã
+ * @param[in] pid: PID ½á¹¹Ìå
+ * @param[in] get: ·´À¡Êı¾İ
+ * @param[in] set: Ä¿±êÊı¾İ
+ * @retval    PID ¼ÆËãÊä³ö
  */
 float pid_calc(pid_t *pid, float get, float set)
 {
@@ -69,7 +68,7 @@ float pid_calc(pid_t *pid, float get, float set)
     if (pid->deadband != 0 && ABS(pid->err[NOW]) < pid->deadband)
         return 0; // Deadband control
 
-    // è‡ªé€‚åº”Kpè°ƒèŠ‚ auto control Kp
+    // ×ÔÊÊÓ¦Kpµ÷½Ú auto control Kp
     if (pid->k1 != 0 || pid->k2 != 0 || pid->k3 != 0)
     {
         pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW] + pid->k3));
@@ -78,7 +77,7 @@ float pid_calc(pid_t *pid, float get, float set)
     // Calculate the proportional component
     pid->pout = pid->p * pid->err[NOW];
 
-    if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) > pid->separationThreshold||ABS(pid->set)<100)//ä½é€Ÿç¨³å®š
+    if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) > pid->separationThreshold || ABS(pid->set) < 100) // µÍËÙÎÈ¶¨
     {
         pid->iout = 0;
     }
@@ -108,9 +107,9 @@ float pid_calc(pid_t *pid, float get, float set)
 }
 
 /**
- * @brief     PID å‚æ•°å¤ä½å‡½æ•°
- * @param[in] pid: PID ç»“æ„ä½“
- * @param[in] kp/ki/kd: å…·ä½“ PID å‚æ•°
+ * @brief     PID ²ÎÊı¸´Î»º¯Êı
+ * @param[in] pid: PID ½á¹¹Ìå
+ * @param[in] kp/ki/kd: ¾ßÌå PID ²ÎÊı
  */
 // void pid_reset(pid_t *pid, float kp, float ki, float kd)
 // {
@@ -123,3 +122,10 @@ float pid_calc(pid_t *pid, float get, float set)
 //     // pid->dout = 0;
 //     // pid->out = 0;
 // }
+
+
+
+
+
+
+
