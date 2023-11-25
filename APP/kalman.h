@@ -14,7 +14,7 @@ typedef struct
 } kalman;
 
 void kalman_init(kalman *ptr);
-float kalman_filter(kalman *kfp, float input);
+ float kalman_filter(kalman *kfp, float input);
 
 extern kalman kfp[];
 

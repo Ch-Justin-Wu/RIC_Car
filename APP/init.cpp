@@ -12,6 +12,8 @@ void Init_all_Controller_Joysticks(void);
 
 void Init_all_func(void)
 {
+    SysTick->CTRL = SysTick_CTRL_ENABLE_Msk | // SysTick Timer clock source = HCLK_DIV8 (HCLK/8 = 9MHz)
+                    SysTick_CTRL_TICKINT_Msk; // SysTick Timer ENABLE | SysTick Timer Interrupt ENABLE
     Xbox.Init();
     for (uint8_t i = 0; i < motor_num; i++)
     {
@@ -81,19 +83,22 @@ void Init_all_pid(void)
 void Init_all_servos(void)
 {
 
-    HAL_Delay(100);                          // Offset angle
-    Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1
-    Servo[0].Control_Gimbal();
-    HAL_Delay(100);
-    Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2
-    Servo[1].Control_Arm();
-    HAL_Delay(100);
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3
-    Servo[2].Control_Wrist();
-    HAL_Delay(100);
-    // Servo4 110-60 小->大
-    Servo[3].Init(htim4, TIM_CHANNEL_4, 76);
-    Servo[3].Control_Claw();
+
+
+// HAL_Delay(100);                          // Offset angle
+Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1
+Servo[0].Control_Gimbal();
+
+LL_mDelay(100);
+Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2
+Servo[1].Control_Arm();
+LL_mDelay(100);
+Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3
+Servo[2].Control_Wrist();
+LL_mDelay(100);
+//  Servo4 110-60 小->大
+Servo[3].Init(htim4, TIM_CHANNEL_4, 76);
+Servo[3].Control_Claw();
 }
 
 void Init_all_motors(void)

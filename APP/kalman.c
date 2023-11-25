@@ -1,8 +1,8 @@
 #include "kalman.h"
 
-kalman kfp[motor_num]={0};
+kalman kfp[motor_num] = {0};
 
-void kalman_init(kalman* ptr)
+void kalman_init(kalman *ptr)
 {
     ptr->Last_P = 0.001;
     ptr->Now_P = 0;
