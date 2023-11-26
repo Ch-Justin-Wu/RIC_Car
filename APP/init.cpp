@@ -1,8 +1,8 @@
 #include "init.h"
 using namespace std;
 
-#define ORANGE
-// #define BLUE
+// #define ORANGE
+#define BLUE
 
 void Init_all_pid(void);
 void Init_all_servos(void);
@@ -17,8 +17,7 @@ void Init_all_func(void)
     {
         kalman_init(&kfp[i]);
     }
-    
-    
+
     Init_all_Controller_Joysticks();
     My_USART2_Init();
 #if defined(ROS)
@@ -81,19 +80,19 @@ void Init_all_pid(void)
 void Init_all_servos(void)
 {
 
-    HAL_Delay(100);                          // Offset angle
-    Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1
-    Servo[0].Control_Gimbal();
-    HAL_Delay(100);
+    HAL_Delay(200);
     Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2
     Servo[1].Control_Arm();
-    HAL_Delay(100);
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3
+    HAL_Delay(200);
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 74); // Servo3
     Servo[2].Control_Wrist();
-    HAL_Delay(100);
+    HAL_Delay(200);
     // Servo4 110-60 ะก->ด๓
-    Servo[3].Init(htim4, TIM_CHANNEL_4, 76);
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 35);
     Servo[3].Control_Claw();
+    HAL_Delay(200);                           // Offset angle
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 123); // Servo1
+    Servo[0].Control_Gimbal();
 }
 
 void Init_all_motors(void)

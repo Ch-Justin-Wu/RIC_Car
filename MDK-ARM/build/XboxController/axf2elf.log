@@ -1,0 +1,4 @@
+arm-none-eabi-objcopy --update-section ER_IROM1="f:\code_RM_my\RIC_Car\MDK-ARM\build\XboxController\XboxController.bin" "f:\code_RM_my\RIC_Car\MDK-ARM\build\XboxController\XboxController.axf" "f:\code_RM_my\RIC_Car\MDK-ARM\build\XboxController\XboxController.elf"
+
+arm-none-eabi-objcopy: f:\code_RM_my\RIC_Car\MDK-ARM\build\XboxController\XboxController.elf: warning: allocated section `RW_IRAM1' not in segment
+

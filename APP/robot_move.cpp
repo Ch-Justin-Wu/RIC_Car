@@ -75,6 +75,32 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 inline void Control_Robotic_Arm()
 {
+	//一键准备抓取/复位
+if (Xbox.Share)
+{
+	Servo[0].Control_Servo(123);
+	Servo[1].Control_Servo(44);
+	Servo[2].Control_Servo(74);
+	
+}
+//一键云台复位
+if (Xbox.X)
+{
+	Servo[1].Control_Servo(44);
+	Servo[0].Control_Servo(123);
+}
+// 一键云台右摆
+if (Xbox.B)
+{
+	Servo[1].Control_Servo(44);
+	Servo[0].Control_Servo(33);
+}
+if (Xbox.Menu)
+{
+	Servo[1].Control_Servo(44);
+	Servo[2].Control_Servo(5);
+	Servo[0].Control_Servo(30);
+}
 
 	// 控制机械爪
 	if (K_Claw == 1)

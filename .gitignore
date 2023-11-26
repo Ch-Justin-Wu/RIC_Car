@@ -86,3 +86,18 @@ JLinkLog.txt
 *.cfg
 keil-assistant.log
 .vscode/
+# dot files
+/.vscode/launch.json
+/.settings
+/.eide/log
+/.eide.usr.ctx.json
+
+# project out
+/build
+/bin
+/obj
+/out
+
+# eide template
+*.ept
+*.eide-template

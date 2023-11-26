@@ -183,7 +183,7 @@ void motor::Encoder_Count()
 void motor::wheel_linear_speed_to_rpm(uint8_t i)
 {
 
-	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0 * 300;
+	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0 * MAX_RPM;
 	if (set_rpm >= MAX_RPM)
 	{
 		set_rpm = MAX_RPM;

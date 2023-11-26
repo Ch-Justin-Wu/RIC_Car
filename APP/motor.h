@@ -66,7 +66,7 @@ using namespace std;
 
 #define NEGATIVE 0
 #define POSITIVE 1
-#define MAX_RPM 310
+#define MAX_RPM 350
 class motor
 {
 

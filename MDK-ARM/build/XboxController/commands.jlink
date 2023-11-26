@@ -1,0 +1,6 @@
+r
+halt
+loadfile "f:\code_RM_my\RIC_Car\MDK-ARM\build\XboxController\XboxController.hex"
+r
+go
+exit
