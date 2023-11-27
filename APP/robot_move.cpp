@@ -78,7 +78,7 @@ inline void Control_Robotic_Arm()
 	//一键准备抓取/复位
 if (Xbox.Share)
 {
-	Servo[0].Control_Servo(123);
+	Servo[0].Control_Servo(120);
 	Servo[1].Control_Servo(44);
 	Servo[2].Control_Servo(74);
 	
@@ -87,7 +87,7 @@ if (Xbox.Share)
 if (Xbox.X)
 {
 	Servo[1].Control_Servo(44);
-	Servo[0].Control_Servo(123);
+	Servo[0].Control_Servo(120);
 }
 // 一键云台右摆
 if (Xbox.B)
@@ -98,7 +98,7 @@ if (Xbox.B)
 if (Xbox.Menu)
 {
 	Servo[1].Control_Servo(44);
-	Servo[2].Control_Servo(5);
+	Servo[2].Control_Servo(13);
 	Servo[0].Control_Servo(30);
 }
 

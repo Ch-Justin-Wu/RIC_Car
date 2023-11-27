@@ -92,7 +92,7 @@ void Init_all_servos(void)
     Servo[3].Init(htim4, TIM_CHANNEL_4, 35);
     Servo[3].Control_Claw();
     HAL_Delay(200);                           // Offset angle
-    Servo[0].Init(htim4, TIM_CHANNEL_1, 123); // Servo1
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 120); // Servo1
     Servo[0].Control_Gimbal();
 }
 
