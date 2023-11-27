@@ -75,8 +75,8 @@ void motor::motor_pwm_tx(uint8_t i)
 	int16_t const_VAL = 1800;
 
 	// Real_rpm
-	ori_rpm = encoder.Hall_Encoder_Count / 13.0 / 2.0 / 30.0 * 100 * 60;
-	encoder.Hall_Encoder_Count = 0;
+	ori_rpm = Hall_Encoder_Count / 13.0 / 2.0 / 30.0 * 100 * 60;
+	Hall_Encoder_Count = 0;
 
 	
 	// Kalman filter
@@ -172,11 +172,11 @@ void motor::Encoder_Count()
 
 	if (Set_speed_direction>0)
 	{
-		encoder.Hall_Encoder_Count++;
+		Hall_Encoder_Count++;
 	}
 	else if (Set_speed_direction<0)
 	{
-		encoder.Hall_Encoder_Count--;
+		Hall_Encoder_Count--;
 	}
 }
 

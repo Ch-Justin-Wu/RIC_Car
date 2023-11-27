@@ -49,14 +49,14 @@ extern "C"
 	// 	pid_t *pid_angle;
 	// } MotorData_t;
 
-typedef struct 
-{
-	int16_t set;
-	int16_t get;
-	int16_t before_filter_get;
-}pid_test;
+	typedef struct
+	{
+		int16_t set;
+		int16_t get;
+		int16_t before_filter_get;
+	} pid_test;
 
-extern pid_test Test_M1, Test_M2, Test_M3, Test_M4;
+	extern pid_test Test_M1, Test_M2, Test_M3, Test_M4;
 #ifdef __cplusplus
 }
 
@@ -80,24 +80,19 @@ public:
 
 	int8_t Set_speed_direction;
 	int8_t Get_speed_direction;
-	
-	struct
-	{
-		
-		int16_t Hall_Encoder_Count;
 
-	} encoder;
+	int16_t Hall_Encoder_Count;
 
 	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
 			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
-			  
+
 			  uint8_t __Speed_Default_Direction);
-	//void Real_rpm();
+	// void Real_rpm();
 	void motor_pwm_tx(uint8_t i);
 	void Encoder_Count();
 	void wheel_linear_speed_to_rpm(uint8_t i);
-	//void Speed_test(uint8_t i);
+	// void Speed_test(uint8_t i);
 	void wheel_speed_to_pwm(uint8_t i);
 
 	// 电机驱动定时器编号

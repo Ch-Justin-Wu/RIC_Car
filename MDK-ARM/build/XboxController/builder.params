@@ -90,11 +90,12 @@
             "target": "cortex-m3"
         },
         "c/cpp-compiler": {
-            "optimization": "level-0",
+            "optimization": "level-fast",
             "language-c": "c11",
             "language-cpp": "c++11",
             "one-elf-section-per-function": true,
-            "warnings": "ac5-like-warnings"
+            "warnings": "ac5-like-warnings",
+            "link-time-optimization": true
         },
         "asm-compiler": {
             "$use": "asm-auto"
@@ -104,6 +105,7 @@
             "misc-controls": "--diag_suppress=L6329",
             "ro-base": "0x08000000",
             "rw-base": "0x20000000",
+            "link-time-optimization": true,
             "link-scatter": [
                 "\"f:/code_RM_my/RIC_Car/MDK-ARM/build/XboxController/XboxController.sct\""
             ]
@@ -132,8 +134,8 @@
         "beforeBuildTasks": "d751713988987e9331980363e24189ce",
         "afterBuildTasks": "f229e90d223303aa81dfda4e9e1334a1",
         "global": "c1da6cf42395b5773b2fd23d03e0be91",
-        "c/cpp-compiler": "6e64b6b84c6eeb38b0f61f923d850430",
+        "c/cpp-compiler": "360e26b2346c3d8004ae04d8510e94bd",
         "asm-compiler": "f16bc066fd83f6b0cf6cd2b7eea65136",
-        "linker": "01fecd6d8c2a8840dabe6ab1ce4c4217"
+        "linker": "45ca9c2d34d31e0ac5a4ddd00ff9e310"
     }
 }

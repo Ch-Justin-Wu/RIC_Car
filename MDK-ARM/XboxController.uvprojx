@@ -421,6 +421,31 @@
               <FilePath>..\APP\ws2812.c</FilePath>
             </File>
             <File>
+              <FileName>ROS2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\ROS2.c</FilePath>
+            </File>
+            <File>
+              <FileName>kalman.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\kalman.c</FilePath>
+            </File>
+            <File>
+              <FileName>init.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\init.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>robot_move.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\robot_move.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\motor.cpp</FilePath>
+            </File>
+            <File>
               <FileName>chassis_move.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\APP\chassis_move.cpp</FilePath>
@@ -429,21 +454,6 @@
               <FileName>encoder.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\APP\encoder.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\APP\motor.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>robot_move.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\APP\robot_move.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>init.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\APP\init.cpp</FilePath>
             </File>
             <File>
               <FileName>servos.cpp</FileName>
@@ -455,26 +465,11 @@
               <FileType>8</FileType>
               <FilePath>..\APP\remote_control.cpp</FilePath>
             </File>
-            <File>
-              <FileName>ROS2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\ROS2.c</FilePath>
-            </File>
-            <File>
-              <FileName>kalman.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\kalman.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Application/User/Core</GroupName>
           <Files>
-            <File>
-              <FileName>fuzzy.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\APP\fuzzy.c</FilePath>
-            </File>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>

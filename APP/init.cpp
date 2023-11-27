@@ -7,7 +7,7 @@ using namespace std;
 void Init_all_pid(void);
 void Init_all_servos(void);
 void Init_all_motors(void);
-void Init_10ms_timer(void);
+
 void Init_all_Controller_Joysticks(void);
 
 void Init_all_func(void)
@@ -34,7 +34,8 @@ void Init_all_func(void)
 #if defined(BLUE)
     RGB_SKY(8);
 #endif
-    Init_10ms_timer();
+    // Init_10ms_timer
+    HAL_TIM_Base_Start_IT(&htim1);
 }
 
 void Init_all_pid(void)
@@ -119,10 +120,6 @@ void Init_all_motors(void)
                    NEGATIVE);
 }
 
-void Init_10ms_timer(void)
-{
-    HAL_TIM_Base_Start_IT(&htim1);
-}
 
 void Init_all_Controller_Joysticks(void)
 {
