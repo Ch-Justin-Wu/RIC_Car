@@ -4,7 +4,7 @@ using namespace std;
 // #define OPEN
 #define PID
 #define xbox
-// uint16_t color_cnt = 0;
+
 uint16_t K_Claw = 0;
 uint16_t K_Gimbal = 0;
 uint16_t K_Arm = 0;
@@ -21,7 +21,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if (htim->Instance == TIM1)
 	{
-		// color_cnt++;
+
 		K_Claw++;
 		K_Gimbal++;
 		K_Arm++;
@@ -52,11 +52,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			motors[i].motor_pwm_tx(i);
 		}
 #endif
-		// if (color_cnt == 50)
-		// {
-		// 	// Xbox.Set_color();
-		// 	color_cnt = 0;
-		// }
+
 #if defined(OPEN)
 		{
 
@@ -67,47 +63,46 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			}
 		}
 #endif
-
+		// 机械臂控制
 		Control_Robotic_Arm();
-		// open control
 	}
 }
 
 /**
  * ************************************************************************
  * @brief 控制机械臂
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 inline void Control_Robotic_Arm()
 {
-	//一键准备抓取/复位
-if (Xbox.Share)
-{
-	Servo[0].Control_Servo(120);
-	Servo[1].Control_Servo(44);
-	Servo[2].Control_Servo(74);
-	
-}
-//一键云台复位
-if (Xbox.X)
-{
-	Servo[1].Control_Servo(44);
-	Servo[0].Control_Servo(120);
-}
-// 一键云台右摆
-if (Xbox.B)
-{
-	Servo[1].Control_Servo(44);
-	Servo[0].Control_Servo(33);
-}
-if (Xbox.Menu)
-{
-	Servo[1].Control_Servo(44);
-	Servo[2].Control_Servo(13);
-	Servo[0].Control_Servo(30);
-}
+	// 一键准备抓取/复位
+	if (Xbox.Share)
+	{
+		Servo[0].Control_Servo(120);
+		Servo[1].Control_Servo(44);
+		Servo[2].Control_Servo(74);
+	}
+	// 一键云台复位
+	if (Xbox.X)
+	{
+		Servo[1].Control_Servo(44);
+		Servo[0].Control_Servo(120);
+	}
+	// 一键云台右摆
+	if (Xbox.B)
+	{
+		Servo[1].Control_Servo(44);
+		Servo[0].Control_Servo(33);
+	}
+	// 一键放入矿仓
+	if (Xbox.Menu)
+	{
+		Servo[1].Control_Servo(44);
+		Servo[2].Control_Servo(13);
+		Servo[0].Control_Servo(30);
+	}
 
 	// 控制机械爪
 	if (K_Claw == 1)
