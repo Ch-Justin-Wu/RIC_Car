@@ -21,11 +21,9 @@ void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, flo
     HAL_TIM_PWM_Start(&__Servos_TIM, __Servos_Channel);
 }
 
-
-
 /**
  * ************************************************************************
- * @brief 舵机控制
+ * @brief 舵机控制，设置舵机角度，输出pwm
  *
  *
  * ************************************************************************
@@ -61,7 +59,14 @@ void Servos::Control_Claw(void)
     Control_Servo(angle);
 }
 
-// PB6 Servo[0]
+/**
+ * ************************************************************************
+ * @brief 云台控制
+ * PB6 Servo[0]
+ *
+ *
+ * ************************************************************************
+ */
 void Servos::Control_Gimbal(void)
 {
     if ((Xbox.combination == PRESS_LEFT || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_LEFT_AND_DOWN) && angle <= Gimbal_MAX_ANGLE)
@@ -83,11 +88,16 @@ void Servos::Control_Gimbal(void)
     Control_Servo(angle);
 }
 
-// PB7
+
+/**
+ * ************************************************************************
+ * @brief 肘部控制
+ *  PB7
+ *
+ * ************************************************************************
+ */
 void Servos::Control_Arm(void)
 {
-    // R_Joystick_Difference(&Right_Joystick);
-
     if ((Xbox.combination == PRESS_DOWN || Xbox.combination == PRESS_LEFT_AND_DOWN || Xbox.combination == PRESS_RIGHT_AND_DOWM) && angle <= Arm_MAX_ANGLE)
     {
         angle += 1;
@@ -107,10 +117,17 @@ void Servos::Control_Arm(void)
     Control_Servo(angle);
 }
 
-//PB8
+
+/**
+ * ************************************************************************
+ * @brief 腕部控制
+ *  PB8
+ *
+ * ************************************************************************
+ */
 void Servos::Control_Wrist(void)
 {
-    
+
     if (Xbox.A && angle <= Wrist_MAX_ANGLE)
     {
         angle += 1;

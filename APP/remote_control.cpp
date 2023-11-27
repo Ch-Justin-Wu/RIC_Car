@@ -1,12 +1,22 @@
 #include "remote_control.h"
 using namespace std;
 
-#if defined(Controller)
-
 #define ABS(x) ((x > 0) ? (x) : (-x))
 
 ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
 remote_control Xbox;
+
+/**
+ * ************************************************************************
+ * @brief 控制器摇杆结构体初始化
+ *
+ * @param[in] Joystick  控制器摇杆结构体指针
+ * @param[in] __deadband  摇杆死区
+ * @param[in] __H_stick_offset_position  摇杆水平方向初始位置
+ * @param[in] __V_stick_offset_position  摇杆垂直方向初始位置
+ *
+ * ************************************************************************
+ */
 void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
 							  int __deadband, int __H_stick_offset_position, int __V_stick_offset_position)
 {
@@ -14,7 +24,15 @@ void Init_Controller_Joystick(ControllerJoystick_t *Joystick,
 	Joystick->H_stick_offset_position = __H_stick_offset_position;
 	Joystick->V_stick_offset_position = __V_stick_offset_position;
 }
-// 左摇杆 L_Joystick
+
+/**
+ * ************************************************************************
+ * @brief 左摇杆变化幅度计算
+ *
+ * @param[in] Joystick  控制器摇杆结构体指针
+ *
+ * ************************************************************************
+ */
 void L_Joystick_Difference(ControllerJoystick_t *Joystick)
 {
 	// 水平方向
@@ -46,7 +64,14 @@ void L_Joystick_Difference(ControllerJoystick_t *Joystick)
 	}
 }
 
-// 右摇杆 R_Joystick
+/**
+ * ************************************************************************
+ * @brief 右摇杆变化幅度计算
+ *
+ * @param[in] Joystick  控制器摇杆结构体指针
+ *
+ * ************************************************************************
+ */
 void R_Joystick_Difference(ControllerJoystick_t *Joystick)
 {
 	// 水平方向
@@ -95,6 +120,13 @@ getButtonState(uint8_t data, uint8_t mask)
 	return (data & mask) ? BUTTON_PRESSED : BUTTON_NOT_PRESSED;
 }
 
+/**
+ * ************************************************************************
+ * @brief 设置摇杆初始值
+ * 
+ * 
+ * ************************************************************************
+ */
 void remote_control::Init()
 {
 	L_Joystick_Hor = OFFSET_POSITION;
@@ -107,8 +139,7 @@ void remote_control::Init()
  * ************************************************************************
  * @brief Receive data processing 接收数据处理
  *
- * @param[in] ptr  控制器结构体指针
- *
+ * 
  * ************************************************************************
  */
 void remote_control::controller_data_resolve(void)
@@ -169,6 +200,13 @@ void remote_control::controller_data_resolve(void)
 	}
 }
 
+/**
+ * ************************************************************************
+ * @brief 接收手柄数据包
+ * 
+ * 
+ * ************************************************************************
+ */
 void remote_control::controller_data_rx(void)
 {
 	if (recv_end_flag == 1 && rx_len == DATA_FRAME_LENGTH)
@@ -195,7 +233,7 @@ void remote_control::controller_data_rx(void)
 	//  重新打开DMA接收
 	HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
 }
-#endif
+
 // B-red X-blue
 // void remote_control::Set_color(void)
 // {

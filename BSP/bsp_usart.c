@@ -36,6 +36,13 @@ volatile uint8_t recv_end_flag1 = 0;
 uint8_t rx_buffer1[BUF_SIZE1] = {0};
 #endif
 
+/**
+ * ************************************************************************
+ * @brief 打开串口空闲中断，DMA接收
+ * 
+ * 
+ * ************************************************************************
+ */
 void My_USART2_Init(void)
 {
 	// 不加收不到数据
@@ -43,7 +50,13 @@ void My_USART2_Init(void)
 	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUF_SIZE);
 }
 
-
+/**
+ * ************************************************************************
+ * @brief 打开串口空闲中断，DMA接收
+ *
+ *
+ * ************************************************************************
+ */
 #if defined(ROS)
 void My_USART1_Init(void)
 {
@@ -95,7 +108,13 @@ void USART2_IRQHandler(void)
 
 
 #if defined(ROS)
-
+/**
+ * ************************************************************************
+ * @brief This function handles USART1 global interrupt.
+ *
+ *
+ * ************************************************************************
+ */
 void USART1_IRQHandler(void)
 {
 

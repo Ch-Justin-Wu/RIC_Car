@@ -7,9 +7,15 @@ using namespace std;
 void Init_all_pid(void);
 void Init_all_servos(void);
 void Init_all_motors(void);
-
 void Init_all_Controller_Joysticks(void);
 
+/**
+ * ************************************************************************
+ * @brief 初始化所有外设和所需类、结构体
+ * 
+ * 
+ * ************************************************************************
+ */
 void Init_all_func(void)
 {
     Xbox.Init();
@@ -38,34 +44,44 @@ void Init_all_func(void)
     HAL_TIM_Base_Start_IT(&htim1);
 }
 
+/**
+ * ************************************************************************
+ * @brief
+ *
+ *
+ * ************************************************************************
+ */
 void Init_all_pid(void)
 {
-    pid_init(&pid_motor[0],             // Motor 1 Motor PID
-             MAX_OUTPUT_LIMIT,          // Max Output Limit
-             INTEGRAL_LIMIT,            // Integral Limit
-             DEADBAND,                  // Deadband
-             MAX_ERROR,                 // Max Error
-             KP_MOTOR1,                 // Proportional Coefficient
-             KI_MOTOR1,                 // Integral Coefficient
-             KD_MOTOR1, SEPA_INTEGRAL); // Derivative Coefficient
+    pid_init(&pid_motor[0],    // Motor 1 Motor PID
+             MAX_OUTPUT_LIMIT, // Max Output Limit
+             INTEGRAL_LIMIT,   // Integral Limit
+             DEADBAND,         // Deadband
+             MAX_ERROR,        // Max Error
+             KP_MOTOR1,        // Proportional Coefficient
+             KI_MOTOR1,        // Integral Coefficient
+             KD_MOTOR1,        // Derivative Coefficient
+             SEPA_INTEGRAL);   // Separation Threshold
 
-    pid_init(&pid_motor[1],             // Motor 2 Motor PID
-             MAX_OUTPUT_LIMIT,          // Max Output Limit
-             INTEGRAL_LIMIT,            // Integral Limit
-             DEADBAND,                  // Deadband
-             MAX_ERROR,                 // Max Error
-             KP_MOTOR2,                 // Proportional Coefficient
-             KI_MOTOR2,                 // Integral Coefficient
-             KD_MOTOR2, SEPA_INTEGRAL); // Derivative Coefficient
+    pid_init(&pid_motor[1],    // Motor 2 Motor PID
+             MAX_OUTPUT_LIMIT, // Max Output Limit
+             INTEGRAL_LIMIT,   // Integral Limit
+             DEADBAND,         // Deadband
+             MAX_ERROR,        // Max Error
+             KP_MOTOR2,        // Proportional Coefficient
+             KI_MOTOR2,        // Integral Coefficient
+             KD_MOTOR2,        // Derivative Coefficient
+             SEPA_INTEGRAL);   // Separation Threshold
 
-    pid_init(&pid_motor[2],             // Motor 3 Motor PID
-             MAX_OUTPUT_LIMIT,          // Max Output Limit
-             INTEGRAL_LIMIT,            // Integral Limit
-             DEADBAND,                  // Deadband
-             MAX_ERROR,                 // Max Error
-             KP_MOTOR3,                 // Proportional Coefficient
-             KI_MOTOR3,                 // Integral Coefficient
-             KD_MOTOR3, SEPA_INTEGRAL); // Derivative Coefficient
+    pid_init(&pid_motor[2],    // Motor 3 Motor PID
+             MAX_OUTPUT_LIMIT, // Max Output Limit
+             INTEGRAL_LIMIT,   // Integral Limit
+             DEADBAND,         // Deadband
+             MAX_ERROR,        // Max Error
+             KP_MOTOR3,        // Proportional Coefficient
+             KI_MOTOR3,        // Integral Coefficient
+             KD_MOTOR3,        // Derivative Coefficient
+             SEPA_INTEGRAL);   // Separation Threshold
 
     pid_init(&pid_motor[3],    // Motor 4 Motor PID
              MAX_OUTPUT_LIMIT, // Max Output Limit
@@ -74,10 +90,16 @@ void Init_all_pid(void)
              MAX_ERROR,        // Max Error
              KP_MOTOR4,        // Proportional Coefficient
              KI_MOTOR4,        // Integral Coefficient
-             KD_MOTOR4,
-             SEPA_INTEGRAL); // Derivative Coefficient
+             KD_MOTOR4,        // Derivative Coefficient
+             SEPA_INTEGRAL);   // Separation Threshold
 }
-
+/**
+ * ************************************************************************
+ * @brief 初始化所有舵机角度
+ *
+ *
+ * ************************************************************************
+ */
 void Init_all_servos(void)
 {
 
@@ -96,6 +118,13 @@ void Init_all_servos(void)
     Servo[0].Control_Gimbal();
 }
 
+/**
+ * ************************************************************************
+ * @brief 设置电机相关参数
+ * 
+ * 
+ * ************************************************************************
+ */
 void Init_all_motors(void)
 {
     // Motor1
@@ -120,7 +149,13 @@ void Init_all_motors(void)
                    NEGATIVE);
 }
 
-
+/**
+ * ************************************************************************
+ * @brief 设置手柄死区和默认位置
+ * 
+ * 
+ * ************************************************************************
+ */
 void Init_all_Controller_Joysticks(void)
 {
     Init_Controller_Joystick(&Left_Joystick, 2000, OFFSET_POSITION, OFFSET_POSITION);

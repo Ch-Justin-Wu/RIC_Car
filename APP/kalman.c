@@ -1,8 +1,16 @@
 #include "kalman.h"
 
-kalman kfp[motor_num]={0};
+kalman kfp[motor_num] = {0};
 
-void kalman_init(kalman* ptr)
+/**
+ * ************************************************************************
+ * @brief 卡尔曼结构体初始化
+ *
+ * @param[in] ptr  卡尔曼结构体指针
+ *
+ * ************************************************************************
+ */
+void kalman_init(kalman *ptr)
 {
     ptr->Last_P = 0.001;
     ptr->Now_P = 0;
@@ -13,9 +21,9 @@ void kalman_init(kalman* ptr)
 }
 
 /**
- *卡尔曼滤波器
- *@param 	kalman *kfp 卡尔曼结构体参数
- *   			float input 需要滤波的参数的测量值（即传感器的采集值）
+ *@brief  卡尔曼滤波器
+ *@param kfp 卡尔曼结构体参数
+ *@param input 需要滤波的参数的测量值（即传感器的采集值）
  *@return 滤波后的参数（最优值）
  */
 float kalman_filter(kalman *kfp, float input)

@@ -59,12 +59,8 @@ void chassis::controller_speed_set()
 
 /**
  * ************************************************************************
- * @brief 
+ * @brief 麦轮正向运动学解算
  * 
- * @param[in] vx_set  x轴线速度
- * @param[in] vy_set  y轴线速度
- * @param[in] wz_set  z轴角速度
- * @param[in] wheel_speed  轮子线速度
  * 
  * ************************************************************************
  */
@@ -78,6 +74,14 @@ void chassis::mec_chassis_wheel_speed()
 
 // MAX wheel_speed=300 RPM*60 mm*PI
 
+/**
+ * ************************************************************************
+ * @brief 
+ * 
+ * @param[in] ptr  ros速度数据结构体指针
+ * 
+ * ************************************************************************
+ */
 void chassis::ROS2_Speed_Set(Ros_cmd *ptr)
 {
     vx_set = ptr->Vx;

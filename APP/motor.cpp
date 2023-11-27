@@ -56,7 +56,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 #define ABS(x) ((x > 0) ? (x) : (-x))
 /**
  * ************************************************************************
- * @brief 设置电机转速
+ * @brief 设置电机转速，pid计算输出PWM
  *	IN1		IN2		功能
  *	0		0		滑行，休眠
  *	1		0		正向
@@ -67,6 +67,8 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
  * 1		PWM		正转PWM，慢衰减
  * 0		PWM		反转PWM，快衰减
  * PWM		1		反转PWM，慢衰减
+ *
+ * @param[in] i  电机编号
  * ************************************************************************
  */
 void motor::motor_pwm_tx(uint8_t i)
@@ -166,7 +168,14 @@ void motor::motor_pwm_tx(uint8_t i)
 		break;
 	}
 }
-// 编码器脉冲数设置
+
+/**
+ * ************************************************************************
+ * @brief 编码器脉冲数设置
+ *
+ *
+ * ************************************************************************
+ */
 void motor::Encoder_Count()
 {
 
@@ -180,6 +189,14 @@ void motor::Encoder_Count()
 	}
 }
 
+/**
+ * ************************************************************************
+ * @brief 
+ * 
+ * @param[in] i  电机编号
+ * 
+ * ************************************************************************
+ */
 void motor::wheel_linear_speed_to_rpm(uint8_t i)
 {
 
@@ -195,6 +212,15 @@ void motor::wheel_linear_speed_to_rpm(uint8_t i)
 }
 
 #define ABS(x) ((x > 0) ? (x) : (-x))
+
+/**
+ * ************************************************************************
+ * @brief 开环控制设置pwm
+ *
+ * @param[in] i  电机编号
+ *
+ * ************************************************************************
+ */
 void motor::wheel_speed_to_pwm(uint8_t i)
 {
 	pwmVal = ABS(Mec_Chassis.wheel_speed[i]) / 25000 * 3600;
