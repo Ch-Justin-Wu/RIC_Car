@@ -71,12 +71,14 @@ float pid_calc(pid_t *pid, float get, float set)
     // 自适应Kp调节 auto control Kp
     if (pid->k1 != 0 || pid->k2 != 0 || pid->k3 != 0)
     {
-        pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW] + pid->k3));
+        pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW]) + pid->k3);
     }
-
-    // Calculate the proportional component
-    pid->pout = pid->p * pid->err[NOW];
-
+    else
+    {
+        // Calculate the proportional component
+        pid->pout = pid->p * pid->err[NOW];
+    }
+    
     if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) > pid->separationThreshold || ABS(pid->set) < 150) // 低速稳定
     {
         pid->iout = 0;
