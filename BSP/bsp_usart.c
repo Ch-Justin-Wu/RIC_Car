@@ -16,9 +16,7 @@
 #include "stm32f1xx_it.h"
 #include "stdio.h"
 
-// Error flag
-// 错误标志位
-uint8_t err;
+
 // The length of one frame of data received
 // 接收一帧数据的长度
 volatile uint8_t rx_len = 0;
