@@ -80,8 +80,7 @@ void USART2_IRQHandler(void)
 
 	if (tmp_flag != RESET)
 	{
-		// Clear the IDLE flag in UART
-		__HAL_UART_CLEAR_IDLEFLAG(&c_huart);
+		
 
 		// Clear the status register (SR)
 		temp = c_huart.Instance->SR;
@@ -124,8 +123,6 @@ void USART1_IRQHandler(void)
 
 	if (tmp_flag != RESET)
 	{
-		// Clear the IDLE flag in UART
-		__HAL_UART_CLEAR_IDLEFLAG(&c_huart1);
 
 		// Clear the status register (SR)
 		temp = c_huart1.Instance->SR;

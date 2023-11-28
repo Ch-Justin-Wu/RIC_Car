@@ -15,7 +15,7 @@ extern "C"
     // 定义按钮状态的枚举
     enum ButtonState
     {
-        BUTTON_NOT_PRESSED,
+        BUTTON_NOT_PRESSED=0,
         BUTTON_PRESSED
     };
     // 方向键组合
