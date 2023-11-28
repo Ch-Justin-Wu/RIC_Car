@@ -160,7 +160,142 @@ float kalman_filter(kalman *kfp, float input)
 
 采用串口空闲中断+DMA接收数据包，减少CPU的负担，避免重要任务被打断。
 
+```c
+// The length of one frame of data received
+// 接收一帧数据的长度
+volatile uint8_t rx_len = 0;
+// A frame of data reception completion flag
+// 一帧数据接收完成标志
+volatile uint8_t recv_end_flag = 0;
+// Define the serial port receiving buffer
+//  定义串口接收缓存区
+uint8_t rx_buffer[BUF_SIZE] = {0};
+
+/**
+ * ************************************************************************
+ * @brief 打开串口空闲中断，DMA接收
+ * 
+ * 
+ * ************************************************************************
+ */
+void My_USART2_Init(void)
+{
+	// 不加收不到数据
+	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
+	HAL_UART_Receive_DMA(&huart2, rx_buffer, BUF_SIZE);
+}
+
+/**
+ * @brief This function handles USART2 global interrupt.
+ */
+void USART2_IRQHandler(void)
+{
+
+	uint32_t tmp_flag = 0;
+	uint32_t temp;
+
+	// Get the IDLE flag bit
+	tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
+
+	if (tmp_flag != RESET)
+	{
+		// Clear the IDLE flag in UART
+		__HAL_UART_CLEAR_IDLEFLAG(&c_huart);
+
+		// Clear the status register (SR)
+		temp = c_huart.Instance->SR;
+
+		// Read data from DR (Data Register)
+		temp = c_huart.Instance->DR;
+
+		HAL_UART_DMAStop(&c_huart); // Stop DMA transfer
+
+		// Get the number of untransmitted data in DMA
+		temp = c_dma.Instance->CNDTR;
+
+		// Calculate the number of received data by subtracting the total count from the untransmitted data count
+		rx_len = BUF_SIZE - temp;
+
+		// Set the receive completion flag to 1
+		recv_end_flag = 1;
+	}
+
+	HAL_UART_IRQHandler(&c_huart);
+}
+
+```
+
+
+
 ## 六、机械臂控制
 
 ### 1.一键控制
+
+为了更灵活地控制机械臂，我在手柄上设置了几个快捷键方便实现一键取矿、一键放入矿仓、一键复位等功能。
+
+根据键位状态的变化，设置舵机的角度来控制机械臂，让机械臂既能快速响应又能精细调控，原理非常简单。
+
+```c++
+/**
+ * ************************************************************************
+ * @brief 控制机械臂
+ *
+ *
+ * ************************************************************************
+ */
+inline void Control_Robotic_Arm()
+{
+	// 一键准备抓取/复位
+	if (Xbox.Share)
+	{
+		Servo[0].Control_Servo(120);
+		Servo[1].Control_Servo(44);
+		Servo[2].Control_Servo(74);
+	}
+	// 一键云台复位
+	if (Xbox.X)
+	{
+		Servo[1].Control_Servo(44);
+		Servo[0].Control_Servo(120);
+	}
+	// 一键云台右摆
+	if (Xbox.B)
+	{
+		Servo[1].Control_Servo(44);
+		Servo[0].Control_Servo(33);
+	}
+	// 一键放入矿仓
+	if (Xbox.Menu)
+	{
+		Servo[1].Control_Servo(44);
+		Servo[2].Control_Servo(13);
+		Servo[0].Control_Servo(30);
+	}
+
+	// 控制机械爪
+	if (K_Claw == 1)
+	{
+		Servo[3].Control_Claw();
+		K_Claw = 0;
+	}
+	// 控制云台
+	if (K_Gimbal == 4)
+	{
+		Servo[0].Control_Gimbal();
+		K_Gimbal = 0;
+	}
+	// 控制臂
+	if (K_Arm == 2)
+	{
+		Servo[1].Control_Arm();
+		K_Arm = 0;
+	}
+	// 控制腕
+	if (K_Wrist == 1)
+	{
+		Servo[2].Control_Wrist();
+		K_Wrist = 0;
+	}
+}
+```
 
