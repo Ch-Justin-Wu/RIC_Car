@@ -11,7 +11,7 @@ extern "C"
 #include "dma.h"
 
 #define Controller
-#define ROS
+//#define ROS
 
 // Defines the serial port receive buff length
 //  定义串口接收buff长度,防止DMA传输越界

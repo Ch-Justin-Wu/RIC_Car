@@ -163,7 +163,7 @@ void motor::motor_pwm_tx(uint8_t i)
  *
  * ************************************************************************
  */
-void motor::Encoder_Count()
+__attribute__((always_inline)) void motor::Encoder_Count()
 {
 
 	if (Set_speed_direction>0)
@@ -184,7 +184,7 @@ void motor::Encoder_Count()
  * 
  * ************************************************************************
  */
-void motor::wheel_linear_speed_to_rpm(uint8_t i)
+__attribute__((always_inline))  void motor::wheel_linear_speed_to_rpm(uint8_t i)
 {
 
 	set_rpm = Mec_Chassis.wheel_speed[i] / 25000.0 * MAX_RPM;
@@ -198,7 +198,6 @@ void motor::wheel_linear_speed_to_rpm(uint8_t i)
 	}
 }
 
-#define ABS(x) ((x > 0) ? (x) : (-x))
 
 /**
  * ************************************************************************

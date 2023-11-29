@@ -26,7 +26,7 @@ void kalman_init(kalman *ptr)
  *@param input 需要滤波的参数的测量值（即传感器的采集值）
  *@return 滤波后的参数（最优值）
  */
-float kalman_filter(kalman *kfp, float input)
+__attribute__((always_inline)) float kalman_filter(kalman *kfp, float input)
 {
     // 预测协方差方程：k时刻系统估算协方差 = k-1时刻的系统协方差 + 过程噪声协方差
     kfp->Now_P = kfp->Last_P + kfp->Q;

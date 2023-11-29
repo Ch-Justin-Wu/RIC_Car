@@ -28,7 +28,7 @@ void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, flo
  *
  * ************************************************************************
  */
-void Servos::Control_Servo(float _angle_)
+__attribute__((always_inline)) void Servos::Control_Servo(float _angle_)
 {
     angle = _angle_;
     pwmVal = 500 + 2000.0f * _angle_ / 180.0f;
