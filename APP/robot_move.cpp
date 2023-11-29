@@ -2,8 +2,8 @@
 using namespace std;
 
 // #define OPEN
- #define PID
-		#define xbox
+#define PID
+//#define xbox
 
 uint16_t K_Claw = 0;
 uint16_t K_Gimbal = 0;

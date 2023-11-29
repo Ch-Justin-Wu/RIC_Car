@@ -76,7 +76,8 @@ void USART2_IRQHandler(void)
 	uint32_t temp;
 
 	// Get the IDLE flag bit
-	tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
+	//tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
+	tmp_flag = (((&c_huart)->Instance->SR & (UART_FLAG_IDLE)) == (UART_FLAG_IDLE));
 
 	if (tmp_flag != RESET)
 	{

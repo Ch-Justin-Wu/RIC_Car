@@ -1,8 +1,8 @@
 #include "init.h"
 using namespace std;
 
- #define ORANGE
-//#define BLUE
+ //#define ORANGE
+#define BLUE
 
 void Init_all_pid(void);
 void Init_all_servos(void);
@@ -104,17 +104,17 @@ void Init_all_servos(void)
 {
 
     HAL_Delay(200);
-    Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2
+    Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2 44 ros 44
     Servo[1].Control_Arm();
     HAL_Delay(200);
-    Servo[2].Init(htim4, TIM_CHANNEL_3, 74); // Servo3
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3 74 ros 85
     Servo[2].Control_Wrist();
     HAL_Delay(200);
     // Servo4 110-60 ะก->ด๓
-    Servo[3].Init(htim4, TIM_CHANNEL_4, 35);
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 76);//35 ros 76
     Servo[3].Control_Claw();
     HAL_Delay(200);                           // Offset angle
-    Servo[0].Init(htim4, TIM_CHANNEL_1, 120); // Servo1
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1 120  ros 110
     Servo[0].Control_Gimbal();
 }
 
@@ -128,23 +128,23 @@ void Init_all_servos(void)
 void Init_all_motors(void)
 {
     // Motor1
-    motors[0].Init(htim3, TIM_CHANNEL_3,
-                   htim3, TIM_CHANNEL_4,
+    motors[0].Init(htim3, TIM_CHANNEL_3, // IN_1
+                   htim3, TIM_CHANNEL_4, // IN_2
                    GPIOC, ENCODER1_Pin,
                    NEGATIVE);
     // Motor2
-    motors[1].Init(htim2, TIM_CHANNEL_3,
-                   htim2, TIM_CHANNEL_4,
+    motors[1].Init(htim2, TIM_CHANNEL_3, // IN_1
+                   htim2, TIM_CHANNEL_4, // IN_2
                    GPIOA, ENCODER2_Pin,
                    POSITIVE);
     // Motor3
-    motors[2].Init(htim2, TIM_CHANNEL_1,
-                   htim2, TIM_CHANNEL_2,
+    motors[2].Init(htim2, TIM_CHANNEL_1, // IN_1
+                   htim2, TIM_CHANNEL_2, // IN_2
                    GPIOA, ENCODER3_Pin,
                    POSITIVE);
     // Motor4
-    motors[3].Init(htim3, TIM_CHANNEL_1,
-                   htim3, TIM_CHANNEL_2,
+    motors[3].Init(htim3, TIM_CHANNEL_1, // IN_1
+                   htim3, TIM_CHANNEL_2, // IN_2
                    GPIOB, ENCODER4_Pin,
                    NEGATIVE);
 }
