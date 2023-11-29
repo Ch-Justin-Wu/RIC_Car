@@ -32,7 +32,7 @@ extern "C"
         PRESS_LEFT_AND_UP
     };
 
-    typedef struct
+    typedef __attribute((aligned(4))) struct
     {
         int H_diff;
         int V_diff;
@@ -52,7 +52,8 @@ extern "C"
 #ifdef __cplusplus
 }
 using namespace std;
-class remote_control
+
+class __attribute((aligned(2)))  remote_control
 {
 
 public:

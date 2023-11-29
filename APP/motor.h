@@ -49,7 +49,7 @@ extern "C"
 	// 	pid_t *pid_angle;
 	// } MotorData_t;
 
-	typedef struct
+	typedef __attribute((aligned(2))) struct
 	{
 		int16_t set;
 		int16_t get;
@@ -68,7 +68,7 @@ using namespace std;
 #define NEGATIVE 0
 #define POSITIVE 1
 #define MAX_RPM 350
-class motor
+class __attribute((aligned(2))) motor
 {
 
 public:

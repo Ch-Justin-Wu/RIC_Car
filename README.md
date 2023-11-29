@@ -223,6 +223,48 @@ void USART2_IRQHandler(void)
 
 ```
 
+为了方便阅读和移植，中断服务函数可等效于：
+
+```c
+void USART2_IRQHandler(void)
+{
+
+	uint32_t tmp_flag = 0;
+	uint32_t temp;
+
+	// Get the IDLE flag bit
+	tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
+	//tmp_flag = (((&c_huart)->Instance->SR & (UART_FLAG_IDLE)) == (UART_FLAG_IDLE));
+
+	if (tmp_flag != RESET)
+	{
+
+		__HAL_UART_CLEAR_IDLEFLAG(&c_huart); // 清除标志位 clear IDLE flag
+		// // Clear the status register (SR)
+		// temp = c_huart.Instance->SR;
+
+		// // Read data from DR (Data Register)
+		// temp = c_huart.Instance->DR;
+
+		HAL_UART_DMAStop(&c_huart); // Stop DMA transfer
+
+		// Get the number of untransmitted data in DMA
+		temp = __HAL_DMA_GET_COUNTER(&c_dma);
+		//temp = c_dma.Instance->CNDTR;
+
+		// Calculate the number of received data by subtracting the total count from the untransmitted data count
+		rx_len = BUF_SIZE - temp;
+
+		// Set the receive completion flag to 1
+		recv_end_flag = 1;
+	}
+
+	HAL_UART_IRQHandler(&c_huart);
+}
+```
+
+
+
 ### 2.与上位机通信
 
 为了确定数据协议，我和上位机同学交流确定了类似手柄的数据协议，非常方便代码的移植。

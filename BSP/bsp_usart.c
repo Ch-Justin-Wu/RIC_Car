@@ -76,23 +76,24 @@ void USART2_IRQHandler(void)
 	uint32_t temp;
 
 	// Get the IDLE flag bit
-	//tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
-	tmp_flag = (((&c_huart)->Instance->SR & (UART_FLAG_IDLE)) == (UART_FLAG_IDLE));
+	tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
+	//tmp_flag = (((&c_huart)->Instance->SR & (UART_FLAG_IDLE)) == (UART_FLAG_IDLE));
 
 	if (tmp_flag != RESET)
 	{
-		
 
-		// Clear the status register (SR)
-		temp = c_huart.Instance->SR;
+		__HAL_UART_CLEAR_IDLEFLAG(&c_huart); // 清除标志位 clear IDLE flag
+		// // Clear the status register (SR)
+		// temp = c_huart.Instance->SR;
 
-		// Read data from DR (Data Register)
-		temp = c_huart.Instance->DR;
+		// // Read data from DR (Data Register)
+		// temp = c_huart.Instance->DR;
 
 		HAL_UART_DMAStop(&c_huart); // Stop DMA transfer
 
 		// Get the number of untransmitted data in DMA
-		temp = c_dma.Instance->CNDTR;
+		temp = __HAL_DMA_GET_COUNTER(&c_dma);
+		//temp = c_dma.Instance->CNDTR;
 
 		// Calculate the number of received data by subtracting the total count from the untransmitted data count
 		rx_len = BUF_SIZE - temp;
