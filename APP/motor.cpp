@@ -4,7 +4,7 @@
 using namespace std;
 
 motor motors[motor_num];
-pid_test Test_M1 = {0};
+pid_test Test_moto[motor_num] = {0};
 
 // 初始化电机类
 /**

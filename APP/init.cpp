@@ -1,8 +1,8 @@
 #include "init.h"
 using namespace std;
 
-// #define ORANGE
-#define BLUE
+ #define ORANGE
+//#define BLUE
 
 void Init_all_pid(void);
 void Init_all_servos(void);

@@ -139,16 +139,16 @@ float kalman_filter(kalman *kfp, float input)
 为更灵活地调节控制电机转速，我采用了自调节P系数，根据误差值灵活调节p的大小：
 
 ```c
- // 自适应Kp调节 auto control Kp
+    // 自适应Kp调节 auto control Kp
     if (pid->k1 != 0 || pid->k2 != 0 || pid->k3 != 0)
     {
         pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW]) + pid->k3);
     }
-    else
-    {
+    
+    
         // Calculate the proportional component
         pid->pout = pid->p * pid->err[NOW];
-    }
+    
     
 ```
 

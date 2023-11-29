@@ -56,7 +56,8 @@ extern "C"
 		int16_t before_filter_get;
 	} pid_test;
 
-	extern pid_test Test_M1, Test_M2, Test_M3, Test_M4;
+
+	extern pid_test Test_moto[motor_num];
 #ifdef __cplusplus
 }
 

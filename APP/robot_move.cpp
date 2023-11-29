@@ -2,8 +2,8 @@
 using namespace std;
 
 // #define OPEN
-#define PID
-#define xbox
+ #define PID
+		#define xbox
 
 uint16_t K_Claw = 0;
 uint16_t K_Gimbal = 0;
@@ -36,11 +36,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 #endif
 
 		// J-Scope
-		// uint8_t i = 3;
-		// Test_M1.get = motors[i].get_rpm;
-		// Test_M1.set = motors[i].set_rpm;
-		// Test_M1.before_filter_get = motors[i].ori_rpm;
-		// motors[i].Motor_PWM_Tx(i);
+		// for (uint8_t i = 0; i < 4; i++)
+		// {
+		// 	Test_moto[i].get = motors[i].get_rpm;
+		// 	Test_moto[i].set = motors[i].set_rpm;
+		// 	Test_moto[i].before_filter_get = motors[i].ori_rpm;
+		// 	motors[i].motor_pwm_tx(i);
+		// }
 
 #if defined(PID)
 
