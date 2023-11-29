@@ -73,11 +73,11 @@ float pid_calc(pid_t *pid, float get, float set)
     {
         pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW]) + pid->k3);
     }
-    else
-    {
+    
+    
         // Calculate the proportional component
         pid->pout = pid->p * pid->err[NOW];
-    }
+    
     
     if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) > pid->separationThreshold || ABS(pid->set) < 150) // µÍËÙÎÈ¶¨
     {

@@ -69,7 +69,7 @@ void motor::motor_pwm_tx(uint8_t i)
 
 	
 	// Kalman filter
-	(this)->get_rpm = kalman_filter(&kfp[i], ori_rpm);
+	get_rpm = kalman_filter(&kfp[i], ori_rpm);
 
 	tempVAL = pid_calc(&pid_motor[i], (float)get_rpm, (float)set_rpm);
 
