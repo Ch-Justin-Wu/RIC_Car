@@ -1,8 +1,5 @@
 #include "remote_control.h"
 
-
-#define ABS(x) ((x > 0) ? (x) : (-x))
-
 ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
 remote_control Xbox;
 
@@ -38,7 +35,7 @@ void L_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 水平方向
 	Joystick->H_diff = Xbox.L_Joystick_Hor - Joystick->H_stick_offset_position;
 	// 死区控制
-	if (Joystick->H_diff != 0 && ABS(Joystick->H_diff) < Joystick->deadband)
+	if (Joystick->H_diff != 0 && abs(Joystick->H_diff) < Joystick->deadband)
 		Joystick->H_diff = 0;
 	else if (Joystick->H_diff >= Joystick->deadband)
 	{
@@ -52,7 +49,7 @@ void L_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 垂直方向
 	Joystick->V_diff = Xbox.L_Joystick_Hor - Joystick->V_stick_offset_position;
 	// 死区控制
-	if (Joystick->V_diff != 0 && ABS(Joystick->V_diff) < Joystick->deadband)
+	if (Joystick->V_diff != 0 && abs(Joystick->V_diff) < Joystick->deadband)
 		Joystick->V_diff = 0;
 	else if (Joystick->V_diff >= Joystick->deadband)
 	{
@@ -77,7 +74,7 @@ void R_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 水平方向
 	Joystick->H_diff = Xbox.R_Joystick_Hor - Joystick->H_stick_offset_position;
 	// 死区控制
-	if (Joystick->H_diff != 0 && ABS(Joystick->H_diff) < Joystick->deadband)
+	if (Joystick->H_diff != 0 && abs(Joystick->H_diff) < Joystick->deadband)
 		Joystick->H_diff = 0;
 	else if (Joystick->H_diff >= Joystick->deadband)
 	{
@@ -91,7 +88,7 @@ void R_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 垂直方向
 	Joystick->V_diff = Xbox.R_Joystick_Ver - Joystick->V_stick_offset_position;
 	// 死区控制
-	if (Joystick->V_diff != 0 && ABS(Joystick->V_diff) < Joystick->deadband)
+	if (Joystick->V_diff != 0 && abs(Joystick->V_diff) < Joystick->deadband)
 		Joystick->V_diff = 0;
 	else if (Joystick->V_diff >= Joystick->deadband)
 	{
@@ -123,8 +120,8 @@ getButtonState(uint8_t data, uint8_t mask)
 /**
  * ************************************************************************
  * @brief 设置摇杆初始值
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void remote_control::Init()
@@ -139,7 +136,7 @@ void remote_control::Init()
  * ************************************************************************
  * @brief Receive data processing 接收数据处理
  *
- * 
+ *
  * ************************************************************************
  */
 void remote_control::controller_data_resolve(void)
@@ -203,8 +200,8 @@ void remote_control::controller_data_resolve(void)
 /**
  * ************************************************************************
  * @brief 接收手柄数据包
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void remote_control::controller_data_rx(void)
@@ -230,30 +227,29 @@ void remote_control::controller_data_rx(void)
 		memset(rx_buffer, 0, rx_len);
 	}
 	// Turn DMA reception back on
-	//  重新打开DMA接收
 	HAL_UART_Receive_DMA(&c_huart, rx_buffer, BUF_SIZE);
 }
 
 // B-red X-blue
 // void remote_control::Set_color(void)
 // {
-	// if (B == 1 && X == 0)
-	// {
-	// 	Red_flag = 1;
-	// 	Blue_flag = 0;
-	// }
-	// else if (B == 0 && X == 1)
-	// {
-	// 	Red_flag = 0;
-	// 	Blue_flag = 1;
-	// }
+// if (B == 1 && X == 0)
+// {
+// 	Red_flag = 1;
+// 	Blue_flag = 0;
+// }
+// else if (B == 0 && X == 1)
+// {
+// 	Red_flag = 0;
+// 	Blue_flag = 1;
+// }
 
-	// if (Red_flag == 1 && Blue_flag == 0)
-	// {
-	// 	ws2812_red(LED_NUM);
-	// }
-	// else if (Red_flag == 0 && Blue_flag == 1)
-	// {
-	// 	ws2812_blue(LED_NUM);
-	// }
+// if (Red_flag == 1 && Blue_flag == 0)
+// {
+// 	ws2812_red(LED_NUM);
+// }
+// else if (Red_flag == 0 && Blue_flag == 1)
+// {
+// 	ws2812_blue(LED_NUM);
+// }
 // }

@@ -1,5 +1,4 @@
-#ifndef CHASSIS_MOVE_H
-#define CHASSIS_MOVE_H
+#pragma once
 
 #include "motor.h"
 #include "remote_control.h"
@@ -8,14 +7,8 @@ extern "C"
 {
 #endif
 #include "struct_typedef.h"
-
 #include "pid.h"
 #include "ROS2.h"
-
-#define CHASSIS_WZ_SET_SCALE 1.1f
-#define MOTOR_DISTANCE_TO_CENTER 0.2f
-
-
 
 #ifdef __cplusplus
 }
@@ -26,19 +19,21 @@ extern "C"
 #define WHEEL_D 60.0f
 #define K_VX_SET 24.5f
 #define K_VY_SET 0.82f
-class chassis
+namespace RobotControl
 {
+    class chassis
+    {
 
-public:
-    fp32 vx_set;
-    fp32 vy_set;
-    fp32 wz_set;
-    fp32 wheel_speed[4];
-    void controller_speed_set();
-    void mec_chassis_wheel_speed();
-    void ROS2_Speed_Set(Ros_cmd* ptr);
-};
-extern chassis Mec_Chassis;
-#endif
+    public:
+        fp32 vx_set;
+        fp32 vy_set;
+        fp32 wz_set;
+        fp32 wheel_speed[4];
+        void controller_speed_set();
+        void mec_chassis_wheel_speed();
+        void ROS2_Speed_Set(Ros_cmd *ptr);
+    };
+    extern chassis Mec_Chassis;
 
+}
 #endif

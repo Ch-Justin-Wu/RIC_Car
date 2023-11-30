@@ -1,18 +1,17 @@
 #include "robot_move.h"
 
-
 // #define OPEN
-#define PID
-#define xbox
+#define pid_enabled
+#define xbox_enabled
 
 namespace RobotControl
 {
-	volatile uint8_t K_Claw = 0;
-	volatile uint8_t K_Gimbal = 0;
-	volatile uint8_t K_Arm = 0;
-	volatile uint8_t K_Wrist = 0;
+	volatile uint8_t k_claw = 0;
+	volatile uint8_t k_gimbal = 0;
+	volatile uint8_t k_arm = 0;
+	volatile uint8_t k_wrist = 0;
 
-	void control_robotic_arm()
+	void one_key_control_robotic_arm()
 	{
 		// 一键准备抓取/复位
 		if (Xbox.Share)
@@ -40,35 +39,44 @@ namespace RobotControl
 			Servo[2].Control_Servo(13);
 			Servo[0].Control_Servo(30);
 		}
+	}
 
+	void control_robotic_arm()
+	{
+		const uint8_t claw_angle_period = 1;
+		const uint8_t gimbal_angle_period = 4;
+		const uint8_t arm_angle_period = 2;
+		const uint8_t wrist_angle_period = 1;
 		// 控制机械爪
-		if (K_Claw == 1)
+		k_claw++;
+		if (k_claw == claw_angle_period)
 		{
 			Servo[3].Control_Claw();
-			K_Claw = 0;
+			k_claw = 0;
 		}
 		// 控制云台
-		if (K_Gimbal == 4)
+		k_gimbal++;
+		if (k_gimbal == gimbal_angle_period)
 		{
 			Servo[0].Control_Gimbal();
-			K_Gimbal = 0;
+			k_gimbal = 0;
 		}
 		// 控制臂
-		if (K_Arm == 2)
+		k_arm++;
+		if (k_arm == arm_angle_period)
 		{
 			Servo[1].Control_Arm();
-			K_Arm = 0;
+			k_arm = 0;
 		}
 		// 控制腕
-		if (K_Wrist == 1)
+		k_wrist++;
+		if (k_wrist == wrist_angle_period)
 		{
 			Servo[2].Control_Wrist();
-			K_Wrist = 0;
+			k_wrist = 0;
 		}
 	}
 }
-
-
 
 /**
  * @brief Timer interrupt callback function
@@ -80,18 +88,15 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance == TIM1)
 	{
 
-		RobotControl::K_Claw++;
-		RobotControl::K_Gimbal++;
-		RobotControl::K_Arm++;
-		RobotControl::K_Wrist++;
+		RobotControl::one_key_control_robotic_arm();
 		RobotControl::control_robotic_arm();
-#if defined(xbox)
-			Xbox.controller_data_rx();
-		Mec_Chassis.controller_speed_set();
+#if defined(xbox_enabled)
+		Xbox.controller_data_rx();
+		RobotControl::Mec_Chassis.controller_speed_set();
 #endif
 #if defined(ROS)
 		ROS2_data_rx();
-		Mec_Chassis.ROS2_Speed_Set(&Ros2);
+		RobotControl::Mec_Chassis.ROS2_Speed_Set(&Ros2);
 #endif
 
 		// J-Scope
@@ -103,13 +108,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		// 	motors[i].motor_pwm_tx(i);
 		// }
 
-#if defined(PID)
+#if defined(pid_enabled)
 
-		Mec_Chassis.mec_chassis_wheel_speed();
+		RobotControl::Mec_Chassis.mec_chassis_wheel_speed();
 		for (uint8_t i = 0; i < 4; i++)
 		{
-
-			motors[i].wheel_linear_speed_to_rpm(i);
 			motors[i].motor_pwm_tx(i);
 		}
 #endif
@@ -117,15 +120,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 #if defined(OPEN)
 		{
 
-			Mec_Chassis.mec_chassis_wheel_speed();
+			RobotControl::Mec_Chassis.mec_chassis_wheel_speed();
 			for (uint8_t i = 0; i < 4; i++)
 			{
 				motors[i].wheel_speed_to_pwm(i);
 			}
 		}
 #endif
-		
 	}
 }
-
-

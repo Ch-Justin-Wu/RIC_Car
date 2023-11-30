@@ -1,8 +1,8 @@
 #include "chassis_move.h"
 
+namespace RobotControl{
+    chassis Mec_Chassis;
 
-chassis Mec_Chassis;
-#define ABS(x) ((x > 0) ? (x) : (-x))
 /**
  * ************************************************************************
  * @brief Controller X Y Z speed set
@@ -66,17 +66,18 @@ void chassis::controller_speed_set()
  */
 void chassis::mec_chassis_wheel_speed()
 {
-    wheel_speed[0] = -vx_set - vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
-    wheel_speed[1] = vx_set - vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
-    wheel_speed[2] = vx_set + vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
-    wheel_speed[3] = -vx_set + vy_set - CHASSIS_WZ_SET_SCALE  * MOTOR_DISTANCE_TO_CENTER * wz_set;
+    const fp32 k_wz = 0.22f;
+    wheel_speed[0] = -vx_set - vy_set - k_wz * wz_set;
+    wheel_speed[1] = vx_set - vy_set - k_wz * wz_set;
+    wheel_speed[2] = vx_set + vy_set - k_wz * wz_set;
+    wheel_speed[3] = -vx_set + vy_set - k_wz * wz_set;
 }
 
-// MAX wheel_speed=300 RPM*60 mm*PI
+// MAX wheel_speed=max_rpm*60 mm*PI
 
 /**
  * ************************************************************************
- * @brief 
+ * @brief 处理ros速度
  * 
  * @param[in] ptr  ros速度数据结构体指针
  * 
@@ -87,4 +88,5 @@ void chassis::ROS2_Speed_Set(Ros_cmd *ptr)
     vx_set = ptr->Vx;
     vy_set = ptr->Vy;
     wz_set = (ptr->Wz)*4;
+}
 }

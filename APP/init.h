@@ -1,5 +1,4 @@
-#ifndef INIT_H
-#define INIT_H
+#pragma once
 
 #include "motor.h"
 #include "servos.h"
@@ -23,4 +22,3 @@ extern "C"
 }
 #endif
 
-#endif

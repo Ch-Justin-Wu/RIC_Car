@@ -1,12 +1,9 @@
-#ifndef SERVOS_H
-#define SERVOS_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-
-
 
 #ifdef __cplusplus
 }
@@ -42,7 +39,5 @@ namespace RobotControl
 
     extern Servos Servo[4];
 }
-
-#endif
 
 #endif

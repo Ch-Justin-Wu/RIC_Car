@@ -1,5 +1,4 @@
-#ifndef __WS2812_H
-#define __WS2812_H
+#pragma once
 
 #include "main.h"
 
@@ -29,4 +28,4 @@ void RGB_YELLOW(uint16_t RGB_LEN);	// »Æ
 void RGB_WHITE(uint16_t RGB_LEN);	// °×
 void RGB_SKY(uint16_t RGB_LEN);		// µ­À¶
 void RGB_ORANGE(uint16_t RGB_LEN);	// ³È
-#endif								/* __WS2812_H */
+							/* __WS2812_H */

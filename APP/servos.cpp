@@ -29,7 +29,7 @@ namespace RobotControl
      *
      * ************************************************************************
      */
-    __attribute__((always_inline)) void Servos::Control_Servo(float _angle_)
+    void Servos::Control_Servo(float _angle_)
     {
         angle = _angle_;
         pwmVal = 500 + 2000.0f * _angle_ / 180.0f;

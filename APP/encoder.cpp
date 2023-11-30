@@ -1,7 +1,6 @@
 #include "encoder.h"
 #include "motor.h"
 
-
 /**
  * ************************************************************************
  * @brief ±àÂëÆ÷Âö³å¼ÇÂ¼ Encoder pulses recording

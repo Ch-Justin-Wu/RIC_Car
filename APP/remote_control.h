@@ -1,5 +1,4 @@
-#ifndef REMOTE_CONTROL_H
-#define REMOTE_CONTROL_H
+#pragma once
 
 /* Includes ------------------------------------------------------------------*/
 #include "motor.h"
@@ -15,7 +14,7 @@ extern "C"
     // 定义按钮状态的枚举
     enum ButtonState
     {
-        BUTTON_NOT_PRESSED=0,
+        BUTTON_NOT_PRESSED = 0,
         BUTTON_PRESSED
     };
     // 方向键组合
@@ -52,8 +51,7 @@ extern "C"
 #ifdef __cplusplus
 }
 
-
-class __attribute((aligned(2)))  remote_control
+class __attribute((aligned(2))) remote_control
 {
 
 public:
@@ -98,12 +96,9 @@ public:
     void Init(void);
     void controller_data_resolve(void);
     void controller_data_rx(void);
-    //void Set_color(void);
-    
+    // void Set_color(void);
 };
 
 extern remote_control Xbox;
-
-#endif
 
 #endif

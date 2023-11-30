@@ -1,16 +1,16 @@
-#ifndef __MOTOR_H
-#define __MOTOR_H
+#pragma once
 
+#include "chassis_move.h"
+#include "encoder.h"
 #ifdef __cplusplus
 extern "C"
 {
 #endif
-#include "encoder.h"
+
 #include "bsp_usart.h"
 #include "stm32f1xx_hal.h"
 #include "mytype.h"
 #include "pid.h"
-#include "chassis_move.h"
 #include "kalman.h"
 
 #define motor_num 4
@@ -56,11 +56,9 @@ extern "C"
 		int16_t before_filter_get;
 	} pid_test;
 
-
 	extern pid_test Test_moto[motor_num];
 #ifdef __cplusplus
 }
-
 
 #define PI 3.143592f
 // 电机默认方向
@@ -70,6 +68,10 @@ extern "C"
 #define MAX_RPM 350
 class __attribute((aligned(2))) motor
 {
+private:
+	float calculate_ori_rpm();
+	int16_t calculate_tempVAL(uint8_t i);
+	void set_pwm_and_direction();
 
 public:
 	int16_t get_rpm;
@@ -110,6 +112,4 @@ public:
 };
 
 extern motor motors[motor_num];
-#endif
-
 #endif

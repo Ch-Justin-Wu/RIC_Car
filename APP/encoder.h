@@ -1,7 +1,4 @@
-#ifndef ENCODER_H
-#define ENCODER_H
-
-
+#pragma once
 
 #ifdef __cplusplus
 extern "C"
@@ -16,4 +13,4 @@ extern "C"
 #include "motor.h"
 #endif
 
-#endif
+

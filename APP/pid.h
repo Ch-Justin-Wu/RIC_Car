@@ -1,5 +1,4 @@
-#ifndef __PID_H
-#define __PID_H
+#pragma once
 
 #ifdef __cplusplus
 extern "C"
@@ -87,6 +86,4 @@ extern "C"
 // extern pid_t pid_angle2;
 #ifdef __cplusplus
 }
-#endif
-
 #endif
