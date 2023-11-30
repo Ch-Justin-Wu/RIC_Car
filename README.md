@@ -1,5 +1,7 @@
 # 大秦科技——RIC机器人电控技术文档
 
+
+
 [TOC]
 
 
@@ -16,23 +18,7 @@
 
 ## 三、采用C/C++混合编写
 
-基于C++类的特性，封装了remote_control、Servos、chassis、motor多个类的成员变量和成员函数。
-
-类相较于结构体可设置成员变量的访问权限，让成员变量不被随意访问和修改（虽然没有怎么用上这个特性）；类相较于结构体另一个突出的特点是可以封装成员函数，相当于结构体Pro Max,利用好这个特性调用类中成员函数在编写代码时非常方便，例如：
-
-```c++
-		Mec_Chassis.mec_chassis_wheel_speed();
-		for (uint8_t i = 0; i < 4; i++)
-		{
-
-			motors[i].wheel_linear_speed_to_rpm(i);
-			motors[i].motor_pwm_tx(i);
-		}
-```
-
-这样可以非常方便的访问底盘和电机的相关成员函数，从而控制电机转速。
-
-### 让keil5支持C++
+### 1.让keil5支持C++
 
 1. 点开魔术棒，选择target,编译器选择AC6:
 
@@ -49,6 +35,28 @@
 3. 最后添加自己的cpp和h文件即可，更多信息可以参考:
 
    [STM32 C++编程系列一：STM32 C++编程介绍_c++ stm32-CSDN博客](https://blog.csdn.net/qq_31562655/article/details/121024971?spm=1001.2014.3001.5506)
+   
+### 2.使用类进行封装
+
+   基于C++类的特性，封装了remote_control、Servos、chassis、motor多个类的成员变量和成员函数。
+
+   类相较于结构体可设置成员变量的访问权限，让成员变量不被随意访问和修改（虽然没有怎么用上这个特性）；类相较于结构体另一个突出的特点是可以封装成员函数，相当于结构体Pro Max,利用好这个特性调用类中成员函数在编写代码时非常方便，例如：
+
+   ```c++
+   		Mec_Chassis.mec_chassis_wheel_speed();
+   		for (uint8_t i = 0; i < 4; i++)
+   		{
+   
+   			motors[i].wheel_linear_speed_to_rpm(i);
+   			motors[i].motor_pwm_tx(i);
+   		}
+   ```
+
+   这样可以非常方便的访问底盘和电机的相关成员函数，从而控制电机转速。
+
+### 3. 使用自定义命名空间
+
+   
 
 ## 四、底盘控制
 
@@ -262,8 +270,6 @@ void USART2_IRQHandler(void)
 	HAL_UART_IRQHandler(&c_huart);
 }
 ```
-
-
 
 ### 2.与上位机通信
 
