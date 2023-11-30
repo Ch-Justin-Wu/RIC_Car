@@ -61,7 +61,7 @@ extern "C"
 #ifdef __cplusplus
 }
 
-using namespace std;
+
 #define PI 3.143592f
 // 电机默认方向
 

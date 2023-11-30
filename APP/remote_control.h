@@ -51,7 +51,7 @@ extern "C"
     void R_Joystick_Difference(ControllerJoystick_t *Joystick);
 #ifdef __cplusplus
 }
-using namespace std;
+
 
 class __attribute((aligned(2)))  remote_control
 {

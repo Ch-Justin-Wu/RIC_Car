@@ -6,11 +6,13 @@ extern "C"
 {
 #endif
 
-#include "remote_control.h"
+
 
 #ifdef __cplusplus
 }
-using namespace std;
+#include "remote_control.h"
+namespace RobotControl
+{
 
 #define Claw_MAX_ANGLE 85
 #define Claw_MIN_ANGLE 30
@@ -20,25 +22,27 @@ using namespace std;
 #define Arm_MIN_ANGLE 44
 #define Wrist_MAX_ANGLE 179
 #define Wrist_MIN_ANGLE 1
-class Servos
-{
-public:
-    uint16_t pwmVal;
-    float angle;
+    class Servos
+    {
+    public:
+        uint16_t pwmVal;
+        float angle;
 
-    void Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, float __angle);
-     void Control_Servo(float _angle_);
-    void Control_Claw(void);
-    void Control_Gimbal(void);
-    void Control_Arm(void);
-    void Control_Wrist(void);
+        void Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, float __angle);
+        void Control_Servo(float _angle_);
+        void Control_Claw(void);
+        void Control_Gimbal(void);
+        void Control_Arm(void);
+        void Control_Wrist(void);
 
-protected:
-    TIM_HandleTypeDef Servos_TIM;
-    uint32_t Servos_Channel;
-};
+    protected:
+        TIM_HandleTypeDef Servos_TIM;
+        uint32_t Servos_Channel;
+    };
 
-extern Servos Servo[4];
+    extern Servos Servo[4];
+}
+
 #endif
 
 #endif

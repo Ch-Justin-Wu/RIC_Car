@@ -431,14 +431,14 @@
               <FilePath>..\APP\kalman.c</FilePath>
             </File>
             <File>
-              <FileName>init.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\APP\init.cpp</FilePath>
-            </File>
-            <File>
               <FileName>robot_move.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\APP\robot_move.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>init.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\APP\init.cpp</FilePath>
             </File>
             <File>
               <FileName>motor.cpp</FileName>

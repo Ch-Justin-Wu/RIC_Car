@@ -1,7 +1,7 @@
 
 #include "motor.h"
 
-using namespace std;
+
 
 motor motors[motor_num];
 pid_test Test_moto[motor_num] = {0};
