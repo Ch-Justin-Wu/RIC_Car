@@ -1,14 +1,28 @@
+/**
+ * ************************************************************************
+ * 
+ * @file ROS2.c
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief ros数据接收解析
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "ROS2.h"
 #if defined(ROS)
 Ros_cmd Ros2={0};
 
-// Data base:0xA5 vx1 vx2 vy1 vy2 ω1 ω2 0xA6
+
 /**
  * ************************************************************************
  * @brief ros数据包解析
- * 
+ * Data base:0xA5 vx1 vx2 vy1 vy2 ω1 ω2 0xA6
  * @param[in] ptr  ros数据结构体指针
- * 
+ *
  * ************************************************************************
  */
 void ros2_data_resolve(Ros_cmd* ptr)

@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file robot_move.cpp
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 执行机器人控制任务
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "robot_move.h"
 
 // #define OPEN
@@ -11,6 +25,13 @@ namespace RobotControl
 	volatile uint8_t k_arm = 0;
 	volatile uint8_t k_wrist = 0;
 
+	/**
+	 * ************************************************************************
+	 * @brief 一键控制机械臂
+	 *
+	 *
+	 * ************************************************************************
+	 */
 	void one_key_control_robotic_arm()
 	{
 		// 一键准备抓取/复位
@@ -40,7 +61,13 @@ namespace RobotControl
 			Servo[0].control_servo(30);
 		}
 	}
-
+	/**
+	 * ************************************************************************
+	 * @brief 控制机械臂
+	 *
+	 *
+	 * ************************************************************************
+	 */
 	void control_robotic_arm()
 	{
 		const uint8_t claw_angle_period = 1;

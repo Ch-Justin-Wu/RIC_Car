@@ -1,5 +1,17 @@
-
-
+/**
+ * ************************************************************************
+ * 
+ * @file ws2812.c
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief ¿ØÖÆws2812µÆ´øÑÕÉ«
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "ws2812.h"
 #include "spi.h"
 #include "dma.h"

@@ -85,7 +85,6 @@ void USART2_IRQHandler(void)
 		__HAL_UART_CLEAR_IDLEFLAG(&c_huart); // 清除标志位 clear IDLE flag
 		// // Clear the status register (SR)
 		// temp = c_huart.Instance->SR;
-
 		// // Read data from DR (Data Register)
 		// temp = c_huart.Instance->DR;
 

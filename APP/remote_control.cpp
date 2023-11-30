@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file remote_control.cpp
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 控制器摇杆数据处理，控制器数据解析
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "remote_control.h"
 
 ControllerJoystick_t Left_Joystick, Right_Joystick = {0};

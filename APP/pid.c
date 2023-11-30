@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file pid.c
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief pid控制计算，根据小车实际优化调整了结构
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "pid.h"
 #include <math.h>
 #include "motor.h"
@@ -73,12 +87,10 @@ float pid_calc(pid_t *pid, float get, float set)
     {
         pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW]) + pid->k3);
     }
-    
-    
-        // Calculate the proportional component
-        pid->pout = pid->p * pid->err[NOW];
-    
-    
+
+    // Calculate the proportional component
+    pid->pout = pid->p * pid->err[NOW];
+
     if (pid->separationThreshold != 0 && ABS(pid->err[NOW]) > pid->separationThreshold || ABS(pid->set) < 150) // 低速稳定
     {
         pid->iout = 0;

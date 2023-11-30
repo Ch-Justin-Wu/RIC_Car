@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file encoder.cpp
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief ²¶»ñ±àÂëÆ÷ÐÅºÅ
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "encoder.h"
 #include "motor.h"
 

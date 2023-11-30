@@ -1,10 +1,22 @@
-
+/**
+ * ************************************************************************
+ * 
+ * @file motor.cpp
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 电机控制
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "motor.h"
 
 motor motors[motor_num];
 pid_test Test_moto[motor_num] = {0};
 
-// 初始化电机类
 /**
  * ************************************************************************
  * @brief 初始化电机类

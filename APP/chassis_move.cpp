@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file chassis_move.cpp
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 设置底盘速度，底盘运动学解算
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "chassis_move.h"
 
 namespace RobotControl{

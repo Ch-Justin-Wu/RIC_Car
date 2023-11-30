@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file servos.cpp
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 舵机控制
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #include "servos.h"
 
 namespace RobotControl
@@ -10,7 +24,7 @@ namespace RobotControl
      *
      * @param[in] __Servos_TIM  舵机定时器
      * @param[in] __Servos_Channel  PWM通道
-     *
+     *  @param[in] __angle 舵机初始角度
      * ************************************************************************
      */
     void Servos::Init(TIM_HandleTypeDef __Servos_TIM, uint32_t __Servos_Channel, float __angle)
@@ -26,6 +40,7 @@ namespace RobotControl
      * ************************************************************************
      * @brief 舵机控制，设置舵机角度，输出pwm
      *
+     * @param[in] _angle_  设置的舵机角度
      *
      * ************************************************************************
      */
@@ -36,8 +51,13 @@ namespace RobotControl
         __HAL_TIM_SET_COMPARE(&Servos_TIM, Servos_Channel, pwmVal);
     }
 
-    // #define K_Claw 0.001
-    // PB9
+    /**
+     * ************************************************************************
+     * @brief 控制机械爪
+     *
+     * PB9
+     * ************************************************************************
+     */
     void Servos::control_claw(void)
     {
         if (Xbox.RB && angle <= ClAW_MAX_ANGLE)

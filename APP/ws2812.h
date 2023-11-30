@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file ws2812.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief ws2812的颜色结构体定义，相关函数声明
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #include "main.h"

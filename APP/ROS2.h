@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file ROS2.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief ros数据结构体定义
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #ifdef __cplusplus

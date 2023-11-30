@@ -38,9 +38,9 @@
    
 ### 2.使用类进行封装
 
-   基于C++类的特性，封装了remote_control、Servos、chassis、motor多个类的成员变量和成员函数。
+基于C++类的特性，封装了remote_control、Servos、chassis、motor多个类的成员变量和成员函数。
 
-   类相较于结构体可设置成员变量的访问权限，让成员变量不被随意访问和修改；类相较于结构体另一个突出的特点是可以封装成员函数，相当于结构体Pro Max,利用好这个特性调用类中成员函数在编写代码时非常方便，例如：
+类相较于结构体可设置成员变量的访问权限，让成员变量不被随意访问和修改；类相较于结构体另一个突出的特点是可以封装成员函数，相当于结构体Pro Max,利用好这个特性调用类中成员函数在编写代码时非常方便，例如：
 
    ```c++
    		Mec_Chassis.mec_chassis_wheel_speed();
@@ -52,11 +52,108 @@
    		}
    ```
 
-   这样可以非常方便的访问底盘和电机的相关成员函数，从而控制电机转速。
+这样可以非常方便的访问底盘和电机的相关成员函数，从而控制电机转速。
 
 ### 3. 使用自定义命名空间
 
-   
+应用命名空间的好处多多：
+
+- 可维护性
+- 模块化
+- 避免同名冲突
+- 减少全局污染
+
+  例如我定义了一个RobotControl的命名空间，在里面定义了控制机器人的函数：
+
+``` c++
+namespace RobotControl
+{
+	volatile uint8_t k_claw = 0;
+	volatile uint8_t k_gimbal = 0;
+	volatile uint8_t k_arm = 0;
+	volatile uint8_t k_wrist = 0;
+
+	void one_key_control_robotic_arm()
+	{
+		// 一键准备抓取/复位
+		if (Xbox.Share)
+		{
+			Servo[0].control_servo(120);
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(74);
+		}
+		// 一键云台复位
+		if (Xbox.X)
+		{
+			Servo[1].control_servo(44);
+			Servo[0].control_servo(120);
+		}
+		// 一键云台右摆
+		if (Xbox.B)
+		{
+			Servo[1].control_servo(44);
+			Servo[0].control_servo(33);
+		}
+		// 一键放入矿仓
+		if (Xbox.Menu)
+		{
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(13);
+			Servo[0].control_servo(30);
+		}
+	}
+
+	void control_robotic_arm()
+	{
+		const uint8_t claw_angle_period = 1;
+		const uint8_t gimbal_angle_period = 4;
+		const uint8_t arm_angle_period = 2;
+		const uint8_t wrist_angle_period = 1;
+		// 控制机械爪
+		k_claw++;
+		if (k_claw == claw_angle_period)
+		{
+			Servo[3].control_claw();
+			k_claw = 0;
+		}
+		// 控制云台
+		k_gimbal++;
+		if (k_gimbal == gimbal_angle_period)
+		{
+			Servo[0].control_gimbal();
+			k_gimbal = 0;
+		}
+		// 控制臂
+		k_arm++;
+		if (k_arm == arm_angle_period)
+		{
+			Servo[1].control_arm();
+			k_arm = 0;
+		}
+		// 控制腕
+		k_wrist++;
+		if (k_wrist == wrist_angle_period)
+		{
+			Servo[2].control_wrist();
+			k_wrist = 0;
+		}
+	}
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM1)
+	{
+
+		RobotControl::one_key_control_robotic_arm();
+		RobotControl::control_robotic_arm();
+        
+	//其他代码...
+}
+
+```
+
+
 
 ## 四、底盘控制
 
@@ -153,10 +250,8 @@ float kalman_filter(kalman *kfp, float input)
         pid->p = pid->k1 * log10f(pid->k2 * ABS(pid->err[NOW]) + pid->k3);
     }
     
-    
         // Calculate the proportional component
         pid->pout = pid->p * pid->err[NOW];
-    
     
 ```
 
@@ -273,7 +368,15 @@ void USART2_IRQHandler(void)
 
 ### 2.与上位机通信
 
-为了确定数据协议，我和上位机同学交流确定了类似手柄的数据协议，非常方便代码的移植。
+为了确定数据协议，我和上位机同学交流确定了类似手柄的数据协议，非常方便代码的移植，主要结构为：
+
+| 帧头 |         数据段          | 帧尾 |
+| :--: | :---------------------: | :--: |
+| 0xA5 | x、y轴线速度，z轴角速度 | 0xA6 |
+
+经过实际测试，数据接收稳定准确，无需校验位。
+
+在算法挑战赛中只需x轴线速度和z轴角速度。
 
 ## 六、机械臂控制
 
@@ -284,67 +387,7 @@ void USART2_IRQHandler(void)
 根据键位状态的变化，设置舵机的角度来控制机械臂，让机械臂既能快速响应又能精细调控，原理非常简单。
 
 ```c++
-/**
- * ************************************************************************
- * @brief 控制机械臂
- *
- *
- * ************************************************************************
- */
-inline void Control_Robotic_Arm()
-{
-	// 一键准备抓取/复位
-	if (Xbox.Share)
-	{
-		Servo[0].Control_Servo(120);
-		Servo[1].Control_Servo(44);
-		Servo[2].Control_Servo(74);
-	}
-	// 一键云台复位
-	if (Xbox.X)
-	{
-		Servo[1].Control_Servo(44);
-		Servo[0].Control_Servo(120);
-	}
-	// 一键云台右摆
-	if (Xbox.B)
-	{
-		Servo[1].Control_Servo(44);
-		Servo[0].Control_Servo(33);
-	}
-	// 一键放入矿仓
-	if (Xbox.Menu)
-	{
-		Servo[1].Control_Servo(44);
-		Servo[2].Control_Servo(13);
-		Servo[0].Control_Servo(30);
-	}
 
-	// 控制机械爪
-	if (K_Claw == 1)
-	{
-		Servo[3].Control_Claw();
-		K_Claw = 0;
-	}
-	// 控制云台
-	if (K_Gimbal == 4)
-	{
-		Servo[0].Control_Gimbal();
-		K_Gimbal = 0;
-	}
-	// 控制臂
-	if (K_Arm == 2)
-	{
-		Servo[1].Control_Arm();
-		K_Arm = 0;
-	}
-	// 控制腕
-	if (K_Wrist == 1)
-	{
-		Servo[2].Control_Wrist();
-		K_Wrist = 0;
-	}
-}
 ```
 
 

@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file pid.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief pid结构体定义
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #ifdef __cplusplus
@@ -55,35 +69,14 @@ extern "C"
     float k3;
   } pid_t;
 
-  /**
-   * @brief     PID 初始化函数
-   * @param[in] pid: PID 结构体
-   * @param[in] max_out: 最大输出
-   * @param[in] intergral_limit: 积分限幅
-   * @param[in] kp/ki/kd: 具体 PID 参数
-   */
   void pid_init(pid_t *pid, uint32_t max_out, uint32_t intergral_limit, float Deadband, float Max_err, float kp, float ki, float kd, uint16_t __separationThreshold);
 
-  /**
-   * @brief     PID 参数复位函数
-   * @param[in] pid: PID 结构体
-   * @param[in] kp/ki/kd: 具体 PID 参数
-   */
   // void pid_reset(pid_t *pid, float kp, float ki, float kd);
 
-  /**
-   * @brief     PID 计算函数，使用位置式 PID 计算
-   * @param[in] pid: PID 结构体
-   * @param[in] get: 反馈数据
-   * @param[in] set: 目标数据
-   * @retval    PID 计算输出
-   */
   float pid_calc(pid_t *pid, float get, float set);
 
   extern pid_t pid_motor[];
 
-// extern pid_t pid_motor2;
-// extern pid_t pid_angle2;
 #ifdef __cplusplus
 }
 #endif

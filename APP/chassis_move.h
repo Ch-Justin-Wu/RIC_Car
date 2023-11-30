@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ *
+ * @file chassis_move.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 底盘控制类定义
+ * @version 1.0
+ * @date 2023-11-30
+ *
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #include "motor.h"
@@ -19,6 +33,7 @@ extern "C"
 #define WHEEL_D 60.0f
 #define K_VX_SET 24.5f
 #define K_VY_SET 0.82f
+
 namespace RobotControl
 {
     class chassis

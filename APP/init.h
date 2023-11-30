@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file init.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 初始化的头文件
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #include "motor.h"

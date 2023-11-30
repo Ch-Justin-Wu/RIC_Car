@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file encoder.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 编码器信号捕获头文件
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #ifdef __cplusplus

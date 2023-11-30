@@ -1,3 +1,17 @@
+/**
+ * ************************************************************************
+ * 
+ * @file motor.h
+ * @author Justin Wu (justin.wu@zllcrm.org)
+ * @brief 电机类定义
+ * @version 1.0
+ * @date 2023-11-30
+ * 
+ * ************************************************************************
+ * @copyright Copyright (c) 2023 Justin Wu 
+ * For study and research only, no reprinting
+ * ************************************************************************
+ */
 #pragma once
 
 #include "chassis_move.h"
@@ -89,7 +103,6 @@ public:
 	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
 			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
-
 			  uint8_t __Speed_Default_Direction);
 	// void Real_rpm();
 	void motor_pwm_tx(uint8_t i);
