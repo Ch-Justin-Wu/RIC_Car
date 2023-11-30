@@ -29,7 +29,7 @@ namespace RobotControl
      *
      * ************************************************************************
      */
-    void Servos::Control_Servo(float _angle_)
+    void Servos::control_servo(float _angle_)
     {
         angle = _angle_;
         pwmVal = 500 + 2000.0f * _angle_ / 180.0f;
@@ -38,26 +38,26 @@ namespace RobotControl
 
     // #define K_Claw 0.001
     // PB9
-    void Servos::Control_Claw(void)
+    void Servos::control_claw(void)
     {
-        if (Xbox.RB && angle <= Claw_MAX_ANGLE)
+        if (Xbox.RB && angle <= ClAW_MAX_ANGLE)
         {
             angle += 1;
-            if (angle > Claw_MAX_ANGLE)
+            if (angle > ClAW_MAX_ANGLE)
             {
-                angle = Claw_MAX_ANGLE;
+                angle = ClAW_MAX_ANGLE;
             }
         }
 
-        else if (Xbox.LB && angle >= Claw_MIN_ANGLE)
+        else if (Xbox.LB && angle >= ClAW_MIN_ANGLE)
         {
             angle -= 1;
-            if (angle < Claw_MIN_ANGLE)
+            if (angle < ClAW_MIN_ANGLE)
             {
-                angle = Claw_MIN_ANGLE;
+                angle = ClAW_MIN_ANGLE;
             }
         }
-        Control_Servo(angle);
+        control_servo(angle);
     }
 
     /**
@@ -68,25 +68,25 @@ namespace RobotControl
      *
      * ************************************************************************
      */
-    void Servos::Control_Gimbal(void)
+    void Servos::control_gimbal(void)
     {
-        if ((Xbox.combination == PRESS_LEFT || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_LEFT_AND_DOWN) && angle <= Gimbal_MAX_ANGLE)
+        if ((Xbox.combination == PRESS_LEFT || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_LEFT_AND_DOWN) && angle <= GIMBAL_MAX_ANGLE)
         {
             angle += 1;
-            if (angle > Gimbal_MAX_ANGLE)
+            if (angle > GIMBAL_MAX_ANGLE)
             {
-                angle = Gimbal_MAX_ANGLE;
+                angle = GIMBAL_MAX_ANGLE;
             }
         }
-        else if ((Xbox.combination == PRESS_RIGHT || Xbox.combination == PRESS_RIGHT_AND_DOWM || Xbox.combination == PRESS_RIGHT_AND_UP) && angle >= Gimbal_MIN_ANGLE)
+        else if ((Xbox.combination == PRESS_RIGHT || Xbox.combination == PRESS_RIGHT_AND_DOWM || Xbox.combination == PRESS_RIGHT_AND_UP) && angle >= GIMBAL_MIN_ANGLE)
         {
             angle -= 1;
         }
-        if (angle < Gimbal_MIN_ANGLE)
+        if (angle < GIMBAL_MIN_ANGLE)
         {
-            angle = Gimbal_MIN_ANGLE;
+            angle = GIMBAL_MIN_ANGLE;
         }
-        Control_Servo(angle);
+        control_servo(angle);
     }
 
     /**
@@ -96,25 +96,25 @@ namespace RobotControl
      *
      * ************************************************************************
      */
-    void Servos::Control_Arm(void)
+    void Servos::control_arm(void)
     {
-        if ((Xbox.combination == PRESS_DOWN || Xbox.combination == PRESS_LEFT_AND_DOWN || Xbox.combination == PRESS_RIGHT_AND_DOWM) && angle <= Arm_MAX_ANGLE)
+        if ((Xbox.combination == PRESS_DOWN || Xbox.combination == PRESS_LEFT_AND_DOWN || Xbox.combination == PRESS_RIGHT_AND_DOWM) && angle <= ARM_MAX_ANGLE)
         {
             angle += 1;
-            if (angle > Arm_MAX_ANGLE)
+            if (angle > ARM_MAX_ANGLE)
             {
-                angle = Arm_MAX_ANGLE;
+                angle = ARM_MAX_ANGLE;
             }
         }
-        else if ((Xbox.combination == PRESS_UP || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_RIGHT_AND_UP) && angle >= Arm_MIN_ANGLE)
+        else if ((Xbox.combination == PRESS_UP || Xbox.combination == PRESS_LEFT_AND_UP || Xbox.combination == PRESS_RIGHT_AND_UP) && angle >= ARM_MIN_ANGLE)
         {
             angle -= 1;
         }
-        if (angle < Arm_MIN_ANGLE)
+        if (angle < ARM_MIN_ANGLE)
         {
-            angle = Arm_MIN_ANGLE;
+            angle = ARM_MIN_ANGLE;
         }
-        Control_Servo(angle);
+        control_servo(angle);
     }
 
     /**
@@ -124,26 +124,26 @@ namespace RobotControl
      *
      * ************************************************************************
      */
-    void Servos::Control_Wrist(void)
+    void Servos::control_wrist(void)
     {
 
-        if (Xbox.A && angle <= Wrist_MAX_ANGLE)
+        if (Xbox.A && angle <= WRIST_MAX_ANGLE)
         {
             angle += 1;
-            if (angle > Wrist_MAX_ANGLE)
+            if (angle > WRIST_MAX_ANGLE)
             {
-                angle = Wrist_MAX_ANGLE;
+                angle = WRIST_MAX_ANGLE;
             }
         }
 
-        else if (Xbox.Y && angle >= Wrist_MIN_ANGLE)
+        else if (Xbox.Y && angle >= WRIST_MIN_ANGLE)
         {
             angle -= 1;
-            if (angle < Wrist_MIN_ANGLE)
+            if (angle < WRIST_MIN_ANGLE)
             {
-                angle = Wrist_MIN_ANGLE;
+                angle = WRIST_MIN_ANGLE;
             }
         }
-        Control_Servo(angle);
+        control_servo(angle);
     }
 }

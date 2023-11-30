@@ -1,8 +1,8 @@
 #include "robot_move.h"
 
 // #define OPEN
-#define pid_enabled
-#define xbox_enabled
+#define PID_ENABLED
+#define XBOX_ENABLED
 
 namespace RobotControl
 {
@@ -16,28 +16,28 @@ namespace RobotControl
 		// 一键准备抓取/复位
 		if (Xbox.Share)
 		{
-			Servo[0].Control_Servo(120);
-			Servo[1].Control_Servo(44);
-			Servo[2].Control_Servo(74);
+			Servo[0].control_servo(120);
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(74);
 		}
 		// 一键云台复位
 		if (Xbox.X)
 		{
-			Servo[1].Control_Servo(44);
-			Servo[0].Control_Servo(120);
+			Servo[1].control_servo(44);
+			Servo[0].control_servo(120);
 		}
 		// 一键云台右摆
 		if (Xbox.B)
 		{
-			Servo[1].Control_Servo(44);
-			Servo[0].Control_Servo(33);
+			Servo[1].control_servo(44);
+			Servo[0].control_servo(33);
 		}
 		// 一键放入矿仓
 		if (Xbox.Menu)
 		{
-			Servo[1].Control_Servo(44);
-			Servo[2].Control_Servo(13);
-			Servo[0].Control_Servo(30);
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(13);
+			Servo[0].control_servo(30);
 		}
 	}
 
@@ -51,28 +51,28 @@ namespace RobotControl
 		k_claw++;
 		if (k_claw == claw_angle_period)
 		{
-			Servo[3].Control_Claw();
+			Servo[3].control_claw();
 			k_claw = 0;
 		}
 		// 控制云台
 		k_gimbal++;
 		if (k_gimbal == gimbal_angle_period)
 		{
-			Servo[0].Control_Gimbal();
+			Servo[0].control_gimbal();
 			k_gimbal = 0;
 		}
 		// 控制臂
 		k_arm++;
 		if (k_arm == arm_angle_period)
 		{
-			Servo[1].Control_Arm();
+			Servo[1].control_arm();
 			k_arm = 0;
 		}
 		// 控制腕
 		k_wrist++;
 		if (k_wrist == wrist_angle_period)
 		{
-			Servo[2].Control_Wrist();
+			Servo[2].control_wrist();
 			k_wrist = 0;
 		}
 	}
@@ -90,7 +90,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 		RobotControl::one_key_control_robotic_arm();
 		RobotControl::control_robotic_arm();
-#if defined(xbox_enabled)
+#if defined(XBOX_ENABLED)
 		Xbox.controller_data_rx();
 		RobotControl::Mec_Chassis.controller_speed_set();
 #endif
@@ -108,7 +108,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		// 	motors[i].motor_pwm_tx(i);
 		// }
 
-#if defined(pid_enabled)
+#if defined(PID_ENABLED)
 
 		RobotControl::Mec_Chassis.mec_chassis_wheel_speed();
 		for (uint8_t i = 0; i < 4; i++)
