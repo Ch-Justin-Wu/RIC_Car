@@ -1,14 +1,14 @@
 /**
  * ************************************************************************
- * 
+ *
  * @file motor.cpp
  * @author Justin Wu (justin.wu@zllcrm.org)
  * @brief 电机控制
  * @version 1.0
  * @date 2023-11-30
- * 
+ *
  * ************************************************************************
- * @copyright Copyright (c) 2023 Justin Wu 
+ * @copyright Copyright (c) 2023 Justin Wu
  * For study and research only, no reprinting
  * ************************************************************************
  */
@@ -16,6 +16,19 @@
 
 motor motors[motor_num];
 pid_test Test_moto[motor_num] = {0};
+
+/**
+ * @brief 求绝对值
+ *
+ * @tparam type
+ * @param x 传入数据
+ * @return type x的绝对值
+ */
+template <typename type>
+type math_abs(type x)
+{
+	return ((x > 0) ? x : -x);
+}
 
 /**
  * ************************************************************************
@@ -46,6 +59,7 @@ void motor::Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_
 	Encoder_GPIOx = __Encoder_GPIOx;
 	Encoder_GPIO_Pin = __Encoder_GPIO_Pin;
 	Speed_Default_Direction = __Speed_Default_Direction;
+
 	HAL_TIM_PWM_Start(&__Driver_PWM1_TIM, __Driver_PWM1_TIM_Channel_x);
 	HAL_TIM_PWM_Start(&__Driver_PWM2_TIM, __Driver_PWM2_TIM_Channel_x);
 }
@@ -66,9 +80,9 @@ float motor::calculate_ori_rpm()
 /**
  * ************************************************************************
  * @brief 计算pid，改变pwm占空比
- * 
+ *
  * @param[in] i  电机编号
- * 
+ *
  * @return pid输出值
  * ************************************************************************
  */
@@ -80,39 +94,48 @@ int16_t motor::calculate_tempVAL(uint8_t i)
 /**
  * ************************************************************************
  * @brief 设置电机驱动方向
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
-void motor::set_pwm_and_direction()
+void motor::set_direction()
 {
 	// 快衰减
 	if (set_rpm - get_rpm > RPM_DEADBAND)
 	{
 
-		Set_speed_direction = 1;
+		Set_speed_direction = pos;
 	}
+
 	else if (set_rpm - get_rpm < -RPM_DEADBAND)
 	{
 
-		Set_speed_direction = -1;
+		Set_speed_direction = neg;
 	}
 
-	else if (abs(set_rpm - get_rpm) <= RPM_DEADBAND)
+	else if (math_abs(set_rpm - get_rpm) <= RPM_DEADBAND)
 	{
 		if (set_rpm > 0)
 		{
-			Set_speed_direction = 1;
+			Set_speed_direction = pos;
 		}
+
 		else if (set_rpm < 0)
 		{
-			Set_speed_direction = -1;
+			Set_speed_direction = neg;
 		}
-		// else if (set_rpm==0||abs(get_rpm)<=1)
+
+		// else if (set_rpm==0||math_abs(get_rpm)<=1)
 		// {
 		// 	Set_speed_direction = 0;
 		// }
 	}
+}
+
+void motor::set_pwm(uint16_t in1, uint16_t in2)
+{
+	__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, in1);
+	__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, in2);
 }
 
 /**
@@ -134,7 +157,7 @@ void motor::set_pwm_and_direction()
  */
 void motor::motor_pwm_tx(uint8_t i)
 {
-	
+
 	int16_t tempVAL = 0;
 	const int16_t const_VAL = 1800;
 
@@ -142,58 +165,32 @@ void motor::motor_pwm_tx(uint8_t i)
 	// Real_rpm
 	ori_rpm = calculate_ori_rpm();
 	Hall_Encoder_Count = 0;
-
 	// Kalman filter
 	get_rpm = kalman_filter(&kfp[i], ori_rpm);
 
 	tempVAL = calculate_tempVAL(i);
 
-	pwmVal = tempVAL;
-
-	set_pwm_and_direction();
+	set_direction();
 
 	switch (Set_speed_direction)
 	{
 		// 反转
-	case -1:
-		switch (Speed_Default_Direction)
-		{
-		case POSITIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, -tempVAL + const_VAL);
-			break;
-		case NEGATIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, -tempVAL + const_VAL);
-			break;
-		default:
-			break;
-		}
-		break;
+	case neg:
+		pwmVal = -tempVAL + const_VAL;
+		set_pwm(0, pwmVal);
+
 		// 正转
-	case 1:
-		switch (Speed_Default_Direction)
-		{
-		case POSITIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL + const_VAL);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
-			break;
-		case NEGATIVE:
-			__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, tempVAL + const_VAL);
-			__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
-			break;
-		default:
-			break;
-		}
-		break;
-	case 0:
+	case pos:
+		pwmVal = tempVAL + const_VAL;
+		set_pwm(pwmVal, 0);
+
+	case stop:
 		// // 电机无力
-		__HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 0);
-		__HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 0);
+		set_pwm(0, 0);
 		// 电机刹车
-		// __HAL_TIM_SET_COMPARE(&Driver_PWM1_TIM, Driver_PWM1_TIM_Channel_x, 3600);
-		// __HAL_TIM_SET_COMPARE(&Driver_PWM2_TIM, Driver_PWM2_TIM_Channel_x, 3600);
+		//set_pwm(2 * const_VAL, 2 * const_VAL);
 		break;
+
 	default:
 		break;
 	}
@@ -255,7 +252,7 @@ void motor::wheel_linear_speed_to_rpm(uint8_t i)
  * 1		PWM		正转PWM，慢衰减
  * 0		PWM		反转PWM，快衰减
  * PWM		1		反转PWM，慢衰减
- * 
+ *
  *  @param[in] i  电机编号
  * ************************************************************************
  */
@@ -263,7 +260,7 @@ void motor::wheel_speed_to_pwm(uint8_t i)
 {
 	const fp32 range = 25000.0f;
 	const fp32 max_pwm_val = 3600;
-	pwmVal = abs(RobotControl::Mec_Chassis.wheel_speed[i]) / range * max_pwm_val;
+	pwmVal = math_abs(RobotControl::Mec_Chassis.wheel_speed[i]) / range * max_pwm_val;
 	if (pwmVal >= max_pwm_val)
 	{
 		pwmVal = max_pwm_val;

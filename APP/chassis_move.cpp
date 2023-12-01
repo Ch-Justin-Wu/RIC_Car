@@ -38,12 +38,12 @@ void chassis::controller_speed_set()
     {
         vx_set=(Xbox.R_Trigger)*K_VX_SET;
     }
+
     //-x方向速度设置
     else if ((Xbox.L_Trigger) > 0 && Xbox.R_Trigger == 0)
     {
         vx_set = -(Xbox.L_Trigger) * K_VX_SET;
     }
-
 
     //Vy setting
    
@@ -68,7 +68,6 @@ void chassis::controller_speed_set()
         wz_set = -(Left_Joystick.H_diff)*2.7;
     }
     
-    
 }
 
 /**
@@ -81,6 +80,7 @@ void chassis::controller_speed_set()
 void chassis::mec_chassis_wheel_speed()
 {
     const fp32 k_wz = 0.22f;
+
     wheel_speed[0] = -vx_set - vy_set - k_wz * wz_set;
     wheel_speed[1] = vx_set - vy_set - k_wz * wz_set;
     wheel_speed[2] = vx_set + vy_set - k_wz * wz_set;
@@ -103,4 +103,4 @@ void chassis::ROS2_Speed_Set(Ros_cmd *ptr)
     vy_set = ptr->Vy;
     wz_set = (ptr->Wz)*4;
 }
-}
+} /* namespace RobotControl */

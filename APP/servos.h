@@ -53,6 +53,6 @@ namespace RobotControl
     };
 
     extern Servos Servo[4];
-}
+} /* namespace RobotControl */
 
 #endif

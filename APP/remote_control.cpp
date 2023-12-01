@@ -18,6 +18,19 @@ ControllerJoystick_t Left_Joystick, Right_Joystick = {0};
 remote_control Xbox;
 
 /**
+ * @brief 求绝对值
+ *
+ * @tparam type
+ * @param x 传入数据
+ * @return type x的绝对值
+ */
+template <typename type>
+type math_abs(type x)
+{
+	return ((x > 0) ? x : -x);
+}
+
+/**
  * ************************************************************************
  * @brief 控制器摇杆结构体初始化
  *
@@ -49,7 +62,7 @@ void L_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 水平方向
 	Joystick->H_diff = Xbox.L_Joystick_Hor - Joystick->H_stick_offset_position;
 	// 死区控制
-	if (Joystick->H_diff != 0 && abs(Joystick->H_diff) < Joystick->deadband)
+	if (Joystick->H_diff != 0 && math_abs(Joystick->H_diff) < Joystick->deadband)
 		Joystick->H_diff = 0;
 	else if (Joystick->H_diff >= Joystick->deadband)
 	{
@@ -63,7 +76,7 @@ void L_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 垂直方向
 	Joystick->V_diff = Xbox.L_Joystick_Hor - Joystick->V_stick_offset_position;
 	// 死区控制
-	if (Joystick->V_diff != 0 && abs(Joystick->V_diff) < Joystick->deadband)
+	if (Joystick->V_diff != 0 && math_abs(Joystick->V_diff) < Joystick->deadband)
 		Joystick->V_diff = 0;
 	else if (Joystick->V_diff >= Joystick->deadband)
 	{
@@ -88,7 +101,7 @@ void R_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 水平方向
 	Joystick->H_diff = Xbox.R_Joystick_Hor - Joystick->H_stick_offset_position;
 	// 死区控制
-	if (Joystick->H_diff != 0 && abs(Joystick->H_diff) < Joystick->deadband)
+	if (Joystick->H_diff != 0 && math_abs(Joystick->H_diff) < Joystick->deadband)
 		Joystick->H_diff = 0;
 	else if (Joystick->H_diff >= Joystick->deadband)
 	{
@@ -102,7 +115,7 @@ void R_Joystick_Difference(ControllerJoystick_t *Joystick)
 	// 垂直方向
 	Joystick->V_diff = Xbox.R_Joystick_Ver - Joystick->V_stick_offset_position;
 	// 死区控制
-	if (Joystick->V_diff != 0 && abs(Joystick->V_diff) < Joystick->deadband)
+	if (Joystick->V_diff != 0 && math_abs(Joystick->V_diff) < Joystick->deadband)
 		Joystick->V_diff = 0;
 	else if (Joystick->V_diff >= Joystick->deadband)
 	{
@@ -125,8 +138,7 @@ void R_Joystick_Difference(ControllerJoystick_t *Joystick)
  * @return The state of the button (BUTTON_PRESSED or BUTTON_NOT_PRESSED).
  */
 // 定义按钮状态的枚举
-enum ButtonState
-getButtonState(uint8_t data, uint8_t mask)
+enum ButtonState getButtonState(uint8_t data, uint8_t mask)
 {
 	return (data & mask) ? BUTTON_PRESSED : BUTTON_NOT_PRESSED;
 }

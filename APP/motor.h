@@ -54,14 +54,6 @@ extern "C"
 #define KD_MOTOR4 7.0f
 
 #define SEPA_INTEGRAL 100
-	// typedef struct
-	// {
-	// 	float real_total_angle;
-	// 	float angle_setspeed;
-	// 	float set_angle;
-	// 	float actual_round;
-	// 	pid_t *pid_angle;
-	// } MotorData_t;
 
 	typedef __attribute((aligned(2))) struct
 	{
@@ -76,41 +68,21 @@ extern "C"
 
 #define PI 3.143592f
 // 电机默认方向
-
 #define NEGATIVE 0
 #define POSITIVE 1
+
+enum speed_direction
+{
+	pos = 1,
+	stop = 0,
+	neg = -1
+};
+
 #define MAX_RPM 350
 class __attribute((aligned(2))) motor
 {
 private:
-	float calculate_ori_rpm();
-	int16_t calculate_tempVAL(uint8_t i);
-	void set_pwm_and_direction();
-
-public:
-	int16_t get_rpm;
-	int16_t set_rpm;
-
-	int16_t ori_rpm;
-
 	int16_t pwmVal;
-
-	int8_t Set_speed_direction;
-	int8_t Get_speed_direction;
-
-	int16_t Hall_Encoder_Count;
-
-	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
-			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
-			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
-			  uint8_t __Speed_Default_Direction);
-	// void Real_rpm();
-	void motor_pwm_tx(uint8_t i);
-	void Encoder_Count();
-	void wheel_linear_speed_to_rpm(uint8_t i);
-	// void Speed_test(uint8_t i);
-	void wheel_speed_to_pwm(uint8_t i);
-
 	// 电机驱动定时器编号
 	TIM_HandleTypeDef Driver_PWM1_TIM;
 	TIM_HandleTypeDef Driver_PWM2_TIM;
@@ -121,8 +93,31 @@ public:
 	GPIO_TypeDef *Encoder_GPIOx;
 	uint16_t Encoder_GPIO_Pin;
 
+	float calculate_ori_rpm();
+	int16_t calculate_tempVAL(uint8_t i);
+	void set_direction();
+	void set_pwm(uint16_t in1, uint16_t in2);
+
+public:
+	int16_t get_rpm;
+	int16_t set_rpm;
+	int16_t ori_rpm;
+	int8_t Set_speed_direction;
+	int16_t Hall_Encoder_Count;
 	uint8_t Speed_Default_Direction;
+
+	void Init(TIM_HandleTypeDef __Driver_PWM1_TIM, uint8_t __Driver_PWM1_TIM_Channel_x,
+			  TIM_HandleTypeDef __Driver_PWM2_TIM, uint8_t __Driver_PWM2_TIM_Channel_x,
+			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
+			  uint8_t __Speed_Default_Direction);
+	void motor_pwm_tx(uint8_t i);
+	void Encoder_Count();
+	void wheel_linear_speed_to_rpm(uint8_t i);
+	void wheel_speed_to_pwm(uint8_t i);
 };
 
 extern motor motors[motor_num];
+
+
+
 #endif

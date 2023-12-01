@@ -1,38 +1,41 @@
 /**
  * ************************************************************************
- * 
+ *
  * @file init.cpp
  * @author Justin Wu (justin.wu@zllcrm.org)
  * @brief 初始所有相关的外设、类、结构体
  * @version 1.0
  * @date 2023-11-30
- * 
+ *
  * ************************************************************************
- * @copyright Copyright (c) 2023 Justin Wu 
+ * @copyright Copyright (c) 2023 Justin Wu
  * For study and research only, no reprinting
  * ************************************************************************
  */
 #include "init.h"
 
-
- //#define ORANGE
+// #define ORANGE
 #define BLUE
 
 void Init_all_pid(void);
+
 void Init_all_servos(void);
+
 void Init_all_motors(void);
+
 void Init_all_Controller_Joysticks(void);
 
 /**
  * ************************************************************************
  * @brief 初始化所有外设和所需类、结构体
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void Init_all_func(void)
 {
     Xbox.Init();
+
     for (uint8_t i = 0; i < motor_num; i++)
     {
         kalman_init(&kfp[i]);
@@ -40,20 +43,23 @@ void Init_all_func(void)
 
     Init_all_Controller_Joysticks();
     My_USART2_Init();
+
 #if defined(ROS)
     My_USART1_Init();
 #endif
+
     Init_all_pid();
-
     Init_all_motors();
-
     Init_all_servos();
+
 #if defined(ORANGE)
     RGB_ORANGE(8);
 #endif
+
 #if defined(BLUE)
     RGB_SKY(8);
 #endif
+
     // Init_10ms_timer
     HAL_TIM_Base_Start_IT(&htim1);
 }
@@ -116,18 +122,20 @@ void Init_all_pid(void)
  */
 void Init_all_servos(void)
 {
-
     HAL_Delay(200);
     RobotControl::Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2 44 ros 44
     RobotControl::Servo[1].control_arm();
+
     HAL_Delay(200);
     RobotControl::Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3 74 ros 85
     RobotControl::Servo[2].control_wrist();
     HAL_Delay(200);
+
     // Servo4 110-60 小->大
     RobotControl::Servo[3].Init(htim4, TIM_CHANNEL_4, 76); // 35 ros 76
     RobotControl::Servo[3].control_claw();
-    HAL_Delay(200);                           // Offset angle
+
+    HAL_Delay(200);                                         // Offset angle
     RobotControl::Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1 120  ros 110
     RobotControl::Servo[0].control_gimbal();
 }
@@ -135,8 +143,8 @@ void Init_all_servos(void)
 /**
  * ************************************************************************
  * @brief 设置电机相关参数
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void Init_all_motors(void)
@@ -146,16 +154,19 @@ void Init_all_motors(void)
                    htim3, TIM_CHANNEL_4, // IN_2
                    GPIOC, ENCODER1_Pin,
                    NEGATIVE);
+
     // Motor2
     motors[1].Init(htim2, TIM_CHANNEL_3, // IN_1
                    htim2, TIM_CHANNEL_4, // IN_2
                    GPIOA, ENCODER2_Pin,
                    POSITIVE);
+
     // Motor3
     motors[2].Init(htim2, TIM_CHANNEL_1, // IN_1
                    htim2, TIM_CHANNEL_2, // IN_2
                    GPIOA, ENCODER3_Pin,
                    POSITIVE);
+
     // Motor4
     motors[3].Init(htim3, TIM_CHANNEL_1, // IN_1
                    htim3, TIM_CHANNEL_2, // IN_2
@@ -166,12 +177,13 @@ void Init_all_motors(void)
 /**
  * ************************************************************************
  * @brief 设置手柄死区和默认位置
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void Init_all_Controller_Joysticks(void)
 {
     Init_Controller_Joystick(&Left_Joystick, 2000, OFFSET_POSITION, OFFSET_POSITION);
+
     Init_Controller_Joystick(&Right_Joystick, 2000, OFFSET_POSITION, OFFSET_POSITION);
 }

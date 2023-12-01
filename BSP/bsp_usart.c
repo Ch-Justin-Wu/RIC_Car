@@ -16,17 +16,17 @@
 #include "stm32f1xx_it.h"
 #include "stdio.h"
 
-
 // The length of one frame of data received
 // 接收一帧数据的长度
 volatile uint8_t rx_len = 0;
+
 // A frame of data reception completion flag
 // 一帧数据接收完成标志
 volatile uint8_t recv_end_flag = 0;
+
 // Define the serial port receiving buffer
 //  定义串口接收缓存区
 uint8_t rx_buffer[BUF_SIZE] = {0};
-
 
 #if defined(ROS)
 volatile uint8_t rx_len1 = 0;
@@ -37,8 +37,8 @@ uint8_t rx_buffer1[BUF_SIZE1] = {0};
 /**
  * ************************************************************************
  * @brief 打开串口空闲中断，DMA接收
- * 
- * 
+ *
+ *
  * ************************************************************************
  */
 void My_USART2_Init(void)
@@ -63,9 +63,6 @@ void My_USART1_Init(void)
 }
 #endif
 
-
-
-
 /**
  * @brief This function handles USART2 global interrupt.
  */
@@ -77,22 +74,17 @@ void USART2_IRQHandler(void)
 
 	// Get the IDLE flag bit
 	tmp_flag = __HAL_UART_GET_FLAG(&c_huart, UART_FLAG_IDLE);
-	//tmp_flag = (((&c_huart)->Instance->SR & (UART_FLAG_IDLE)) == (UART_FLAG_IDLE));
 
 	if (tmp_flag != RESET)
 	{
+		// 清除标志位 clear IDLE flag
+		__HAL_UART_CLEAR_IDLEFLAG(&c_huart);
 
-		__HAL_UART_CLEAR_IDLEFLAG(&c_huart); // 清除标志位 clear IDLE flag
-		// // Clear the status register (SR)
-		// temp = c_huart.Instance->SR;
-		// // Read data from DR (Data Register)
-		// temp = c_huart.Instance->DR;
-
-		HAL_UART_DMAStop(&c_huart); // Stop DMA transfer
+		// Stop DMA transfer
+		HAL_UART_DMAStop(&c_huart);
 
 		// Get the number of untransmitted data in DMA
 		temp = __HAL_DMA_GET_COUNTER(&c_dma);
-		//temp = c_dma.Instance->CNDTR;
 
 		// Calculate the number of received data by subtracting the total count from the untransmitted data count
 		rx_len = BUF_SIZE - temp;
@@ -103,7 +95,6 @@ void USART2_IRQHandler(void)
 
 	HAL_UART_IRQHandler(&c_huart);
 }
-
 
 #if defined(ROS)
 /**
@@ -124,14 +115,14 @@ void USART1_IRQHandler(void)
 
 	if (tmp_flag != RESET)
 	{
-
 		// Clear the status register (SR)
 		temp = c_huart1.Instance->SR;
 
 		// Read data from DR (Data Register)
 		temp = c_huart1.Instance->DR;
 
-		HAL_UART_DMAStop(&c_huart1); // Stop DMA transfer
+		// Stop DMA transfer
+		HAL_UART_DMAStop(&c_huart1);
 
 		// Get the number of untransmitted data in DMA
 		temp = c_dma1.Instance->CNDTR;

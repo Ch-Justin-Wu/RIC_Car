@@ -103,7 +103,7 @@ namespace RobotControl
 			k_wrist = 0;
 		}
 	}
-}
+} /* namespace RobotControl */
 
 /**
  * @brief Timer interrupt callback function

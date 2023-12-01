@@ -166,4 +166,4 @@ namespace RobotControl
         }
         control_servo(angle);
     }
-}
+} /* namespace RobotControl */

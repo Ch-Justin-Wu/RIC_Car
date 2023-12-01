@@ -50,5 +50,5 @@ namespace RobotControl
     };
     extern chassis Mec_Chassis;
 
-}
+} /* namespace RobotControl */
 #endif
