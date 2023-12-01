@@ -104,25 +104,25 @@ void motor::set_direction()
 	if (set_rpm - get_rpm > RPM_DEADBAND)
 	{
 
-		Set_speed_direction = pos;
+		Set_speed_direction = 1;
 	}
 
 	else if (set_rpm - get_rpm < -RPM_DEADBAND)
 	{
 
-		Set_speed_direction = neg;
+		Set_speed_direction = -1;
 	}
 
 	else if (math_abs(set_rpm - get_rpm) <= RPM_DEADBAND)
 	{
 		if (set_rpm > 0)
 		{
-			Set_speed_direction = pos;
+			Set_speed_direction = 1;
 		}
 
 		else if (set_rpm < 0)
 		{
-			Set_speed_direction = neg;
+			Set_speed_direction = -1;
 		}
 
 		// else if (set_rpm==0||math_abs(get_rpm)<=1)
@@ -175,20 +175,21 @@ void motor::motor_pwm_tx(uint8_t i)
 	switch (Set_speed_direction)
 	{
 		// 反转
-	case neg:
+	case -1:
 		pwmVal = -tempVAL + const_VAL;
 		set_pwm(0, pwmVal);
-
+		break;
 		// 正转
-	case pos:
+	case 1:
 		pwmVal = tempVAL + const_VAL;
 		set_pwm(pwmVal, 0);
+		break;
 
-	case stop:
-		// // 电机无力
+	case 0:
+		// 电机无力
 		set_pwm(0, 0);
 		// 电机刹车
-		//set_pwm(2 * const_VAL, 2 * const_VAL);
+		// set_pwm(2 * const_VAL, 2 * const_VAL);
 		break;
 
 	default:

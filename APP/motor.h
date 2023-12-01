@@ -1,14 +1,14 @@
 /**
  * ************************************************************************
- * 
+ *
  * @file motor.h
  * @author Justin Wu (justin.wu@zllcrm.org)
  * @brief 电机类定义
  * @version 1.0
  * @date 2023-11-30
- * 
+ *
  * ************************************************************************
- * @copyright Copyright (c) 2023 Justin Wu 
+ * @copyright Copyright (c) 2023 Justin Wu
  * For study and research only, no reprinting
  * ************************************************************************
  */
@@ -93,6 +93,7 @@ private:
 	GPIO_TypeDef *Encoder_GPIOx;
 	uint16_t Encoder_GPIO_Pin;
 
+	void wheel_linear_speed_to_rpm(uint8_t i);
 	float calculate_ori_rpm();
 	int16_t calculate_tempVAL(uint8_t i);
 	void set_direction();
@@ -112,12 +113,9 @@ public:
 			  uint8_t __Speed_Default_Direction);
 	void motor_pwm_tx(uint8_t i);
 	void Encoder_Count();
-	void wheel_linear_speed_to_rpm(uint8_t i);
 	void wheel_speed_to_pwm(uint8_t i);
 };
 
 extern motor motors[motor_num];
-
-
 
 #endif
