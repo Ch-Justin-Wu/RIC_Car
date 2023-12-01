@@ -22,13 +22,12 @@ extern "C"
 #ifdef __cplusplus
 }
 #include "remote_control.h"
-namespace RobotControl
-{
+
 
 #define ClAW_MAX_ANGLE 85
 #define ClAW_MIN_ANGLE 30
-#define GIMBAL_MAX_ANGLE 164
-#define GIMBAL_MIN_ANGLE 0
+#define GIMBAL_MAX_ANGLE 128
+#define GIMBAL_MIN_ANGLE 9
 #define ARM_MAX_ANGLE 73
 #define ARM_MIN_ANGLE 44
 #define WRIST_MAX_ANGLE 179
@@ -53,6 +52,6 @@ namespace RobotControl
     };
 
     extern Servos Servo[4];
-} /* namespace RobotControl */
+
 
 #endif

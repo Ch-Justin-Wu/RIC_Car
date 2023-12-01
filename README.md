@@ -153,6 +153,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 ```
 
+不过在keil MDK-ARM中debug模式下无法查看其中的变量、结构体和类，对调试极不友好，所以不太推荐使用。
+
 ### 4.使用模版函数
 
 

@@ -123,21 +123,21 @@ void Init_all_pid(void)
 void Init_all_servos(void)
 {
     HAL_Delay(200);
-    RobotControl::Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2 44 ros 44
-    RobotControl::Servo[1].control_arm();
+    Servo[1].Init(htim4, TIM_CHANNEL_2, 44); // Servo2 44 ros 44
+    Servo[1].control_arm();
 
     HAL_Delay(200);
-    RobotControl::Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3 74 ros 85
-    RobotControl::Servo[2].control_wrist();
+    Servo[2].Init(htim4, TIM_CHANNEL_3, 85); // Servo3 74 ros 85
+    Servo[2].control_wrist();
     HAL_Delay(200);
 
     // Servo4 110-60 ะก->ด๓
-    RobotControl::Servo[3].Init(htim4, TIM_CHANNEL_4, 76); // 35 ros 76
-    RobotControl::Servo[3].control_claw();
+    Servo[3].Init(htim4, TIM_CHANNEL_4, 76); // 35 ros 76
+    Servo[3].control_claw();
 
-    HAL_Delay(200);                                         // Offset angle
-    RobotControl::Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1 120  ros 110
-    RobotControl::Servo[0].control_gimbal();
+    HAL_Delay(200);                           // Offset angle
+    Servo[0].Init(htim4, TIM_CHANNEL_1, 110); // Servo1 120  ros 110
+    Servo[0].control_gimbal();
 }
 
 /**

@@ -14,8 +14,8 @@
  */
 #include "servos.h"
 
-namespace RobotControl
-{
+
+
     Servos Servo[4];
 
     /**
@@ -166,4 +166,4 @@ namespace RobotControl
         }
         control_servo(angle);
     }
-} /* namespace RobotControl */
+
