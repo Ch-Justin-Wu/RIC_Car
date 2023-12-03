@@ -79,7 +79,7 @@ enum speed_direction
 };
 
 #define MAX_RPM 350
-class __attribute((aligned(2))) motor
+class motor
 {
 private:
 	int16_t pwmVal;

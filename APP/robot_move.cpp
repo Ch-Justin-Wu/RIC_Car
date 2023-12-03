@@ -1,14 +1,14 @@
 /**
  * ************************************************************************
- * 
+ *
  * @file robot_move.cpp
  * @author Justin Wu (justin.wu@zllcrm.org)
  * @brief 执行机器人控制任务
  * @version 1.0
  * @date 2023-11-30
- * 
+ *
  * ************************************************************************
- * @copyright Copyright (c) 2023 Justin Wu 
+ * @copyright Copyright (c) 2023 Justin Wu
  * For study and research only, no reprinting
  * ************************************************************************
  */
@@ -24,7 +24,8 @@ namespace RobotControl
 	volatile uint8_t k_gimbal = 0;
 	volatile uint8_t k_arm = 0;
 	volatile uint8_t k_wrist = 0;
-
+	volatile uint8_t g_servo_delay_1 = 0;
+	//volatile uiznt8_t g_servo_delay_2 = 0;
 	/**
 	 * ************************************************************************
 	 * @brief 一键控制机械臂
@@ -59,6 +60,28 @@ namespace RobotControl
 			Servo[1].control_servo(44);
 			Servo[2].control_servo(13);
 			Servo[0].control_servo(30);
+		}
+		//一键准备投矿
+		if (Xbox.Xbox)
+		{
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(110);
+		}
+		
+		// 一键准备过城门
+		if (Xbox.View)
+		{
+			const uint8_t delay_period = 60;
+			g_servo_delay_1 += 1;
+
+
+			Servo[2].control_servo(135);
+
+			if (g_servo_delay_1 == delay_period)
+			{
+				Servo[1].control_servo(73);
+				g_servo_delay_1 = 0;
+			}
 		}
 	}
 	/**
@@ -115,11 +138,12 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance == TIM1)
 	{
 
-		RobotControl::one_key_control_robotic_arm();
-		RobotControl::control_robotic_arm();
+		
 #if defined(XBOX_ENABLED)
 		Xbox.controller_data_rx();
 		RobotControl::Mec_Chassis.controller_speed_set();
+		RobotControl::control_robotic_arm();
+		RobotControl::one_key_control_robotic_arm();
 #endif
 #if defined(ROS)
 		ROS2_data_rx();
