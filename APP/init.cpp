@@ -34,33 +34,43 @@ void Init_all_Controller_Joysticks(void);
  */
 void Init_all_func(void)
 {
+    // 初始化Xbox手柄
     Xbox.Init();
 
+    // 初始化Kalman滤波器
     for (uint8_t i = 0; i < motor_num; i++)
     {
         kalman_init(&kfp[i]);
     }
 
+    
     Init_all_Controller_Joysticks();
     My_USART2_Init();
 
 #if defined(ROS)
+    // 初始化串口1，用于发送ROS消息
     My_USART1_Init();
 #endif
 
+    // 初始化PID
     Init_all_pid();
+    // 初始化电机
     Init_all_motors();
+    // 初始化舵机
     Init_all_servos();
 
 #if defined(ORANGE)
+    // 设置RGB灯颜色为橙色
     RGB_ORANGE(8);
 #endif
 
 #if defined(BLUE)
+    // 设置RGB灯颜色为蓝色
     RGB_SKY(8);
 #endif
 
     // Init_10ms_timer
+    // 初始化定时器，用于10ms执行一次
     HAL_TIM_Base_Start_IT(&htim1);
 }
 

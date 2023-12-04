@@ -73,8 +73,6 @@ namespace RobotControl
 		{
 			const uint8_t delay_period = 60;
 			g_servo_delay_1 += 1;
-
-
 			Servo[2].control_servo(135);
 
 			if (g_servo_delay_1 == delay_period)
@@ -135,18 +133,25 @@ namespace RobotControl
  */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	// 检查定时器是否为TIM1
 	if (htim->Instance == TIM1)
 	{
 
 		
 #if defined(XBOX_ENABLED)
+		// 接收Xbox数据
 		Xbox.controller_data_rx();
+		// 设置底盘控制速度
 		RobotControl::Mec_Chassis.controller_speed_set();
+		// 控制机械臂
 		RobotControl::control_robotic_arm();
+		// 一键控制机械臂
 		RobotControl::one_key_control_robotic_arm();
 #endif
 #if defined(ROS)
+		// 接收ROS2数据
 		ROS2_data_rx();
+		// 设置底盘控制速度
 		RobotControl::Mec_Chassis.ROS2_Speed_Set(&Ros2);
 #endif
 
@@ -161,9 +166,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 #if defined(PID_ENABLED)
 
+		// 设置底盘控制速度
 		RobotControl::Mec_Chassis.mec_chassis_wheel_speed();
 		for (uint8_t i = 0; i < 4; i++)
 		{
+			// 设置电机PWM
 			motors[i].motor_pwm_tx(i);
 		}
 #endif
@@ -171,9 +178,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 #if defined(OPEN)
 		{
 
+			// 设置底盘控制速度
 			RobotControl::Mec_Chassis.mec_chassis_wheel_speed();
 			for (uint8_t i = 0; i < 4; i++)
 			{
+				// 设置电机PWM
 				motors[i].wheel_speed_to_pwm(i);
 			}
 		}

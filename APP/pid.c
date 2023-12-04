@@ -131,8 +131,4 @@ float pid_calc(pid_t *pid, float get, float set)
 //     pid->i = ki;
 //     pid->d = kd;
 
-//     // pid->pout = 0;
-//     // pid->iout = 0;
-//     // pid->dout = 0;
-//     // pid->out = 0;
 // }

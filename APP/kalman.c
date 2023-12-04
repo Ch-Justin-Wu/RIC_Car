@@ -12,14 +12,19 @@ kalman kfp[motor_num] = {0};
  */
 void kalman_init(kalman *ptr)
 {
+    // 初始化P矩阵，用于存储上一次的值
     ptr->Last_P = 0.001;
+    // 初始化P矩阵，用于存储当前的值
     ptr->Now_P = 0;
+    // 初始化输出值
     ptr->out = 0;
+    // 初始化Kg，用于存储Kalman增益
     ptr->Kg = 0;
+    // 初始化Q矩阵，用于存储状态转移矩阵的协方差
     ptr->Q = 0.0001;
+    // 初始化R矩阵，用于存储测量噪声的协方差
     ptr->R = 0.0005;
 }
-
 /**
  *@brief  卡尔曼滤波器
  *@param kfp 卡尔曼结构体参数

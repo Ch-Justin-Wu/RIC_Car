@@ -112,7 +112,9 @@ public:
 			  GPIO_TypeDef *__Encoder_GPIOx, uint16_t __Encoder_GPIO_Pin,
 			  uint8_t __Speed_Default_Direction);
 	void motor_pwm_tx(uint8_t i);
+	// 编码器计数
 	void Encoder_Count();
+	// 轮子速度转换为PWM
 	void wheel_speed_to_pwm(uint8_t i);
 };
 

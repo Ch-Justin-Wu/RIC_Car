@@ -26,9 +26,10 @@ namespace RobotControl{
  * ************************************************************************
  */
 void chassis::controller_speed_set()
-{
+{ // Vx setting
+    // X轴速度设置
     R_Joystick_Difference(&Right_Joystick);
-    //Vx setting
+    
     if (Xbox.R_Trigger == 0 && Xbox.L_Trigger==0)
     {
         vx_set = 0;
@@ -39,13 +40,14 @@ void chassis::controller_speed_set()
         vx_set=(Xbox.R_Trigger)*K_VX_SET;
     }
 
-    //-x方向速度设置
+    
     else if ((Xbox.L_Trigger) > 0 && Xbox.R_Trigger == 0)
     {
         vx_set = -(Xbox.L_Trigger) * K_VX_SET;
     }
 
     //Vy setting
+    //Y轴速度设置
    
     if (Right_Joystick.H_diff)
     {
@@ -57,6 +59,7 @@ void chassis::controller_speed_set()
     }
     
     //Wz setting
+    //Z轴速度设置
     L_Joystick_Difference(&Left_Joystick);
     if (Left_Joystick.H_diff==0)
     {
@@ -67,7 +70,6 @@ void chassis::controller_speed_set()
     {
         wz_set = -(Left_Joystick.H_diff)*2.7;
     }
-    
 }
 
 /**

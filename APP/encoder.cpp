@@ -1,14 +1,14 @@
 /**
  * ************************************************************************
- * 
+ *
  * @file encoder.cpp
  * @author Justin Wu (justin.wu@zllcrm.org)
- * @brief ²¶»ñ±àÂëÆ÷ÐÅºÅ
+ * @brief ±àÂëÆ÷Âö³å¼ÇÂ¼
  * @version 1.0
  * @date 2023-11-30
- * 
+ *
  * ************************************************************************
- * @copyright Copyright (c) 2023 Justin Wu 
+ * @copyright Copyright (c) 2023 Justin Wu
  * For study and research only, no reprinting
  * ************************************************************************
  */
