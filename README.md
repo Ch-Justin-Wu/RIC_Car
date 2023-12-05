@@ -8,7 +8,9 @@
 
 ## 一、简介
 
-本文档针对该项目的各个重点模块进行简要介绍，涵盖机器人底盘控制、机械臂控制、Xbox控制器数据包接收等方面。
+本文档针对该项目的各个重点模块进行简要介绍，涵盖机器人底盘控制、机械臂控制、Xbox控制器数据包接收等方面，并进行部分的成本估算。
+
+本工程也在github上开源，请切换到use_hal_lib这个branch上查看：[Ch-Justin-Wu/RIC_Car at use_hal_lib (github.com)](https://github.com/Ch-Justin-Wu/RIC_Car/tree/use_hal_lib)
 
 ## 二、引脚配置
 ![Alt text](image.png)
@@ -157,6 +159,35 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 ### 4.使用模版函数
 
+模版函数的优点：
+
+- 减少代码的重复
+
+- 复用性
+
+- 可维护性
+
+- 通用性
+
+  例如下面的绝对值函数：
+
+  ```c++
+  /**
+   * @brief 求绝对值
+   *
+   * @tparam type
+   * @param x 传入数据
+   * @return type x的绝对值
+   */
+  template <typename type>
+  type math_abs(type x)
+  {
+  	return ((x > 0) ? x : -x);
+  }
+  ```
+
+  写一个模版函数可以与多种类型变量相匹配，大大提高了代码的复用性。
+
 
 
 ## 四、底盘控制
@@ -214,7 +245,7 @@ void ENCODER_OUTPUT()
 
 ```
 
-(PS:我还测试过LL库的外部中断，外部中断可以触发而且在高频率触发条件下效率比HAL库高，但是无法计数，可能还存在问题)
+(PS:我还测试过LL库的外部中断，外部中断可以触发而且在高频率触发条件下效率比HAL库高，但是无法计数，在配置估计有问题)
 
 ### 2.卡尔曼滤波处理电机转速
 
@@ -388,11 +419,113 @@ void USART2_IRQHandler(void)
 
 为了更灵活地控制机械臂，我在手柄上设置了几个快捷键方便实现一键取矿、一键放入矿仓、一键复位等功能。
 
-根据键位状态的变化，设置舵机的角度来控制机械臂，让机械臂既能快速响应又能精细调控，原理非常简单。
+根据键位状态的变化，设置舵机的角度来控制机械臂，让机械臂既能快速响应又能精细调控。
 
 ```c++
+volatile uint8_t g_servo_delay_1 = 0;
+	
+	/**
+	 * ************************************************************************
+	 * @brief 一键控制机械臂
+	 *
+	 *
+	 * ************************************************************************
+	 */
+	void one_key_control_robotic_arm()
+	{
+		// 一键准备抓取/复位
+		if (Xbox.Share)
+		{
+			Servo[0].control_servo(120);
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(74);
+		}
+		// 一键云台复位
+		if (Xbox.X)
+		{
+			Servo[1].control_servo(44);
+			Servo[0].control_servo(120);
+		}
+		// 一键云台右摆
+		if (Xbox.B)
+		{
+			Servo[1].control_servo(44);
+			Servo[0].control_servo(33);
+		}
+		// 一键放入矿仓
+		if (Xbox.Menu)
+		{
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(13);
+			Servo[0].control_servo(30);
+		}
+		//一键准备投矿
+		if (Xbox.Xbox)
+		{
+			Servo[1].control_servo(44);
+			Servo[2].control_servo(110);
+		}
+		
+		// 一键准备过城门
+		if (Xbox.View)
+		{
+			const uint8_t delay_period = 60;
+			g_servo_delay_1 += 1;
+			Servo[2].control_servo(135);
 
+			if (g_servo_delay_1 == delay_period)
+			{
+				Servo[1].control_servo(73);
+				g_servo_delay_1 = 0;
+			}
+		}
+	}
 ```
 
+### 2.普通控制
 
+在定时器中断回调函数中调用函数进行舵机角度的改变，并设置了角度限幅：
 
+```c++
+/**
+     * ************************************************************************
+     * @brief 控制机械爪
+     *
+     * PB9
+     * ************************************************************************
+     */
+    void Servos::control_claw(void)
+    {
+        if (Xbox.RB && angle <= ClAW_MAX_ANGLE)
+        {
+            angle += 1;
+            if (angle > ClAW_MAX_ANGLE)
+            {
+                angle = ClAW_MAX_ANGLE;
+            }
+        }
+
+        else if (Xbox.LB && angle >= ClAW_MIN_ANGLE)
+        {
+            angle -= 1;
+            if (angle < ClAW_MIN_ANGLE)
+            {
+                angle = ClAW_MIN_ANGLE;
+            }
+        }
+        control_servo(angle);
+    }
+```
+
+## 七、成本估算
+
+|        配件         | 价格/CNY |
+| :-----------------: | :------: |
+|     stm32+esp32     |    20    |
+|   电机驱动模块*2    |    96    |
+| (编码器电机+支架)*4 |   160    |
+|       舵机*4        |   160    |
+|       麦轮*4        |    50    |
+|      **总计**       |   486    |
+
+为了能够挑选适合小车的配件并保证小车的可靠性，例如电机的减速比、额定扭矩、堵转扭矩、额定电流和最大堵转电流等参数对小车运动性能和供电规格十分重要，故上述大部分配件为自行购买，保证了小车在比赛中的稳定发挥。
